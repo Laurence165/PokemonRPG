@@ -1,4 +1,4 @@
-import PokemonModel.Pokemon;
+import AdventureModel.Pokemon;
 
 public class Player {
     public Moves get_move(Pokemon p){
