@@ -2,10 +2,9 @@ package AdventureModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * This class contains the information about a 
+ * This class contains the information about a
  * room in the Adventure Game.
  */
 public class Room implements Serializable {
@@ -37,6 +36,12 @@ public class Room implements Serializable {
     public ArrayList<AdventureObject> objectsInRoom = new ArrayList<AdventureObject>();
 
     /**
+     * The list of Pokemons in the room.
+     */
+    public ArrayList<Pokemon> pokemonsInRoom = new ArrayList<>();
+
+
+    /**
      * A boolean to store if the room has been visited or not
      */
     private boolean isVisited;
@@ -65,11 +70,15 @@ public class Room implements Serializable {
      * @return delimited string of object descriptions
      */
     public String getObjectString() {
-        List<String> out = new ArrayList<String>();
-        for (AdventureObject p:this.objectsInRoom){
-            out.add(p.getDescription()); // Go through all objects and add to array
+
+        //initiating a new stringBuilder to add objects
+        StringBuilder s = new StringBuilder();
+
+        // looping through objects in the room to output to the user
+        for(AdventureObject o : this.objectsInRoom){
+            s.append(o.getDescription());
         }
-        return String.join(",", out); // Combine elements in array
+        return s.toString();
     }
 
     /**
@@ -81,13 +90,19 @@ public class Room implements Serializable {
      */
     public String getCommands() {
 
-        List<Passage> table = this.motionTable.getDirection();
-        List<String> out = new ArrayList<String>();
-        for (Passage p:table){// Go through all objects and add to array
-            System.out.println(p.getDirection());
-            out.add(p.getDirection());
+        // initiating a stringBuilder to add the directions
+        StringBuilder n = new StringBuilder();
+
+        //get the table for getting directions
+        PassageTable t = getMotionTable();
+
+        // adding the possible moves from a room
+        for (Passage d : t.getDirection()){
+            n.append(d.getDirection()).append(",");
+
         }
-        return String.join(",", out);// Combine elements in array
+
+        return n.toString();
     }
 
     /**
@@ -187,6 +202,37 @@ public class Room implements Serializable {
      */
     public PassageTable getMotionTable(){
         return this.motionTable;
+    }
+
+    /**
+     * This method adds a Pokemon to the room.
+     *
+     * @param Pokemon to be added to the room.
+     */
+    public void addPokemon(Pokemon p){
+        this.pokemonsInRoom.add(p);
+    }
+
+    /**
+     * This method removes a Pokemon from the room.
+     *
+     * @param Pokemon to be removed from the room.
+     */
+    public void removePokemon(Pokemon p){
+        this.objectsInRoom.remove(p);
+    }
+
+    /**
+     * This method checks if an object is in the room.
+     *
+     * @param objectName Name of the object to be checked.
+     * @return true if the object is present in the room, false otherwise.
+     */
+    public boolean checkIfPokemonInRoom(String pokemonName){
+        for(int i = 0; i<pokemonsInRoom.size();i++){
+            if(this.pokemonsInRoom.get(i).getName().equals(pokemonName)) return true;
+        }
+        return false;
     }
 
 

@@ -19,6 +19,11 @@ public class Player implements Serializable {
     public ArrayList<AdventureObject> inventory;
 
     /**
+     * The list of pokemons the player is carrying at the moment.
+     */
+    public ArrayList<Pokemon> backpack;
+
+    /**
      * Adventure Game Player Constructor
      */
     public Player(Room currentRoom) {
@@ -117,6 +122,59 @@ public class Player implements Serializable {
         }
         return objects;
     }
+
+    /**
+     * checkIfPokemonInBackpack
+     * __________________________
+     * This method checks to see if a Pokemon is in a player's backpack.
+     *
+     * @param s the name of the Pokemon
+     * @return true if object is in backpack, false otherwise
+     */
+    public boolean checkIfPokemonInBackpack(String s) {
+        for(int i = 0; i<this.backpack.size();i++){
+            if(this.backpack.get(i).getName().equals(s)) return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * This method adds a Pokemon into players backpack if the Pokemon is present in
+     * the room and returns true. If the Pokemon is not present in the room, the method
+     * returns false.
+     *
+     * @param pokemon name of the pokemon to pick up
+     * @return true if picked up, false otherwise
+     */
+    public boolean capturePokemon(String Pokemon){
+        if(this.currentRoom.checkIfObjectInRoom(Pokemon){
+            AdventureObject object1 = this.currentRoom.getObject(Pokemon);
+            this.currentRoom.removePokemon(object1);
+            this.addToBackpack(object1);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * This method drops an object in the players inventory and adds it to the room.
+     * If the object is not in the inventory, the method does nothing.
+     *
+     * @param s name of the object to drop
+     */
+    public void releasePokemon(String s) {
+        for(int i = 0; i<this.backpack.size();i++){
+            if(this.backpack.get(i).getName().equals(s)) {
+                this.currentRoom.addPokemon(this.backpack.get(i));
+                this.backpack.remove(i);
+            }
+        }
+    }
+
+
+
+
 
 
 }
