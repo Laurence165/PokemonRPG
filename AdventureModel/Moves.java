@@ -5,6 +5,11 @@ public class Moves {
     private Integer energy;
 
     private String name;
+    public Moves(String name, Integer energy, Integer points){
+        this.name = name;
+        this.points = points;
+        this.energy = energy;
+    }
 
     public void use_move(Pokemon acting_pokemon){
         System.out.println(acting_pokemon.get_name() + " has used " + this.name + "!");

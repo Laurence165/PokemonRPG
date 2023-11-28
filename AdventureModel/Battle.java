@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import AdventureModel.Opponent;
 
+=======
+package AdventureModel;
+>>>>>>> 93b3514e749c3f635fd06ddfef9a7245d974ae1c
 import java.util.ArrayList;
 import java.util.Objects;
 

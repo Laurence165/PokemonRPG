@@ -205,9 +205,9 @@ public class Room implements Serializable {
     }
 
     /**
-     * This method adds a Pokemon to the room.
+     * This method adds a Pokemon tos the room.
      *
-     * @param Pokemon to be added to the room.
+     * @param p to be added to the room.
      */
     public void addPokemon(Pokemon p){
         this.pokemonsInRoom.add(p);
@@ -216,7 +216,7 @@ public class Room implements Serializable {
     /**
      * This method removes a Pokemon from the room.
      *
-     * @param Pokemon to be removed from the room.
+     * @param p to be removed from the room.
      */
     public void removePokemon(Pokemon p){
         this.objectsInRoom.remove(p);
@@ -225,12 +225,12 @@ public class Room implements Serializable {
     /**
      * This method checks if an object is in the room.
      *
-     * @param objectName Name of the object to be checked.
+     * @param pokemonName Name of the object to be checked.
      * @return true if the object is present in the room, false otherwise.
      */
     public boolean checkIfPokemonInRoom(String pokemonName){
         for(int i = 0; i<pokemonsInRoom.size();i++){
-            if(this.pokemonsInRoom.get(i).getName().equals(pokemonName)) return true;
+            if(this.pokemonsInRoom.get(i).get_name().equals(pokemonName)) return true;
         }
         return false;
     }
