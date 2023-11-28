@@ -1,4 +1,4 @@
-package PokemonModel;
+package AdventureModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,18 +8,18 @@ import java.util.List;
 import static java.lang.Math.min;
 
 public class Pokemon {
-    private String name;
-    private String type;
+    String name;
+    String type;
 
     private Integer max_health;
 
-    private Integer health;
+    Integer health;
 
     private Integer max_energy;
 
-    private Integer energy;
+    Integer energy;
 
-    private HashMap<int, Moves> moves;
+    HashMap<int, Moves> moves;
 
     public Pokemon(String name, String type, Integer health, Integer energy){
         this.name = name;
