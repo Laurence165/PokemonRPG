@@ -26,7 +26,7 @@ WEST       5
 OUT        6/BIRD
 OUT        1
 NORTH     3
-XYZZY     2/BOOK
+XYZZY     2/VILLAGER 2
 XYZZY     1
 PLUGH     2/BOOK
 PLUGH     1
