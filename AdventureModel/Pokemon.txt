@@ -46,3 +46,5 @@ Scyther, 70, 90, Bug, Wing Attack, 40, 55, X-Scissor, 50, 65
 Gyarados, 95, 110, Water, Hydro Pump, 60, 80, Dragon Pulse, 55, 75
 Jynx, 65, 95, Ice, Ice Punch, 40, 55, Blizzard, 60, 80
 Electrode, 60, 100, Electric, Thunder, 55, 75, Swift, 30, 40
+
+Hashmap {Index: Pokemon Object } -> Adventure game
