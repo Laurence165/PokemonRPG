@@ -1,3 +1,4 @@
+package AdventureModel;
 public class Moves {
     private Integer points;
 

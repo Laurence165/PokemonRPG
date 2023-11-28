@@ -1,3 +1,5 @@
+import AdventureModel.Opponent;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
