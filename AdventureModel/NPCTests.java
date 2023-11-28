@@ -1,11 +1,6 @@
-
+package AdventureModel;
 
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

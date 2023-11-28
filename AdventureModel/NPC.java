@@ -1,5 +1,6 @@
+package AdventureModel;
+
 import java.lang.*;
-import java.util.*;
 
 public class NPC extends Labelled{
     private String phrases[];
@@ -18,6 +19,9 @@ public class NPC extends Labelled{
         //If there is a next phrase, print it otherwise start from the first phrase again
         if (phrase_count == phrases.length){
             phrase_count = 0;
+            if (this instanceof Villager){
+                ((Villager) this).give_pokemon();
+            }
         }
 
         String out = phrases[phrase_count];
