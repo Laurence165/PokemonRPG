@@ -3,6 +3,8 @@ package AdventureModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class AdventureLoader. Loads an adventure from files.
@@ -29,7 +31,7 @@ public class AdventureLoader {
      */
     public void loadGame() throws IOException {
         parseRooms();
-        parseObjects();
+        parsePokedex();
         parseSynonyms();
         this.game.setHelpText(parseOtherFile("help"));
     }
@@ -92,24 +94,26 @@ public class AdventureLoader {
      /**
      * Parse Objects File
      */
-    public void parseObjects() throws IOException {
+    public void parsePokedex() throws IOException {
 
-        String objectFileName = this.adventureName + "/objects.txt";
+        String objectFileName = "/Pokemon.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
-
-        while (buff.ready()) {
-            String objectName = buff.readLine();
-            String objectDescription = buff.readLine();
-            String objectLocation = buff.readLine();
-            String separator = buff.readLine();
-            if (separator != null && !separator.isEmpty())
-                System.out.println("Formatting Error!");
-            int i = Integer.parseInt(objectLocation);
-            Room location = this.game.getRooms().get(i);
-            AdventureObject object = new AdventureObject(objectName, objectDescription, location);
-            location.addGameObject(object);
+        int i = 0;
+        while(buff.ready()){
+            i++;
+            Pokemon newPokemon = new Pokemon("a", "b", 100, 100);
+            String str = buff.readLine();
+            List<String> pokeList = Arrays.asList(str.split(","));
+            newPokemon.name = pokeList.get(0);
+            newPokemon.health = Integer.parseInt(pokeList.get(1));
+            newPokemon.energy = Integer.parseInt(pokeList.get(2));
+            newPokemon.type = pokeList.get(3);
+            Moves moves1 = new Moves(pokeList.get(4), Integer.parseInt(pokeList.get(5)), Integer.parseInt(pokeList.get(6)));
+            Moves moves2 = new Moves(pokeList.get(7), Integer.parseInt(pokeList.get(8)), Integer.parseInt(pokeList.get(9)));
+            newPokemon.moves.put(1, moves1);
+            newPokemon.moves.put(2, moves2);
+            this.game.getPokedex().put(i, newPokemon);
         }
-
     }
 
      /**
