@@ -1,0 +1,48 @@
+Charizard, 78, 100, Fire, Flamethrower, 50, 70, Wing Attack, 40, 60
+Blastoise, 79, 101, Water, Hydro Pump, 55, 80, Aqua Tail, 45, 65
+Golem, 80, 95, Earth, Rock Throw, 40, 50, Earthquake, 60, 85
+Dragonite, 91, 105, Air, Dragon Breath, 45, 60, Hurricane, 55, 80
+Arcanine, 90, 95, Fire, Fire Fang, 35, 55, Flamethrower, 50, 75
+Vaporeon, 130, 110, Water, Water Gun, 40, 50, Hydro Pump, 60, 80
+Sandslash, 75, 85, Earth, Sand Attack, 30, 40, Earthquake, 55, 70
+Zephyruff, 85, 100, Air, Gust, 35, 45, Air Slash, 50, 65
+Pikachu, 60, 80, Electric, Thunderbolt, 45, 65, Quick Attack, 30, 40
+Venusaur, 80, 100, Grass, Solar Beam, 60, 90, Vine Whip, 35, 55
+Gyarados, 95, 110, Water, Aqua Tail, 50, 75, Dragon Pulse, 55, 80
+Onix, 90, 95, Earth, Rock Slide, 55, 70, Slam, 40, 60
+Aerodactyl, 85, 100, Air, Sky Attack, 60, 85, Wing Attack, 40, 55
+Flareon, 95, 105, Fire, Fire Spin, 50, 70, Heat Wave, 55, 80
+Blastoise, 79, 101, Water, Hydro Cannon, 65, 85, Ice Beam, 55, 75
+Moltres, 90, 110, Fire, Fire Blast, 60, 85, Wing Attack, 45, 65
+Lapras, 130, 120, Water, Surf, 55, 75, Ice Beam, 50, 70
+Nidoking, 81, 90, Earth, Earth Power, 50, 70, Poison Jab, 40, 60
+Articuno, 90, 110, Air, Ice Beam, 55, 75, Gust, 40, 55
+Jolteon, 65, 90, Electric, Thunder, 55, 75, Pin Missile, 40, 60
+Machamp, 90, 100, Fighting, Cross Chop, 50, 70, Dynamic Punch, 60, 85
+Snorlax, 160, 120, Normal, Body Slam, 55, 80, Hyper Beam, 65, 90
+Gengar, 60, 95, Ghost, Shadow Punch, 40, 60, Sludge Bomb, 50, 75
+Alakazam, 55, 105, Psychic, Psychic, 60, 80, Future Sight, 55, 75
+Pidgeot, 83, 95, Flying, Aerial Ace, 45, 65, Hurricane, 55, 75
+Ninetales, 73, 90, Fire, Fire Spin, 50, 70, Flamethrower, 45, 65
+Rhydon, 105, 95, Ground, Rock Blast, 50, 75, Megahorn, 60, 85
+Zapdos, 90, 110, Electric, Thunderbolt, 55, 75, Drill Peck, 45, 65
+Golduck, 80, 95, Water, Aqua Jet, 40, 50, Psychic, 55, 70
+Machoke, 80, 85, Fighting, Low Kick, 45, 60, Submission, 50, 70
+Nidoqueen, 90, 100, Ground, Earthquake, 60, 80, Poison Jab, 45, 65
+Dodrio, 60, 85, Flying, Drill Peck, 40, 55, Tri Attack, 45, 60
+Magneton, 50, 80, Electric, Thunder Shock, 35, 45, Flash Cannon, 50, 70
+Weezing, 65, 90, Poison, Sludge Bomb, 50, 70, Shadow Ball, 55, 75
+Kabutops, 60, 85, Water, Waterfall, 45, 60, Slash, 40, 55
+Vileplume, 75, 95, Grass, Petal Dance, 55, 75, Acid, 40, 55
+Electabuzz, 65, 85, Electric, Thunder Punch, 40, 55, Thunderbolt, 50, 70
+Dewgong, 90, 95, Water, Ice Shard, 35, 45, Aurora Beam, 50, 65
+Hitmonlee, 50, 80, Fighting, Rolling Kick, 40, 55, High Jump Kick, 50, 70
+Hitmonchan, 50, 80, Fighting, Mach Punch, 35, 40, Sky Uppercut, 55, 65
+Kangaskhan, 105, 95, Normal, Mega Punch, 50, 75, Dizzy Punch, 45, 60
+Tauros, 75, 85, Normal, Horn Attack, 40, 55, Earthquake, 60, 70
+Exeggutor, 95, 100, Grass, Solar Beam, 60, 90, Seed Bomb, 50, 70
+Starmie, 60, 85, Water, Water Gun, 35, 45, Psychic, 55, 70
+Scyther, 70, 90, Bug, Wing Attack, 40, 55, X-Scissor, 50, 65
+Gyarados, 95, 110, Water, Hydro Pump, 60, 80, Dragon Pulse, 55, 75
+Jynx, 65, 95, Ice, Ice Punch, 40, 55, Blizzard, 60, 80
+Electrode, 60, 100, Electric, Thunder, 55, 75, Swift, 30, 40
