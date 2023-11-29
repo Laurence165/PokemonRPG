@@ -19,7 +19,7 @@ public class Pokemon {
 
     Integer energy;
 
-    HashMap<int, Moves> moves;
+    HashMap<Integer, Moves> moves;
 
     public Pokemon(String name, String type, Integer health, Integer energy){
         this.name = name;
@@ -71,7 +71,7 @@ public class Pokemon {
 
     public Integer get_max_energy(){return this.max_energy;}
 
-    public HashMap<int, Moves> get_move() {
+    public HashMap<Integer, Moves> get_move() { //TODO: HI this should return
         return this.moves;
     }
 }

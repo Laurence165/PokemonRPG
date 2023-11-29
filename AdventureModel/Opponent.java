@@ -13,8 +13,11 @@ public class Opponent extends NPC{
     public ArrayList<Pokemon> select_Pokemon(){
         //
     }
-    public Moves attack(Pokemon active){
+    public Moves get_move(Pokemon active){
+        // I renamed this method because it's the one I used in Battle class, I think it is what you meant
+        // TODO: return random move that the pokemon has energy for, if no energy for anything then return new Moves("PASS", 0, 0);
 
+        return new Moves("PASS", 0, 0);
     }
 
     public static HashMap<Integer,Opponent> parseOpp(){
