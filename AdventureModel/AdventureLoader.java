@@ -38,6 +38,7 @@ public class AdventureLoader {
      * Parse Rooms File
      */
     private void parseRooms() throws IOException {
+        // NOTE: this method already handles inserting Trolls into paths and path tables
 
         int roomNumber;
 

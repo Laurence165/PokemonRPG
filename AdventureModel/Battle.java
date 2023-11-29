@@ -17,14 +17,12 @@ public class Battle {
 
     private Pokemon currentPokemon2;
 
-    public Battle(Player p, Opponent o, ArrayList<Pokemon> playerPokemon, ArrayList<Pokemon> oppPokemon){
+    public Battle(Player p, Opponent o, ArrayList<Pokemon> oppPokemon){
         this.player1 = p;
         this.player2 = o;
 
-        this.player1Pokemon = playerPokemon;
         this.player2Pokemon = oppPokemon;
 
-        this.currentPokemon1 = playerPokemon.get(0);
         this.currentPokemon2 = oppPokemon.get(0);
     }
 
@@ -93,6 +91,10 @@ public class Battle {
     }
 
     public void battle(){
+
+        this.player1Pokemon = this.player1.getPokemon();
+        this.currentPokemon1 = this.player1Pokemon.get(0);
+
         Integer turn = 1;
         boolean cont = true;
 
@@ -116,6 +118,8 @@ public class Battle {
             }
             // check if either current pokemon is dead
             // check for end of game
+
+            // if the player wins, return true
         }
     }
 }
