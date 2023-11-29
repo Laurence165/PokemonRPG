@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-import AdventureModel.Opponent;
-
-=======
 package AdventureModel;
->>>>>>> 93b3514e749c3f635fd06ddfef9a7245d974ae1c
+
+//>>>>>>> 93b3514e749c3f635fd06ddfef9a7245d974ae1c
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -15,7 +13,7 @@ public class Battle {
     private final Player player1;
     private Opponent player2;
 
-    private final ArrayList<Pokemon> player1Pokemon;
+    private ArrayList<Pokemon> player1Pokemon;
 
     private final ArrayList<Pokemon> player2Pokemon;
 
@@ -98,7 +96,7 @@ public class Battle {
 
     public void battle(){
 
-        this.player1Pokemon = this.player1.getPokemon();
+        this.player1Pokemon = this.player1.get_battle_pokemon();
         this.currentPokemon1 = this.player1Pokemon.get(0);
 
         Integer turn = 1;

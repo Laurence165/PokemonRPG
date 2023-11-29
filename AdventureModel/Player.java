@@ -133,7 +133,7 @@ public class Player implements Serializable {
      */
     public boolean checkIfPokemonInBackpack(String s) {
         for(int i = 0; i<this.backpack.size();i++){
-            if(this.backpack.get(i).getName().equals(s)) return true;
+            if(this.backpack.get(i).get_name().equals(s)) return true;
         }
         return false;
     }
@@ -148,8 +148,9 @@ public class Player implements Serializable {
      * @return true if picked up, false otherwise
      */
     public boolean capturePokemon(String Pokemon){
-        if(this.currentRoom.checkIfObjectInRoom(Pokemon){
-            AdventureObject object1 = this.currentRoom.getObject(Pokemon);
+        if(this.currentRoom.checkIfObjectInRoom(Pokemon)){
+            Pokemon object1 = this.currentRoom.getObject(Pokemon); // TODO: change return type of room.getObject
+            // TODO: maybe rename room.getObject into room.getPokemon
             this.currentRoom.removePokemon(object1);
             this.addToBackpack(object1);
             return true;
@@ -165,7 +166,7 @@ public class Player implements Serializable {
      */
     public void releasePokemon(String s) {
         for(int i = 0; i<this.backpack.size();i++){
-            if(this.backpack.get(i).getName().equals(s)) {
+            if(this.backpack.get(i).get_name().equals(s)) {
                 this.currentRoom.addPokemon(this.backpack.get(i));
                 this.backpack.remove(i);
             }
@@ -174,7 +175,21 @@ public class Player implements Serializable {
 
 
 
+    public Moves get_move(Pokemon p){
+        //TODO: can you implement this?
+        // this method is called during the battle to get the move the user wants to make
+        // should prompt the player in the text field
+        // first ask if they want to pass or attack
+        // if they want to pass then return new Moves("PASS", 0, 0)
+        // otherwise, display the moves they can choose from which depends on the argument p and return the one they choose
 
+        return new Moves("PASS", 0, 0);
+    }
 
+    public ArrayList<Pokemon> get_battle_pokemon(){
+        //TODO: can you implement this?
+        // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
+        // get the user to choose 3 from backpack and return the three they chose
+    }
 
 }
