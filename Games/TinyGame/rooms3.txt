@@ -23,10 +23,10 @@ You are inside a building, a well house for a large spring. The exit door is to 
 -----
 SOUTH      1
 WEST       5
-OUT        6/BIRD
+OUT        6/OPPONENT1
 OUT        1
 NORTH     3
-XYZZY     2/VILLAGER 2
+XYZZY     2/BOOK
 XYZZY     1
 PLUGH     2/BOOK
 PLUGH     1

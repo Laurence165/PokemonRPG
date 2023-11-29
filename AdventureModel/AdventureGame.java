@@ -14,6 +14,7 @@ public class AdventureGame implements Serializable {
     private HashMap<String,String> synonyms = new HashMap<>(); //A HashMap to store synonyms of commands.
     private final String[] actionVerbs = {"QUIT","INVENTORY","TAKE","DROP"}; //List of action verbs (other than motions) that exist in all games. Motion vary depending on the room and game.
     public Player player; //The Player of the game.
+    private final HashMap<Integer, Pokemon> pokedex; //A list of all available Pokemon in the game
 
     /**
      * Adventure Game Constructor
@@ -25,6 +26,7 @@ public class AdventureGame implements Serializable {
     public AdventureGame(String name){
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
+        this.pokedex = new HashMap<>();
         this.directoryName = "Games/" + name; //all games files are in the Games directory!
         try {
             setUpGame();
@@ -240,6 +242,13 @@ public class AdventureGame implements Serializable {
     public HashMap<String, String> getSynonyms() {
         return this.synonyms;
     }
+    /**
+     * getPokedex
+     * __________________________
+     * Getter method for Pokedex
+     * @return map of key value pairs (index to Pokemon)
+     */
+    public HashMap<Integer, Pokemon> getPokedex() {return this.pokedex;}
 
     /**
      * setHelpText

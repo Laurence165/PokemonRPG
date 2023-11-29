@@ -1,0 +1,17 @@
+1
+Name
+Description
+"phrase1"
+"phrase2"
+"phrase3"
+-----
+6
+3
+37
+23
+12
+
+
+arraylist<int> = [5,3,6yhjw]
+
+randint(0,len(this.pokemon)
