@@ -118,17 +118,17 @@ public class AdventureGame implements Serializable {
             System.out.println(entry.getKeyName());
 
             if (chosen == null && entry.getIsBlocked()) {
-                // TODO: COME BACK TO THIS!
 
-                if (entry.getKeyName() == "OPPONENT"){
+                if (Objects.equals(entry.getKeyName(), "OPPONENT")){ // TODO: maybe this needs to be in adventure view?
                     Opponent o = entry.getOpponent();
-                    ArrayList<Pokemon> o_pokemon = o.getBattlePokemon();
+                    ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
                     Battle B = new Battle(this.player, o, o_pokemon);
-                    boolean won = B.startBattle();
+                    boolean won = B.battle();
                     if (won){
                         chosen = entry;
                         break;
                     } else {
+                        // TODO: update scene
                         return true; // don't move if they don't win the battle
                     }
                 }

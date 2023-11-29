@@ -10,7 +10,7 @@ public class Opponent extends NPC{
         super(name, description, image_address, audio_address, phrases);
     }
 
-    public ArrayList<Pokemon> select_Pokemon(){
+    public ArrayList<Pokemon> get_battle_pokemon(){
         //
     }
     public Moves get_move(Pokemon active){
@@ -23,7 +23,7 @@ public class Opponent extends NPC{
     public static HashMap<Integer,Opponent> parseOpp(){
         //parse from opponent.txt
         //return map with index and opponent object.
-        // copy paste stuff from AdventrueLoader.java the method is called parseRooms()
+        // copy paste stuff from AdventureLoader.java the method is called parseRooms()
         //fileName = this.adventureName + ""
     }
 

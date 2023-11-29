@@ -13,8 +13,8 @@ public class Labelled {
         this.audio_address = audio_address;
         this.description = description;
     }
-    String getName(){return this.name;};
-    String getDescription(){return this.description;};
-    String getAudio(){return this.audio_address;};
-    String getImage(){return this.image_address;};
+    public String getName(){return this.name;};
+    public String getDescription(){return this.description;};
+    public String getAudio(){return this.audio_address;};
+    public String getImage(){return this.image_address;};
 }
