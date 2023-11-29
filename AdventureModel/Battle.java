@@ -94,10 +94,12 @@ public class Battle {
         return won;
     }
 
-    public void battle(){
+    public boolean battle(){
 
         this.player1Pokemon = this.player1.get_battle_pokemon();
         this.currentPokemon1 = this.player1Pokemon.get(0);
+
+        setBattleScene(currentPokemon1, currentPokemon2); // TODO: Uh oh will need to deal with this...
 
         Integer turn = 1;
         boolean cont = true;
@@ -120,10 +122,11 @@ public class Battle {
                 Moves m = this.player2.get_move(this.currentPokemon2);
                 turn = 1;
             }
-            // check if either current pokemon is dead
+            // check if either current pokemon is dead if so then set battle scene
             // check for end of game
 
             // if the player wins, return true
+            return true;
         }
     }
 }

@@ -26,6 +26,8 @@ public class Passage implements Serializable {
      */
     private String keyName;
 
+    private Integer opponentNumber;
+
     /**
      * This stores boolean to represent if the passage is blocked.
      */
