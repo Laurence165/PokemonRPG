@@ -1,4 +1,4 @@
-Charizard, 78, 100, Fire, Flamethrower, 50, 70, Wing Attack, 40, 60
+Pikachu, 60, 80, Electric, Thunderbolt, 45, 65, Quick Attack, 30, 40
 Blastoise, 79, 101, Water, Hydro Pump, 55, 80, Aqua Tail, 45, 65
 Golem, 80, 95, Earth, Rock Throw, 40, 50, Earthquake, 60, 85
 Dragonite, 91, 105, Air, Dragon Breath, 45, 60, Hurricane, 55, 80
@@ -6,7 +6,7 @@ Arcanine, 90, 95, Fire, Fire Fang, 35, 55, Flamethrower, 50, 75
 Vaporeon, 130, 110, Water, Water Gun, 40, 50, Hydro Pump, 60, 80
 Sandslash, 75, 85, Earth, Sand Attack, 30, 40, Earthquake, 55, 70
 Zephyruff, 85, 100, Air, Gust, 35, 45, Air Slash, 50, 65
-Pikachu, 60, 80, Electric, Thunderbolt, 45, 65, Quick Attack, 30, 40
+Charizard, 78, 100, Fire, Flamethrower, 50, 70, Wing Attack, 40, 60
 Venusaur, 80, 100, Grass, Solar Beam, 60, 90, Vine Whip, 35, 55
 Gyarados, 95, 110, Water, Aqua Tail, 50, 75, Dragon Pulse, 55, 80
 Onix, 90, 95, Earth, Rock Slide, 55, 70, Slam, 40, 60
