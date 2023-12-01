@@ -69,6 +69,18 @@ public class AdventureLoader {
             // now we make the room object
             Room room = new Room(roomName, roomNumber, roomDescription, adventureName);
 
+
+            //now we get the people inside this room
+            line = buff.readline();// reads the line after "*****"
+            while(line != "-----"){
+                String[] div = line.split("\s+");
+                String p_type = div[0];
+                String p_num  = div[1];
+                if(p_type.equalIgnoreCase("VILLAGER")){
+                    Villager v = new Villager();
+                }
+            }
+
             // now we make the motion table
             line = buff.readLine(); // reads the line after "-----"
             while (line != null && !line.equals("")) {

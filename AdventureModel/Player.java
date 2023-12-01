@@ -124,6 +124,13 @@ public class Player implements Serializable {
     }
 
     /**
+     * Getter function for backpack list
+     */
+    public ArrayList<Pokemon> getBackpack(){
+        return backpack;
+    }
+
+    /**
      * checkIfPokemonInBackpack
      * __________________________
      * This method checks to see if a Pokemon is in a player's backpack.
