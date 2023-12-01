@@ -3,6 +3,7 @@ package AdventureModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -125,20 +126,34 @@ public class AdventureLoader {
     public void parseOpponent()  throws IOException{
         String npcFileName = "/opponent.txt";
         BufferedReader buff = new BufferedReader(new FileReader(npcFileName));
+
+        buff.readLine();
+        buff.readLine();
+
         //j is index value
         int j = 0;
         while (buff.ready()){
 
             String name = buff.readLine();
             String description = buff.readLine();
+
+            //reading phrases
             int numOfPhrases = Integer.parseInt((buff.readLine()));
             String[] phrases = new String[numOfPhrases];
+            ArrayList<Pokemon> pokemons = new ArrayList<>();
             for (int i = 0; i < phrases.length; i++){
                 phrases[i] = buff.readLine();
             }
             buff.readLine();
+
+            //reading pokemons
+            int numOfPokemons = Integer.parseInt(buff.readLine());
+            for (int i=0; i< phrases.length; i++){
+                pokemons.add(clonePokemon(Integer.parseInt(buff.readLine())));
+            }
             //TODO Add image address and audio address
-            this.game.getOpponents().put(j, new Opponent(name, description,"","",phrases,j));
+            this.game.getOpponents().put(j, new Opponent(name, description,"","",phrases,pokemons,j));
+            buff.readLine();
         }
 
     }
@@ -146,6 +161,9 @@ public class AdventureLoader {
     public void parseVillager()  throws IOException{
         String npcFileName = "/villager.txt";
         BufferedReader buff = new BufferedReader(new FileReader(npcFileName));
+
+        buff.readLine();
+        buff.readLine();
         //j is index value
         int j = 0;
         while (buff.ready()){
@@ -160,6 +178,7 @@ public class AdventureLoader {
             if (gives.equals("T")){ givesPokemon = true; 
                 pokemon = clonePokemon(Integer.parseInt(buff.readLine()));}
 
+            //reading phrases
             int numOfPhrases = Integer.parseInt((buff.readLine()));
             String[] phrases = new String[numOfPhrases];
             for (int i = 0; i < phrases.length; i++){
@@ -179,6 +198,8 @@ public class AdventureLoader {
     public void parsePokemonsInRoom() throws IOException{
         String fileName = "/pokemon_locations.txt";
         BufferedReader buff = new BufferedReader(new FileReader(fileName));
+
+        buff.readLine();
         buff.readLine();
         while(buff.ready()){
             String line = buff.readLine();

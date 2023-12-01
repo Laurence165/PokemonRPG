@@ -1,16 +1,24 @@
-Name
-Description
-"phrase1"
-"phrase2"
-"phrase3"
+Name, Description, # of phrases, phrases, -----, # of pokemons, pokemons
+
+Team Rocket
+We are team rocket.
+12
+Prepare for trouble!
+And make it double!
+To protect the world from devastation!
+To unite all peoples within our nation!
+To denounce the evils of truth and love!
+To extend our reach to the stars above!
+Jessie!
+James!
+Team Rocket blasts off at the speed of light!
+Surrender now, or prepare to fight!
+Meowth!
+That's right!
 -----
+5
 6
 3
 37
 23
 12
-
-
-arraylist<int> = [5,3,6yhjw]
-
-randint(0,len(this.pokemon)
