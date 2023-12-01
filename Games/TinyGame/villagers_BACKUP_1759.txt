@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+1 Prof_Oak "string 1" "string 2" "string 3"
+2 LauraLiu "Just think about it!""
+=======
 Name, Description, roomID, givesPokemon, pokemonID(optional), # of phrases, phrases
+>>>>>>> b0eb2554fee368d11da16d518cd0879fb426b7fd
 
 Professor Oak
 Professor Samuel Oak is a Pokémon researcher who was once a competitive Trainer, and is generally considered to be the best in his field of research.
@@ -13,3 +18,7 @@ Your very own Pokémon legend is about to unfold! A world of dreams and adventur
 You need your own Pokémon for your protection. I know! Here, come with me!
 Do you see that ball on the table? It's called a Poké Ball. It holds a Pokémon inside. You may have it! Go on, take it!
 
+<<<<<<< HEAD
+// professor,
+=======
+>>>>>>> b0eb2554fee368d11da16d518cd0879fb426b7fd

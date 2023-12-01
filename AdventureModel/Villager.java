@@ -4,17 +4,17 @@ public class Villager extends NPC{
 
     private boolean givesPokemon;
     private AdventureGame adventureGame;
-    //uncomment once merged with pokemon class
+
+    private Room location;
     private Pokemon pokemon;
-    public Villager(String name, String description, String image_address, String audio_address, String[] phrases, Boolean givesPokemon, Pokemon pokemonOptional, AdventureGame adventureGame) {
-        super(name, description, image_address, audio_address, phrases);
+    public Villager(String name, String description, String image_address, String audio_address, String[] phrases, Boolean givesPokemon, Pokemon pokemonOptional, Room location, int index) {
+        super(name, description, image_address, audio_address, phrases, index);
         this.givesPokemon = givesPokemon;
         this.pokemon = pokemonOptional;
-        this.adventureGame = adventureGame;
     }
 
     public void give_pokemon(){
-        adventureGame.getPlayer().getCurrentRoom().addPokemon(this.pokemon);
+        location.addPokemon(this.pokemon);
     }
 }
 

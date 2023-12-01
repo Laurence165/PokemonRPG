@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import static java.lang.Math.min;
 
-public class Pokemon extends Labelled{
+public class Pokemon extends Labelled implements Cloneable{
     String name;
     String type;
 
@@ -73,5 +73,10 @@ public class Pokemon extends Labelled{
 
     public HashMap<Integer, Moves> get_moves() {
         return this.moves;
+    }
+
+    @Override
+    public Pokemon clone() throws CloneNotSupportedException{
+        return (Pokemon) super.clone();
     }
 }

@@ -7,8 +7,8 @@ public class NPC extends Labelled{
     private int phrase_count;
     private String image_address, name, audio_address,description;
 
-    public NPC(String name, String description, String audio_address, String image_address, String[] phrases){
-        super(name, description,audio_address,image_address);
+    public NPC(String name, String description, String audio_address, String image_address, String[] phrases, int index){
+        super(name, description,audio_address,image_address,index);
         this.phrases = phrases;
         this.phrase_count = 0;
     }
