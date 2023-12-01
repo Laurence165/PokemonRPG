@@ -1,14 +1,14 @@
+Type: Villager
 Name
 Description
-Room
+Phrases
+---
 givesPokemon
 pokemonID
-Phrases
-
+---
+Type: Opponent
 Name
 Description
-Room
-givesPokemon
-pokemonID
 Phrases
-
+---
+pokemonIDs
