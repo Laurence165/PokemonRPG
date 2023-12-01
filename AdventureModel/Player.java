@@ -148,8 +148,8 @@ public class Player implements Serializable {
      * @return true if picked up, false otherwise
      */
     public boolean capturePokemon(String Pokemon){
-        if(this.currentRoom.checkIfObjectInRoom(Pokemon)){
-            Pokemon object1 = this.currentRoom.getObject(Pokemon); // TODO: change return type of room.getObject
+        if(this.currentRoom.checkIfPokemonInRoom(Pokemon)){
+            Pokemon object1 = this.currentRoom.getPokemon(Pokemon); // TODO: change return type of room.getObject
             // TODO: maybe rename room.getObject into room.getPokemon
             this.currentRoom.removePokemon(object1);
             this.addToBackpack(object1);

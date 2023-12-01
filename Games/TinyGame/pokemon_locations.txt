@@ -1,0 +1,4 @@
+Pokemon Index, Room Number
+1,2
+2,3
+6,8

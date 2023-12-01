@@ -33,6 +33,7 @@ public class AdventureLoader {
         parseRooms();
         parsePokedex();
         parseSynonyms();
+        parseOpponent();
         this.game.setHelpText(parseOtherFile("help"));
     }
 
@@ -117,7 +118,85 @@ public class AdventureLoader {
         }
     }
 
+    /**
+     * Parse Opponent
+     *
+     */
+    public void parseOpponent()  throws IOException{
+        String npcFileName = "/opponent.txt";
+        BufferedReader buff = new BufferedReader(new FileReader(npcFileName));
+        //j is index value
+        int j = 0;
+        while (buff.ready()){
+
+            String name = buff.readLine();
+            String description = buff.readLine();
+            int numOfPhrases = Integer.parseInt((buff.readLine()));
+            String[] phrases = new String[numOfPhrases];
+            for (int i = 0; i < phrases.length; i++){
+                phrases[i] = buff.readLine();
+            }
+            buff.readLine();
+            //TODO Add image address and audio address
+            this.game.getOpponents().put(j, new Opponent(name, description,"","",phrases,j));
+        }
+
+    }
+    //parseVillager
+    public void parseVillager()  throws IOException{
+        String npcFileName = "/villager.txt";
+        BufferedReader buff = new BufferedReader(new FileReader(npcFileName));
+        //j is index value
+        int j = 0;
+        while (buff.ready()){
+
+            String name = buff.readLine();
+            String description = buff.readLine();
+            String locationStr = buff.readLine();
+            Room location = this.game.getRooms().get(Integer.parseInt(locationStr));
+            String gives = buff.readLine();
+            Boolean givesPokemon = false;
+            Pokemon pokemon = null;
+            if (gives.equals("T")){ givesPokemon = true; 
+                pokemon = clonePokemon(Integer.parseInt(buff.readLine()));}
+
+            int numOfPhrases = Integer.parseInt((buff.readLine()));
+            String[] phrases = new String[numOfPhrases];
+            for (int i = 0; i < phrases.length; i++){
+                phrases[i] = buff.readLine();
+            }
+            buff.readLine();
+            Villager v = new Villager(name, description,"","",phrases,givesPokemon, pokemon, location, j);
+            //TODO Add image address and audio address
+
+            this.game.getVillagers().put(j, v);
+        }
+
+    }
+
+    //parse pokemon
+
+    public void parsePokemonsInRoom() throws IOException{
+        String fileName = "/pokemon_locations.txt";
+        BufferedReader buff = new BufferedReader(new FileReader(fileName));
+        buff.readLine();
+        while(buff.ready()){
+            String line = buff.readLine();
+            String[] s = line.split(",");
+            this.game.getRooms().get(s[1]).addPokemon(clonePokemon(Integer.parseInt(s[0])));
+        }
+    }
+    public Pokemon clonePokemon(int i) {
+        try {
+            return this.game.getPokedex().get(i).clone();
+        }
+        catch (CloneNotSupportedException ignored){
+            System.out.println("Error");
+            throw new RuntimeException("");
+        }
+    }
      /**
+      *
      * Parse Synonyms File
      */
     public void parseSynonyms() throws IOException {
@@ -133,6 +212,7 @@ public class AdventureLoader {
         }
 
     }
+
 
     /**
      * Parse Files other than Rooms, Objects and Synonyms

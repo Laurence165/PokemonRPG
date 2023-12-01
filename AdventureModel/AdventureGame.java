@@ -16,6 +16,9 @@ public class AdventureGame implements Serializable {
     public Player player; //The Player of the game.
     private final HashMap<Integer, Pokemon> pokedex; //A list of all available Pokemon in the game
 
+    private final HashMap<Integer, Villager> villagers;
+
+    private final HashMap<Integer, Opponent> opponents;
     /**
      * Adventure Game Constructor
      * __________________________
@@ -27,6 +30,8 @@ public class AdventureGame implements Serializable {
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
         this.pokedex = new HashMap<>();
+        this.villagers = new HashMap<>();
+        this.opponents = new HashMap<>();
         this.directoryName = "Games/" + name; //all games files are in the Games directory!
         try {
             setUpGame();
@@ -120,6 +125,7 @@ public class AdventureGame implements Serializable {
             if (chosen == null && entry.getIsBlocked()) {
 
                 if (Objects.equals(entry.getKeyName(), "OPPONENT")){ // TODO: maybe this needs to be in adventure view?
+
                     Opponent o = entry.getOpponent();
                     ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
                     Battle B = new Battle(this.player, o, o_pokemon);
@@ -148,7 +154,6 @@ public class AdventureGame implements Serializable {
 
         return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
     }
-
     /**
      * interpretAction
      * interpret the user's action.
@@ -175,7 +180,7 @@ public class AdventureGame implements Serializable {
             else if(inputArray[0].equals("TAKE") && inputArray.length < 2) return "THE TAKE COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("DROP") && inputArray.length < 2) return "THE DROP COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("TAKE") && inputArray.length == 2) {
-                if(this.player.getCurrentRoom().checkIfObjectInRoom(inputArray[1])) {
+                if(this.player.getCurrentRoom().checkIfPokemonInRoom(inputArray[1])) {
                     this.player.takeObject(inputArray[1]);
                     return "YOU HAVE TAKEN:\n " + inputArray[1];
                 } else {
@@ -249,6 +254,10 @@ public class AdventureGame implements Serializable {
      * @return map of key value pairs (index to Pokemon)
      */
     public HashMap<Integer, Pokemon> getPokedex() {return this.pokedex;}
+
+    public HashMap<Integer, Villager> getVillagers() {return this.villagers;}
+
+    public HashMap<Integer, Opponent> getOpponents() {return this.opponents;}
 
     /**
      * setHelpText

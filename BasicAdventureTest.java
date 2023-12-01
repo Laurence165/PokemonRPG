@@ -2,16 +2,18 @@
 import java.io.IOException;
 
 import AdventureModel.AdventureGame;
+import AdventureModel.AdventureLoader;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BasicAdventureTest {
     @Test
-    void getCommandsTest() throws IOException {
+    void villagerpaseTest() throws IOException {
         AdventureGame game = new AdventureGame("TinyGame");
-        String commands = game.player.getCurrentRoom().getCommands();
-        assertEquals("DOWN,NORTH,IN,WEST,UP,SOUTH", commands);
+        AdventureLoader loader = new AdventureLoader(game,game.getDirectoryName());
+        loader.parseVillager();
+        assertEquals(game.getVillagers().size(),1);
     }
 
     @Test
