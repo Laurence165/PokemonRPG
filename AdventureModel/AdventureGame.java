@@ -1,5 +1,7 @@
 package AdventureModel;
 
+import views.AdventureGameView;
+
 import java.io.*;
 import java.util.*;
 
@@ -16,6 +18,7 @@ public class AdventureGame implements Serializable {
     public Player player; //The Player of the game.
     private final HashMap<Integer, Pokemon> pokedex; //A list of all available Pokemon in the game
 
+    private AdventureGameView view;
     /**
      * Adventure Game Constructor
      * __________________________
@@ -122,13 +125,13 @@ public class AdventureGame implements Serializable {
                 if (Objects.equals(entry.getKeyName(), "OPPONENT")){ // TODO: maybe this needs to be in adventure view?
                     Opponent o = entry.getOpponent();
                     ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
-                    Battle B = new Battle(this.player, o, o_pokemon);
+                    Battle B = new Battle(this.view, this.player, o, o_pokemon);
                     boolean won = B.battle();
                     if (won){
                         chosen = entry;
                         break;
                     } else {
-                        // TODO: update scene
+                        this.view.updateScene("");
                         return true; // don't move if they don't win the battle
                     }
                 }
@@ -260,5 +263,7 @@ public class AdventureGame implements Serializable {
         this.helpText = help;
     }
 
-
+    public void setView (AdventureGameView v){
+        this.view = v;
+    }
 }

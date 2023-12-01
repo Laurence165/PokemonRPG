@@ -77,7 +77,7 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("<caiathen>'s Adventure Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("<Group 35>'s Pokemon Game"); //Replace <YOUR UTORID> with your UtorID
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);
@@ -270,6 +270,9 @@ public class AdventureGameView {
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
             return;
+        } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) { // TODO: EDIT
+            this.model.getPlayer().getCurrentRoom().getVillager.talk(); //this is new!  We did not have this command in A1
+            return;
         }
 
         //try to move!
@@ -297,6 +300,14 @@ public class AdventureGameView {
             });
             pause.play();
         }
+    }
+
+    public void pause(){
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        pause.setOnFinished(event -> {
+            return;
+        });
+        pause.play();
     }
 
 
@@ -334,8 +345,8 @@ public class AdventureGameView {
         Image oImageFile = new Image(oImage);
         opponentPokemonView = new ImageView(roomImageFile);
         opponentPokemonView.setPreserveRatio(true);
-        opponentPokemonView.setFitWidth(400); //TODO: this probably needs to change
-        opponentPokemonView.setFitHeight(400);
+        opponentPokemonView.setFitWidth(300); //TODO: this probably needs to change
+        opponentPokemonView.setFitHeight(300);
 
         //set accessible text
         opponentPokemonView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
@@ -410,11 +421,11 @@ public class AdventureGameView {
      * 
      * @param textToDisplay the text to be formatted for display.
      */
-    private void formatText(String textToDisplay) {
+    public void formatText(String textToDisplay) {
         if (textToDisplay == null || textToDisplay.isBlank()) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString); // TODO: change this
             else roomDescLabel.setText(roomDesc);
         } else roomDescLabel.setText(textToDisplay);
         roomDescLabel.setStyle("-fx-text-fill: white;");
