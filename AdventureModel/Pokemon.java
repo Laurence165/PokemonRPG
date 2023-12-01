@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import static java.lang.Math.min;
 
-public class Pokemon {
+public class Pokemon extends Labelled{
     String name;
     String type;
 
@@ -19,9 +19,9 @@ public class Pokemon {
 
     Integer energy;
 
-    HashMap<int, Moves> moves;
+    HashMap<Integer, Moves> moves;
 
-    public Pokemon(String name, String type, Integer health, Integer energy){
+    public Pokemon(String name, String type, Integer health, Integer energy){ // Hi sorry idk what to do ab this error but Pokemon needs to extend Labelled
         this.name = name;
         this.type = type;
         this.health = health;
@@ -71,7 +71,7 @@ public class Pokemon {
 
     public Integer get_max_energy(){return this.max_energy;}
 
-    public HashMap<int, Moves> get_move() {
+    public HashMap<Integer, Moves> get_moves() {
         return this.moves;
     }
 }

@@ -1,4 +1,7 @@
 package AdventureModel;
+
+//>>>>>>> 93b3514e749c3f635fd06ddfef9a7245d974ae1c
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -10,7 +13,7 @@ public class Battle {
     private final Player player1;
     private Opponent player2;
 
-    private final ArrayList<Pokemon> player1Pokemon;
+    private ArrayList<Pokemon> player1Pokemon;
 
     private final ArrayList<Pokemon> player2Pokemon;
 
@@ -18,14 +21,12 @@ public class Battle {
 
     private Pokemon currentPokemon2;
 
-    public Battle(Player p, Opponent o, ArrayList<Pokemon> playerPokemon, ArrayList<Pokemon> oppPokemon){
+    public Battle(Player p, Opponent o, ArrayList<Pokemon> oppPokemon){
         this.player1 = p;
         this.player2 = o;
 
-        this.player1Pokemon = playerPokemon;
         this.player2Pokemon = oppPokemon;
 
-        this.currentPokemon1 = playerPokemon.get(0);
         this.currentPokemon2 = oppPokemon.get(0);
     }
 
@@ -93,7 +94,13 @@ public class Battle {
         return won;
     }
 
-    public void battle(){
+    public boolean battle(){
+
+        this.player1Pokemon = this.player1.get_battle_pokemon();
+        this.currentPokemon1 = this.player1Pokemon.get(0);
+
+        setBattleScene(currentPokemon1, currentPokemon2); // TODO: Uh oh will need to deal with this...
+
         Integer turn = 1;
         boolean cont = true;
 
@@ -115,8 +122,11 @@ public class Battle {
                 Moves m = this.player2.get_move(this.currentPokemon2);
                 turn = 1;
             }
-            // check if either current pokemon is dead
+            // check if either current pokemon is dead if so then set battle scene
             // check for end of game
+
+            // if the player wins, return true
+            return true;
         }
     }
 }

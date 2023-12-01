@@ -40,7 +40,8 @@ public class AdventureLoader {
      * Parse Rooms File
      */
     private void parseRooms() throws IOException {
-        //TODO: Update so that we can add Villager
+        // TODO: Update so that we can add Villager
+        // instantiate villagers
 
         int roomNumber;
 
