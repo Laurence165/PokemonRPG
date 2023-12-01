@@ -269,7 +269,7 @@ public class AdventureGameView {
             return;
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
-            return;a
+            return;
         }
 
         //try to move!
