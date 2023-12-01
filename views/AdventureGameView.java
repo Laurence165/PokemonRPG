@@ -8,27 +8,27 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleRole;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.layout.*;
-import javafx.scene.input.KeyEvent; //you will need these!
-import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-import javafx.event.EventHandler; //you will need this too!
-import javafx.scene.AccessibleRole;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Class AdventureGameView.
  *
@@ -262,14 +262,14 @@ public class AdventureGameView {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
             if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
-            articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
+            articulateRoomDescription(roomDesc); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
             showInstructions();
             return;
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
-            return;
+            return;a
         }
 
         //try to move!
@@ -399,7 +399,7 @@ public class AdventureGameView {
         stage.sizeToScene();
 
         //finally, articulate the description
-        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
+        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription(textToDisplay);
     }
 
     /**
@@ -635,7 +635,9 @@ public class AdventureGameView {
     /**
      * This method articulates Room Descriptions
      */
-    public void articulateRoomDescription() {
+    public void articulateRoomDescription(String input) {
+        //TODO: REPLACE THIS WITH TEXT-TO-SPEECH
+        // the speech should read out the text in INPUT
         String musicFile;
         String adventureName = this.model.getDirectoryName();
         String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();
@@ -651,7 +653,6 @@ public class AdventureGameView {
         mediaPlaying = true;
 
     }
-
     /**
      * This method stops articulations 
      * (useful when transitioning to a new room or loading a new game)
