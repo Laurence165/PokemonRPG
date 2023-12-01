@@ -2,6 +2,8 @@ package AdventureModel;
 
 //>>>>>>> 93b3514e749c3f635fd06ddfef9a7245d974ae1c
 
+import views.AdventureGameView;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,7 +23,15 @@ public class Battle {
 
     private Pokemon currentPokemon2;
 
-    public Battle(Player p, Opponent o, ArrayList<Pokemon> oppPokemon){
+    private Integer currentPokemonIndex1 = 0;
+
+    private Integer currentPokemonIndex2 = 0;
+
+    private AdventureGameView view;
+
+
+    public Battle(AdventureGameView v, Player p, Opponent o, ArrayList<Pokemon> oppPokemon){
+        this.view = v;
         this.player1 = p;
         this.player2 = o;
 
@@ -99,14 +109,14 @@ public class Battle {
         this.player1Pokemon = this.player1.get_battle_pokemon();
         this.currentPokemon1 = this.player1Pokemon.get(0);
 
-        setBattleScene(currentPokemon1, currentPokemon2); // TODO: Uh oh will need to deal with this...
+        this.view.setBattleScene(currentPokemon1, currentPokemon2);
 
-        Integer turn = 1;
-        boolean cont = true;
+        int turn = 1;
 
-        while(cont){
+        while(true){
             if (turn == 1){
                 Moves m = this.player1.get_move(this.currentPokemon1);
+                this.view.formatText(m.use_move(currentPokemon1));
                 if (m.get_points() > 0){
                     double factor = this.compare_types(this.currentPokemon1, this.currentPokemon2);
                     double damage = factor * m.get_points();
@@ -118,15 +128,46 @@ public class Battle {
                     update(m.get_points(), 0, m.get_energy(), 0);
                 }
                 turn = 2;
+                // TODO: should I display the updated health and energy after each round? If I want that to be accessible then I'm going to need text to speech
+                this.view.pause();
             } else {
+                this.view.formatText(player2.talk());
                 Moves m = this.player2.get_move(this.currentPokemon2);
+                this.view.formatText(m.use_move(currentPokemon1)); // TODO: might want to make this concatenation rather than overwriting
+                if (m.get_points() > 0){
+                    double factor = this.compare_types(this.currentPokemon2, this.currentPokemon1);
+                    double damage = factor * m.get_points();
+                    int damage2 = (int) floor(damage);
+                    update(damage2, 0, 0, m.get_energy());
+                } else if (m.get_points() == 0){ // indicates pass
+                    update(0, 0, 0, (this.currentPokemon2.get_max_energy()/2));
+                }else {
+                    update(0, m.get_points(), 0, m.get_energy());
+                }
                 turn = 1;
+                this.view.pause();
             }
-            // check if either current pokemon is dead if so then set battle scene
-            // check for end of game
 
-            // if the player wins, return true
-            return true;
+            // Check if either Pokémon is dead and if so check for end of game
+            // If the player wins, return true. If the player loses, return false
+
+            if (currentPokemon2.get_health() < 1) {
+                if (currentPokemonIndex2 == 2) {
+                    return true;
+                } else {
+                    currentPokemonIndex2 += 1;
+                    currentPokemon2 = player2Pokemon.get(currentPokemonIndex2);
+                    this.view.setBattleScene(currentPokemon1, currentPokemon2);
+                }
+            } else if (currentPokemon1.get_health() < 1){
+                if (currentPokemonIndex1 == 2){
+                    return false;
+                } else {
+                    currentPokemonIndex1 += 1;
+                    currentPokemon1 = player1Pokemon.get(currentPokemonIndex1);
+                    this.view.setBattleScene(currentPokemon1, currentPokemon2);
+                }
+            }
         }
     }
 }

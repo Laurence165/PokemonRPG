@@ -26,6 +26,9 @@ public class Passage implements Serializable {
      */
     private String keyName;
 
+    /**
+     * The index of the opponent that must be battled to move along this passage.
+     */
     private Integer opponentNumber;
 
     /**
