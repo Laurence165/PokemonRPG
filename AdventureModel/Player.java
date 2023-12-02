@@ -1,5 +1,4 @@
 package AdventureModel;
-package views;
 
 import java.io.Serializable;
 import java.util.ArrayList;
