@@ -29,6 +29,7 @@ public class Battle {
 
     private AdventureGameView view;
 
+    public Moves returnedMove;
 
     public Battle(AdventureGameView v, Player p, Opponent o, ArrayList<Pokemon> oppPokemon){
         this.view = v;
@@ -115,7 +116,8 @@ public class Battle {
 
         while(true){
             if (turn == 1){
-                Moves m = this.player1.get_move(this.currentPokemon1);
+                this.view.getMoveEvent(this.currentPokemon1, this);
+                Moves m = this.returnedMove;
                 this.view.formatText(m.use_move(currentPokemon1));
                 if (m.get_points() > 0){
                     double factor = this.compare_types(this.currentPokemon1, this.currentPokemon2);

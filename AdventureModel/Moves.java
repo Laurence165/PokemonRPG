@@ -15,9 +15,14 @@ public class Moves {
         return(acting_pokemon.get_name() + " has used " + this.name + "!");
     }
 
+    public String get_description(){
+        return (this.name + " has attack points " + this.points.toString() + " and costs  " + this.energy.toString()+" energy points\n");
+    }
     public Integer get_points(){return this.points;}
 
     public Integer get_energy(){return this.energy;}
+
+    public String get_name(){return this.name;}
 }
 
 
