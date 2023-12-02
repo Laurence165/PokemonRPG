@@ -53,6 +53,9 @@ public class AdventureGameView {
     Label roomDescLabel = new Label(); //to hold room description and/or instructions
     VBox objectsInRoom = new VBox(); //to hold room items
     VBox objectsInInventory = new VBox(); //to hold inventory items
+    VBox pokeInRoom = new VBox();//to hold pokemons in the room
+    VBox pokeInBackpack = new VBox();//to hold pokemons in inventory
+
     ImageView roomImageView; //to hold room image
 
     ImageView opponentPokemonView; // to hold image of opponent pokemon in battle
@@ -80,13 +83,21 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("<caiathen>'s Adventure Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("<Group 35>'s Pokemon Game"); //Replace <YOUR UTORID> with your UtorID
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);
         objectsInInventory.setAlignment(Pos.TOP_CENTER);
         objectsInRoom.setSpacing(10);
         objectsInRoom.setAlignment(Pos.TOP_CENTER);
+
+
+        // Backpack + room pokemons
+        pokeInRoom.setSpacing(10);
+        pokeInRoom.setAlignment(Pos.TOP_CENTER);
+        pokeInBackpack.setSpacing(10);
+        pokeInBackpack.setAlignment(Pos.TOP_CENTER);
+
 
         // GridPane, anyone?
         gridPane.setPadding(new Insets(20));
@@ -169,6 +180,8 @@ public class AdventureGameView {
 
         updateScene(""); //method displays an image and whatever text is supplied
         updateItems(); //update items shows inventory and objects in rooms
+        updatePokemons();;//updates the pokemons being shown
+
 
         // adding the text area and submit button to a VBox
         VBox textEntry = new VBox();
@@ -273,6 +286,9 @@ public class AdventureGameView {
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
             return;
+        } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) { // TODO: EDIT
+            this.model.getPlayer().getCurrentRoom().getVillager.talk(); //this is new!  We did not have this command in A1
+            return;
         }
 
         //try to move!
@@ -281,9 +297,11 @@ public class AdventureGameView {
         if (output == null || (!output.equals("GAME OVER") && !output.equals("FORCED") && !output.equals("HELP"))) {
             updateScene(output);
             updateItems();
+            updatePokemons();
         } else if (output.equals("GAME OVER")) {
             updateScene("");
             updateItems();
+            updatePokemons();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
                 Platform.exit();
@@ -293,6 +311,7 @@ public class AdventureGameView {
             updateScene("");
             inputTextField.setDisable(true);
             updateItems();
+            updatePokemons();
             PauseTransition pause = new PauseTransition(Duration.seconds(5)); // Pause for five seconds
             pause.setOnFinished(event -> {
                 inputTextField.setDisable(false);
@@ -300,6 +319,14 @@ public class AdventureGameView {
             });
             pause.play();
         }
+    }
+
+    public void pause(){
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        pause.setOnFinished(event -> {
+            return;
+        });
+        pause.play();
     }
 
 
@@ -337,8 +364,8 @@ public class AdventureGameView {
         Image oImageFile = new Image(oImage);
         opponentPokemonView = new ImageView(roomImageFile);
         opponentPokemonView.setPreserveRatio(true);
-        opponentPokemonView.setFitWidth(400); //TODO: this probably needs to change
-        opponentPokemonView.setFitHeight(400);
+        opponentPokemonView.setFitWidth(300); //TODO: this probably needs to change
+        opponentPokemonView.setFitHeight(300);
 
         //set accessible text
         opponentPokemonView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
@@ -413,11 +440,11 @@ public class AdventureGameView {
      * 
      * @param textToDisplay the text to be formatted for display.
      */
-    private void formatText(String textToDisplay) {
+    public void formatText(String textToDisplay) {
         if (textToDisplay == null || textToDisplay.isBlank()) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString); // TODO: change this
             else roomDescLabel.setText(roomDesc);
         } else roomDescLabel.setText(textToDisplay);
         roomDescLabel.setStyle("-fx-text-fill: white;");
@@ -465,8 +492,8 @@ public class AdventureGameView {
      * The method should populate the objectsInRoom and objectsInInventory Vboxes.
      * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
      * Each node represents a different object.
-     * 
-     * Images of each object are in the assets 
+     *
+     * Images of each object are in the assets
      * folders of the given adventure game.
      */
     public void updateItems() {
@@ -540,6 +567,85 @@ public class AdventureGameView {
                 this.model.player.dropObject(objectName);
             }
         });
+    }
+
+    /**
+     * Update the pokemons in the game
+     */
+    public void updatePokemons(){
+        ArrayList<Pokemon> PokeList = this.model.player.getCurrentRoom().pokemonsInRoom;
+        ArrayList<Pokemon> PokeBackpack = this.model.player.getBackpack;
+
+
+
+        pokeInRoom.getChildren().removeAll(pokeInRoom.getChildren());
+        pokeInBackpack.getChildren().removeAll(pokeInBackpack.getChildren());
+
+        for(Pokemon p:PokeBackpack){
+             int n = getPokemonIndex(p);
+
+            Image image = new Image("/pokemon_images/" + n + ".png");
+
+            ImageView iv = new ImageView();
+            iv.setImage(image);
+            iv.setFitWidth(100);
+            iv.setPreserveRatio(true);
+            iv.setSmooth(true);
+            iv.setCache(true);
+            Button obj = new Button();
+            obj.setGraphic(iv);
+            makeButtonAccessible(obj, o, o, o);
+            addObjEvent(obj, o);
+            pokeInBackpack.getChildren().add(obj);
+
+        }
+
+        for(Pokemon p:pokeList){
+            int n = getPokemonIndex(p);
+
+            Image image = new Image("/pokemon_images/" + n + ".png");
+
+            ImageView iv = new ImageView();
+            iv.setImage(image);
+            iv.setFitWidth(100);
+            iv.setPreserveRatio(true);
+            iv.setSmooth(true);
+            iv.setCache(true);
+            Button obj = new Button();
+            obj.setGraphic(iv);
+            makeButtonAccessible(obj, name, name, name);
+            addObjEvent(obj, o.getName());
+            objectsInRoom.getChildren().add(obj);
+
+        }
+        ScrollPane scO = new ScrollPane(PokeInRoom);
+        scO.setPadding(new Insets(10));
+        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        scO.setFitToWidth(true);
+        gridPane.add(scO,0,1);
+
+        ScrollPane scI = new ScrollPane(pokeInBackpack);
+        scI.setFitToWidth(true);
+        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        gridPane.add(scI,2,1);
+
+
+
+    }
+
+
+    /**
+     * Helper function: to get pokemon index given the pokemon object
+     */
+    private int getPokemonIndex(Pokemon p){
+        Hashmap<Integer, Pokemon> m = pokedex;
+
+        for(Map.Entry<Integer, Pokemon> entry : m.entrySet()){
+            if(entry.getValue().equals(p)){
+                return entry.getKey();
+            }
+        }
+
     }
 
 

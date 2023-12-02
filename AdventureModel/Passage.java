@@ -26,6 +26,9 @@ public class Passage implements Serializable {
      */
     private String keyName;
 
+    /**
+     * The index of the opponent that must be battled to move along this passage.
+     */
     private Integer opponentNumber;
 
     /**
@@ -102,4 +105,7 @@ public class Passage implements Serializable {
     public void printPassage() {
         System.out.println(this.direction + " " + this.destinationRoom + " " + this.keyName + " " + this.isBlocked);
     }
+
+    public Opponent getOpponent(){return null;}
+
 }

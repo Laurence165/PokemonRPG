@@ -124,6 +124,13 @@ public class Player implements Serializable {
     }
 
     /**
+     * Getter function for backpack list
+     */
+    public ArrayList<Pokemon> getBackpack(){
+        return backpack;
+    }
+
+    /**
      * checkIfPokemonInBackpack
      * __________________________
      * This method checks to see if a Pokemon is in a player's backpack.
@@ -148,8 +155,8 @@ public class Player implements Serializable {
      * @return true if picked up, false otherwise
      */
     public boolean capturePokemon(String Pokemon){
-        if(this.currentRoom.checkIfObjectInRoom(Pokemon)){
-            Pokemon object1 = this.currentRoom.getObject(Pokemon); // TODO: change return type of room.getObject
+        if(this.currentRoom.checkIfPokemonInRoom(Pokemon)){
+            Pokemon object1 = this.currentRoom.getPokemon(Pokemon); // TODO: change return type of room.getObject
             // TODO: maybe rename room.getObject into room.getPokemon
             this.currentRoom.removePokemon(object1);
             this.addToBackpack(object1);
@@ -181,7 +188,9 @@ public class Player implements Serializable {
         // should prompt the player in the text field
         // first ask if they want to pass or attack
         // if they want to pass then return new Moves("PASS", 0, 0)
-        // otherwise, display the moves they can choose from which depends on the argument p and return the one they choose
+        // otherwise, display the moves they can choose from THEY MUST HAVE ENOUGH ENERGY which depends on the argument p
+        // use p.get_energy() to get energy and compare to each move which is in p.moves()
+        // and return the one they choose
 
         return new Moves("PASS", 0, 0);
     }
