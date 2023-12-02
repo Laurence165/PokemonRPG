@@ -204,6 +204,7 @@ public class AdventureGame implements Serializable {
         return "INVALID COMMAND.";
     }
 
+
     /**
      * getDirectoryName
      * __________________________
@@ -277,4 +278,7 @@ public class AdventureGame implements Serializable {
     public void setView (AdventureGameView v){
         this.view = v;
     }
+
+
+
 }

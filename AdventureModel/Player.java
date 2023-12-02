@@ -31,56 +31,6 @@ public class Player implements Serializable {
         this.currentRoom = currentRoom;
     }
 
-    /**
-     * This method adds an object into players inventory if the object is present in
-     * the room and returns true. If the object is not present in the room, the method
-     * returns false.
-     *
-     * @param object name of the object to pick up
-     * @return true if picked up, false otherwise
-     */
-    public boolean takeObject(String object){
-        if(this.currentRoom.checkIfObjectInRoom(object)){
-            AdventureObject object1 = this.currentRoom.getObject(object);
-            this.currentRoom.removeGameObject(object1);
-            this.addToInventory(object1);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    /**
-     * checkIfObjectInInventory
-     * __________________________
-     * This method checks to see if an object is in a player's inventory.
-     *
-     * @param s the name of the object
-     * @return true if object is in inventory, false otherwise
-     */
-    public boolean checkIfObjectInInventory(String s) {
-        for(int i = 0; i<this.inventory.size();i++){
-            if(this.inventory.get(i).getName().equals(s)) return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * This method drops an object in the players inventory and adds it to the room.
-     * If the object is not in the inventory, the method does nothing.
-     *
-     * @param s name of the object to drop
-     */
-    public void dropObject(String s) {
-        for(int i = 0; i<this.inventory.size();i++){
-            if(this.inventory.get(i).getName().equals(s)) {
-                this.currentRoom.addGameObject(this.inventory.get(i));
-                this.inventory.remove(i);
-            }
-        }
-    }
 
     /**
      * Setter method for the current room attribute.
@@ -98,6 +48,15 @@ public class Player implements Serializable {
      */
     public void addToInventory(AdventureObject object) {
         this.inventory.add(object);
+    }
+
+
+    /**
+     * This method adds the pokemon in the backpack
+     * .
+     */
+    public void addToBackpack(Pokemon p){
+        this.backpack.add(p);
     }
 
 
