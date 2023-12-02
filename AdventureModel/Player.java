@@ -29,6 +29,7 @@ public class Player implements Serializable {
     public Player(Room currentRoom) {
         this.inventory = new ArrayList<AdventureObject>();
         this.currentRoom = currentRoom;
+        this.backpack = new ArrayList<>();
     }
 
 
@@ -99,7 +100,7 @@ public class Player implements Serializable {
      */
     public boolean checkIfPokemonInBackpack(String s) {
         for(int i = 0; i<this.backpack.size();i++){
-            if(this.backpack.get(i).get_name().equals(s)) return true;
+            if(this.backpack.get(i).getName().equals(s)) return true;
         }
         return false;
     }
@@ -132,7 +133,7 @@ public class Player implements Serializable {
      */
     public void releasePokemon(String s) {
         for(int i = 0; i<this.backpack.size();i++){
-            if(this.backpack.get(i).get_name().equals(s)) {
+            if(this.backpack.get(i).getName().equals(s)) {
                 this.currentRoom.addPokemon(this.backpack.get(i));
                 this.backpack.remove(i);
             }
@@ -158,6 +159,7 @@ public class Player implements Serializable {
         //TODO: can you implement this?
         // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
         // get the user to choose 3 from backpack and return the three they chose
+        return null;
     }
 
 }

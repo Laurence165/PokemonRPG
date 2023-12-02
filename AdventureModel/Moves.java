@@ -12,7 +12,7 @@ public class Moves {
     }
 
     public String use_move(Pokemon acting_pokemon){
-        return(acting_pokemon.get_name() + " has used " + this.name + "!");
+        return(acting_pokemon.getName() + " has used " + this.name + "!");
     }
 
     public Integer get_points(){return this.points;}

@@ -20,4 +20,8 @@ public class Labelled {
     public String getDescription(){return this.description;};
     public String getAudio(){return this.audio_address;};
     public String getImage(){return this.image_address;};
+
+    public int getIndex(){
+        return this.index;
+    }
 }

@@ -37,10 +37,11 @@ public class AdventureGame implements Serializable {
         this.pokedex = new HashMap<>();
         this.villagers = new HashMap<>();
         this.opponents = new HashMap<>();
-        this.directoryName = "Games/" + name; //all games files are in the Games directory!
+        this.directoryName = "group_35/Games/" + name; //all games files are in the Games directory!
         try {
             setUpGame();
         } catch (IOException e) {
+
             throw new RuntimeException("An Error Occurred: " + e.getMessage());
         }
     }
@@ -186,15 +187,15 @@ public class AdventureGame implements Serializable {
             else if(inputArray[0].equals("DROP") && inputArray.length < 2) return "THE DROP COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("TAKE") && inputArray.length == 2) {
                 if(this.player.getCurrentRoom().checkIfPokemonInRoom(inputArray[1])) {
-                    this.player.takeObject(inputArray[1]);
+                    this.player.capturePokemon(inputArray[1]);
                     return "YOU HAVE TAKEN:\n " + inputArray[1];
                 } else {
                     return "THIS OBJECT IS NOT HERE:\n " + inputArray[1];
                 }
             }
             else if(inputArray[0].equals("DROP") && inputArray.length == 2) {
-                if(this.player.checkIfObjectInInventory(inputArray[1])) {
-                    this.player.dropObject(inputArray[1]);
+                if(this.player.checkIfPokemonInBackpack(inputArray[1])) {
+                    this.player.releasePokemon(inputArray[1]);
                     return "YOU HAVE DROPPED:\n " + inputArray[1];
                 } else {
                     return "THIS OBJECT IS NOT IN YOUR INVENTORY:\n " + inputArray[1];
