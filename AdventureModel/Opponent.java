@@ -41,11 +41,4 @@ public class Opponent extends NPC implements BattleColleagueInterface{
         return new Moves("PASS", 0, 0);
     }
 
-    public static HashMap<Integer,Opponent> parseOpp(){
-        //parse from opponent.txt
-        //return map with index and opponent object.
-        // copy paste stuff from AdventureLoader.java the method is called parseRooms()
-        //fileName = this.adventureName + ""
-    }
-
 }

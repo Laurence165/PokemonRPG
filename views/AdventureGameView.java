@@ -287,7 +287,7 @@ public class AdventureGameView {
             showCommands(); //this is new!  We did not have this command in A1
             return;
         } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) { // TODO: EDIT
-            this.model.getPlayer().getCurrentRoom().getVillager.talk(); //this is new!  We did not have this command in A1
+            this.model.getPlayer().getCurrentRoom().villagerInRoom.talk(); //this is new!  We did not have this command in A1
             return;
         }
 
@@ -357,7 +357,7 @@ public class AdventureGameView {
 
         //set accessible text
         roomImageView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
-        roomImageView.setAccessibleText("Your active Pokemon: " + p.get_name());
+        roomImageView.setAccessibleText("Your active Pokemon: " + p.getName());
         roomImageView.setFocusTraversable(true);
 
         String oImage = o.getImage();
@@ -370,13 +370,12 @@ public class AdventureGameView {
 
         //set accessible text
         opponentPokemonView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
-        opponentPokemonView.setAccessibleText("The opponent's active Pokemon: " + o.get_name());
+        opponentPokemonView.setAccessibleText("The opponent's active Pokemon: " + o.getName());
         opponentPokemonView.setFocusTraversable(true);
 
         // Insert the displays into the grid
 
-        formatText("Your active pokemon: " + p.get_name());
-        textToSpeech("Your active pokemon: " + p.get_name());
+        formatText("Your active pokemon: " + p.getName());
         roomDescLabel.setPrefWidth(500);
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
@@ -389,7 +388,7 @@ public class AdventureGameView {
         gridPane.add(roomPane, 1, 1);
 
         stage.sizeToScene();
-        formatOppText(o.get_name());
+        formatOppText(o.getName());
         VBox oPane = new VBox(opponentPokemonView,opponentPokemonLabel);
         oPane.setPadding(new Insets(10));
         oPane.setAlignment(Pos.TOP_CENTER);
@@ -472,7 +471,7 @@ public class AdventureGameView {
     private void getRoomImage() {
 
         int roomNumber = this.model.getPlayer().getCurrentRoom().getRoomNumber();
-        String roomImage = this.model.getDirectoryName() + "/room-images/" + roomNumber + ".png";
+        String roomImage = "Games/TinyGame/Images/Room-images/" + roomNumber + ".png";
 
         Image roomImageFile = new Image(roomImage);
         roomImageView = new ImageView(roomImageFile);
@@ -500,7 +499,7 @@ public class AdventureGameView {
      * folders of the given adventure game.
      */
     public void updateItems() {
-        ArrayList<AdventureObject>  objRoom = this.model.player.getCurrentRoom().objectsInRoom;
+        ArrayList<Pokemon>  objRoom = this.model.player.getCurrentRoom().pokemonsInRoom;
         ArrayList<String> objInv = this.model.player.getInventory();
 
         objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
@@ -521,9 +520,9 @@ public class AdventureGameView {
             objectsInInventory.getChildren().add(obj);
         }
 
-        for(AdventureObject o: objRoom){// Go through all items in room and create button
+        for(Pokemon o: objRoom){// Go through all items in room and create button
             String name = o.getName();
-            Image image = new Image(this.model.getDirectoryName() + "/objectImages/" + name + ".jpg");
+            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()));
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -558,7 +557,7 @@ public class AdventureGameView {
             for(Node c:oir){
                 if (c==o){
                     oir.remove(o);
-                    this.model.player.takeObject(objectName);
+                    this.model.player.capturePokemon(objectName);
                     objectsInInventory.getChildren().add(o);
                     inRoom = true;
                     break; //Take object
@@ -567,7 +566,7 @@ public class AdventureGameView {
             if (!inRoom){
                 oir.add(o); //Drop object
                 objectsInInventory.getChildren().remove(o);
-                this.model.player.dropObject(objectName);
+                this.model.player.releasePokemon(objectName);
             }
         });
     }
@@ -577,7 +576,7 @@ public class AdventureGameView {
      */
     public void updatePokemons(){
         ArrayList<Pokemon> PokeList = this.model.player.getCurrentRoom().pokemonsInRoom;
-        ArrayList<Pokemon> PokeBackpack = this.model.player.getBackpack;
+        ArrayList<Pokemon> PokeBackpack = this.model.player.getBackpack();
 
 
 
@@ -585,10 +584,10 @@ public class AdventureGameView {
         pokeInBackpack.getChildren().removeAll(pokeInBackpack.getChildren());
 
         for(Pokemon p:PokeBackpack){
-             int n = getPokemonIndex(p);
+            int n = p.getIndex();
+            Image image = new Image(p.getImage());
 
-            Image image = new Image("/pokemon_images/" + n + ".png");
-
+            String name = p.getName();
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -597,17 +596,17 @@ public class AdventureGameView {
             iv.setCache(true);
             Button obj = new Button();
             obj.setGraphic(iv);
-            makeButtonAccessible(obj, o, o, o);
-            addObjEvent(obj, o);
+            makeButtonAccessible(obj,name,name,name);
+            addObjEvent(obj, name);
             pokeInBackpack.getChildren().add(obj);
 
         }
 
-        for(Pokemon p:pokeList){
-            int n = getPokemonIndex(p);
+        for(Pokemon p: this.model.player.getCurrentRoom().pokemonsInRoom){
+            int n = p.getIndex();
 
-            Image image = new Image("/pokemon_images/" + n + ".png");
-
+            Image image = new Image(p.getImage());
+            String name = p.getName();
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -617,11 +616,11 @@ public class AdventureGameView {
             Button obj = new Button();
             obj.setGraphic(iv);
             makeButtonAccessible(obj, name, name, name);
-            addObjEvent(obj, o.getName());
+            addObjEvent(obj, name);
             objectsInRoom.getChildren().add(obj);
 
         }
-        ScrollPane scO = new ScrollPane(PokeInRoom);
+        ScrollPane scO = new ScrollPane(pokeInRoom);
         scO.setPadding(new Insets(10));
         scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         scO.setFitToWidth(true);
@@ -640,17 +639,6 @@ public class AdventureGameView {
     /**
      * Helper function: to get pokemon index given the pokemon object
      */
-    private int getPokemonIndex(Pokemon p){
-        Hashmap<Integer, Pokemon> m = pokedex;
-
-        for(Map.Entry<Integer, Pokemon> entry : m.entrySet()){
-            if(entry.getValue().equals(p)){
-                return entry.getKey();
-            }
-        }
-
-    }
-
 
 
 

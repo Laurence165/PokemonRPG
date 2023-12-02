@@ -21,34 +21,15 @@ public class Pokemon extends Labelled implements Cloneable{
 
     HashMap<Integer, Moves> moves;
 
-    public Pokemon(String name, String type, Integer health, Integer energy){ // Hi sorry idk what to do ab this error but Pokemon needs to extend Labelled
-        this.name = name;
+    public Pokemon(String name, String description, String audio_address, String image_address, String type, Integer health, Integer energy, int index){
+        super(name,description,audio_address,image_address,index); // Hi sorry idk what to do ab this error but Pokemon needs to extend Labelled
         this.type = type;
         this.health = health;
         this.max_health = health;
         this.max_energy = energy;
         this.energy = energy;
+        this.moves = new HashMap<>();
     }
-    public static Pokemon readPokemon(String pokemonName, BufferedReader buff) throws IOException{
-        try{
-            Pokemon newPokemon = new Pokemon("a", "b", 100, 100);
-            String str = buff.readLine();
-            List<String> pokeList = Arrays.asList(str.split(","));
-            newPokemon.name = pokeList.get(0);
-            newPokemon.health = Integer.parseInt(pokeList.get(1));
-            newPokemon.energy = Integer.parseInt(pokeList.get(2));
-            newPokemon.type = pokeList.get(3);
-            Moves moves1 = new Moves(pokeList.get(4), Integer.parseInt(pokeList.get(5)), Integer.parseInt(pokeList.get(6)));
-            Moves moves2 = new Moves(pokeList.get(7), Integer.parseInt(pokeList.get(8)), Integer.parseInt(pokeList.get(9)));
-            newPokemon.moves.put(1, moves1);
-            newPokemon.moves.put(2, moves2);
-            return newPokemon;
-        }catch (IOException ex){
-            throw new IOException(ex);
-        }
-    }
-    public String get_name(){return this.name;}
-
     public String get_type(){return this.type;}
 
     public Integer get_health(){return this.health;}
