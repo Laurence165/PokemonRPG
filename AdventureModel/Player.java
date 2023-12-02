@@ -1,4 +1,5 @@
 package AdventureModel;
+package views;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * This class keeps track of the progress
  * of the player in the game.
  */
-public class Player implements Serializable {
+public class Player implements Serializable, BattleColleagueInterface{
     /**
      * The current room that the player is located in.
      */
@@ -152,7 +153,9 @@ public class Player implements Serializable {
         // use p.get_energy() to get energy and compare to each move which is in p.moves()
         // and return the one they choose
 
-        return new Moves("PASS", 0, 0);
+//        String n = AdventureGameView.getMoveEvent();
+//
+//        return new Moves("PASS", 0, 0);
     }
 
     public ArrayList<Pokemon> get_battle_pokemon(){
