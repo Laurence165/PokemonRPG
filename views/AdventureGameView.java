@@ -752,15 +752,15 @@ public class AdventureGameView {
 
     }
     public void textToSpeech(String input) {
-        VoiceManager voiceManager = VoiceManager.getInstance();
-        Voice voice = voiceManager.getVoice("kevin16");
-        if (voice != null) {
-            voice.allocate();
-            voice.speak(input);
-            voice.deallocate();
-        } else {
-            System.out.println("Voice not initialized");
-        }
+        System.setProperty("freetts.voices",
+                "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+         String VOICENAME_kevin = "kevin16";
+         Voice voice;
+         VoiceManager voiceManager = VoiceManager.getInstance();
+         voice = voiceManager.getVoice(VOICENAME_kevin);
+         voice.allocate();
+
+         voice.speak(input);
     }
     /**
      * This method stops articulations 

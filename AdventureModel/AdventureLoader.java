@@ -99,7 +99,7 @@ public class AdventureLoader {
      */
     public void parsePokedex() throws IOException {
 
-        String objectFileName = "group_35/AdventureModel/Pokemon.txt";
+        String objectFileName = "AdventureModel/Pokemon.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
         int i = 0;
         while(buff.ready()){

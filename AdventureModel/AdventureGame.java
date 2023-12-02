@@ -37,7 +37,7 @@ public class AdventureGame implements Serializable {
         this.pokedex = new HashMap<>();
         this.villagers = new HashMap<>();
         this.opponents = new HashMap<>();
-        this.directoryName = "group_35/Games/" + name; //all games files are in the Games directory!
+        this.directoryName = "Games/" + name; //all games files are in the Games directory!
         try {
             setUpGame();
         } catch (IOException e) {
