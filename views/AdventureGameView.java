@@ -341,6 +341,7 @@ public class AdventureGameView {
     private void showCommands() {
         String commands = this.model.player.getCurrentRoom().getCommands();
         formatText(commands);
+        textToSpeech(commands);
     }
 
     public void setBattleScene(Pokemon p, Pokemon o){
@@ -375,6 +376,7 @@ public class AdventureGameView {
         // Insert the displays into the grid
 
         formatText("Your active pokemon: " + p.get_name());
+        textToSpeech("Your active pokemon: " + p.get_name());
         roomDescLabel.setPrefWidth(500);
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
@@ -416,6 +418,7 @@ public class AdventureGameView {
 
         getRoomImage(); //get the image of the current room
         formatText(textToDisplay); //format the text to display
+        textToSpeech(textToDisplay);
         roomDescLabel.setPrefWidth(500);
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
@@ -773,6 +776,10 @@ public class AdventureGameView {
             System.out.println("Voice not initialized");
         }
     }
+
+
+
+
     /**
      * This method stops articulations 
      * (useful when transitioning to a new room or loading a new game)
