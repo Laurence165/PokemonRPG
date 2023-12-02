@@ -9,7 +9,7 @@ import java.util.Objects;
 
 import static java.lang.Math.floor;
 
-public class Battle {
+public class Battle implements BattleMediatorInterface{
 
     // TODO: revisit naming conventions! IDK how to name these... camel case?
     private final Player player1;

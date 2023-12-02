@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * This class keeps track of the progress
  * of the player in the game.
  */
-public class Player implements Serializable {
+public class Player implements Serializable, BattleColleagueInterface{
     /**
      * The current room that the player is located in.
      */

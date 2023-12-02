@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Opponent extends NPC{
+public class Opponent extends NPC implements BattleColleagueInterface{
 
     private ArrayList<Pokemon> pokemons = new ArrayList<>();
     //
