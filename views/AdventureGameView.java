@@ -3,6 +3,8 @@ package views;
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import AdventureModel.Pokemon;
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -40,6 +42,7 @@ import java.util.List;
  * PASSWORD: <PASSWORD HERE>
  */
 public class AdventureGameView {
+    private Voice voice;
 
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
@@ -758,6 +761,17 @@ public class AdventureGameView {
         mediaPlayer.play();
         mediaPlaying = true;
 
+    }
+    public void textToSpeech(String input) {
+        VoiceManager voiceManager = VoiceManager.getInstance();
+        Voice voice = voiceManager.getVoice("kevin16");
+        if (voice != null) {
+            voice.allocate();
+            voice.speak(input);
+            voice.deallocate();
+        } else {
+            System.out.println("Voice not initialized");
+        }
     }
     /**
      * This method stops articulations 
