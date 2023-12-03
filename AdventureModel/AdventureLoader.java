@@ -106,9 +106,9 @@ public class AdventureLoader {
         int i = 0;
         while(buff.ready()){
             i++;
-            Pokemon newPokemon = new Pokemon("a", "","","","",100, 100,i);
             String str = buff.readLine();
             List<String> pokeList = Arrays.asList(str.split(", "));
+            Pokemon newPokemon = new Pokemon(pokeList.get(0), "","","",0,100, i);
             newPokemon.name = pokeList.get(0);
             newPokemon.health = Integer.parseInt(pokeList.get(1));
             newPokemon.energy = Integer.parseInt(pokeList.get(2));
@@ -117,7 +117,7 @@ public class AdventureLoader {
             Moves moves2 = new Moves(pokeList.get(7), Integer.parseInt(pokeList.get(8)), Integer.parseInt(pokeList.get(9)));
             newPokemon.moves.put(1, moves1);
             newPokemon.moves.put(2, moves2);
-            newPokemon.image_address ="AdventureModel/pokemon_images/"+Integer.toString(i)+".png";;
+            newPokemon.image_address ="AdventureModel/pokemon_images/"+Integer.toString(i)+".png";
             this.game.getPokedex().put(i, newPokemon);
         }
     }
@@ -155,7 +155,7 @@ public class AdventureLoader {
                 pokemons.add(clonePokemon(Integer.parseInt(buff.readLine())));
             }
             //TODO Add image address and audio address
-            this.game.getOpponents().put(j, new Opponent(name, description,"","",phrases,pokemons,j));
+            this.game.getOpponents().put(j, new Opponent(name, description,"",phrases,pokemons,j));
             buff.readLine();
         }
 
@@ -188,7 +188,7 @@ public class AdventureLoader {
                 phrases[i] = buff.readLine();
             }
             buff.readLine();
-            Villager v = new Villager(name, description,"","",phrases,givesPokemon, pokemon, location, j);
+            Villager v = new Villager(name, description,"Games/TinyGame/Images/Villager-images/" + j + ".png",phrases,givesPokemon, pokemon, location, j);
             //TODO Add image address and audio address
             location.villagerInRoom = v;
             this.game.getVillagers().put(j, v);

@@ -130,7 +130,7 @@ public class AdventureGame implements Serializable {
             if (chosen == null && entry.getIsBlocked()) {
 
                 Integer oNum = entry.getOpponent();
-                Opponent o = this.opponents.get(oNum);
+                Opponent o = this.opponents.get(oNum-1);
                 ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
                 Battle B = new Battle(this.view, this.player, o, o_pokemon);
                 boolean won = B.battle();

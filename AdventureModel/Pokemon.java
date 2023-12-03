@@ -21,8 +21,8 @@ public class Pokemon extends Labelled implements Cloneable{
 
     HashMap<Integer, Moves> moves;
 
-    public Pokemon(String name, String description, String audio_address, String image_address, String type, Integer health, Integer energy, int index){
-        super(name,description,audio_address,image_address,index); // Hi sorry idk what to do ab this error but Pokemon needs to extend Labelled
+    public Pokemon(String name, String description, String image_address, String type, Integer health, Integer energy, int index){
+        super(name,description,image_address,index);
         this.type = type;
         this.health = health;
         this.max_health = health;

@@ -1,9 +1,6 @@
 package views;
 
-import AdventureModel.AdventureGame;
-import AdventureModel.AdventureObject;
-import AdventureModel.Moves;
-import AdventureModel.Pokemon;
+import AdventureModel.*;
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 import javafx.animation.PauseTransition;
@@ -64,7 +61,11 @@ public class AdventureGameView {
 
     VBox selectedPokemon = new VBox(); //to hold inventory items
 
+    Label objLabel =  new Label();
 
+    Label invLabel =  new Label();
+
+    Label battleLabel =  new Label();
 
     boolean moveListening = false;
 
@@ -73,7 +74,11 @@ public class AdventureGameView {
 
     ImageView opponentPokemonView; // to hold image of opponent pokemon in battle
 
-    Label opponentPokemonLabel;
+    ImageView battleView; // left hand display
+
+    Label opponentPokemonLabel= new Label();
+
+
     TextField inputTextField; //for user input
 
     private MediaPlayer mediaPlayer; //to play audio
@@ -176,12 +181,17 @@ public class AdventureGameView {
         addTextHandlingEvent(); //attach an event to this input field
 
         //labels for inventory and room items
-        Label objLabel =  new Label("Objects in Room");
+//        objLabel.setText("Objects in Room");
         objLabel.setAlignment(Pos.CENTER);
         objLabel.setStyle("-fx-text-fill: white;");
         objLabel.setFont(new Font("Arial", 16));
 
-        Label invLabel =  new Label("Your Inventory");
+        battleLabel.setText("");
+        battleLabel.setAlignment(Pos.CENTER);
+        battleLabel.setStyle("-fx-text-fill: white;");
+        battleLabel.setFont(new Font("Arial", 16));
+
+//        invLabel.setText("Your Inventory");
         invLabel.setAlignment(Pos.CENTER);
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
@@ -311,18 +321,13 @@ public class AdventureGameView {
      * @param text the command that needs to be processed
      */
     private void submitEvent(String text) {
-        //System.out.println("w5");
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
-            System.out.println("PRINT THIS");
-            System.out.println("HERE: " +this.model.getPlayer().getCurrentRoom().getRoomName());
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
             if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
-//            articulateRoomDescription(roomDesc); //all we want, if we are looking, is to repeat description.
-            System.out.println("room Desc HERE:" + roomDesc);
             textToSpeech(roomDesc);
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
@@ -332,8 +337,35 @@ public class AdventureGameView {
             showCommands(); //this is new!  We did not have this command in A1
             return;
         } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) { // TODO: EDIT
-            this.model.getPlayer().getCurrentRoom().villagerInRoom.talk(); //this is new!  We did not have this command in A1
+            Villager speaker = this.model.getPlayer().getCurrentRoom().villagerInRoom;
+            String speech = speaker.talk();
             this.updateItems();
+            this.updateScene(speech);
+            String pImage = speaker.getImage();
+            System.out.println("villager image: " + pImage);
+
+            Image roomImageFile = new Image(pImage);
+            roomImageView = new ImageView(roomImageFile);
+            roomImageView.setPreserveRatio(true);
+            roomImageView.setFitWidth(400);
+            roomImageView.setFitHeight(400);
+
+            //set accessible text
+            roomImageView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
+            roomImageView.setAccessibleText(speaker.getName() + "is talking with you.");
+            roomImageView.setFocusTraversable(true);
+
+//            formatText("Your active pokemon: " + p.getName());
+            roomDescLabel.setPrefWidth(500);
+            roomDescLabel.setPrefHeight(500);
+            roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
+            roomDescLabel.setWrapText(true);
+            VBox roomPane = new VBox(roomImageView,roomDescLabel);
+            roomPane.setPadding(new Insets(10));
+            roomPane.setAlignment(Pos.TOP_CENTER);
+            roomPane.setStyle("-fx-background-color: #000000;");
+
+            gridPane.add(roomPane, 1, 1);
             return;
         }
 
@@ -510,6 +542,15 @@ public class AdventureGameView {
         // Set image views of both Pokémon and set accessibility text:
         String pImage = p.getImage();
 
+        invLabel.setText("Opponent Pokemon:");
+        invLabel.setAlignment(Pos.CENTER);
+        invLabel.setStyle("-fx-text-fill: white;");
+        invLabel.setFont(new Font("Arial", 16));
+
+        objLabel.setText("");
+
+        formatText("Your Pokemon: " + p.getName());
+
         Image roomImageFile = new Image(pImage);
         roomImageView = new ImageView(roomImageFile);
         roomImageView.setPreserveRatio(true);
@@ -518,21 +559,38 @@ public class AdventureGameView {
 
         //set accessible text
         roomImageView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
-        roomImageView.setAccessibleText("Your active Pokemon: " + p.getName());
+        roomImageView.setAccessibleText(p.getName());
         roomImageView.setFocusTraversable(true);
 
         String oImage = o.getImage();
 
         Image oImageFile = new Image(oImage);
-        opponentPokemonView = new ImageView(roomImageFile);
+        opponentPokemonView = new ImageView(oImageFile); //TODO: I CHANGED THIS
         opponentPokemonView.setPreserveRatio(true);
-        opponentPokemonView.setFitWidth(300); //TODO: this probably needs to change
-        opponentPokemonView.setFitHeight(300);
+        opponentPokemonView.setFitWidth(150); //TODO: this probably needs to change
+        opponentPokemonView.setFitHeight(150);
 
         //set accessible text
         opponentPokemonView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
         opponentPokemonView.setAccessibleText("The opponent's active Pokemon: " + o.getName());
         opponentPokemonView.setFocusTraversable(true);
+
+        // ***********
+
+        String battleImage = "AdventureModel/pokemon_images/pokemon_battle.png";
+
+        Image bImageFile = new Image(battleImage);
+        battleView = new ImageView(bImageFile);
+        battleView.setPreserveRatio(true);
+        battleView.setFitWidth(150); //TODO: this probably needs to change
+
+        //set accessible text
+        battleView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
+        battleView.setAccessibleText("BATTLE");
+        battleView.setFocusTraversable(true);
+
+        // ***********
+
 
         // Insert the displays into the grid
 
@@ -545,17 +603,23 @@ public class AdventureGameView {
         roomPane.setPadding(new Insets(10));
         roomPane.setAlignment(Pos.TOP_CENTER);
         roomPane.setStyle("-fx-background-color: #000000;");
-
         gridPane.add(roomPane, 1, 1);
-
         stage.sizeToScene();
+
         formatOppText(o.getName());
         VBox oPane = new VBox(opponentPokemonView,opponentPokemonLabel);
-        oPane.setPadding(new Insets(10));
-        oPane.setAlignment(Pos.TOP_CENTER);
+//        oPane.setPadding(new Insets(10));
+//        oPane.setAlignment(Pos.TOP_CENTER);
         oPane.setStyle("-fx-background-color: #000000;");
 
         gridPane.add(oPane, 2, 1);
+        stage.sizeToScene();
+
+        battleLabel.setText("BATTLE");
+        VBox bPane = new VBox(battleView,battleLabel);
+        bPane.setStyle("-fx-background-color: #000000;");
+
+        gridPane.add(bPane, 0, 1);
         stage.sizeToScene();
 
         //finally, articulate the description TODO: DO I WANT THIS?? HOW TO??
@@ -576,30 +640,22 @@ public class AdventureGameView {
      */
     public void updateScene(String textToDisplay) {
 
-        //System.out.println("a");
-
         getRoomImage(); //get the image of the current room
 
-       // System.out.println("w30");
-
         formatText(textToDisplay); //format the text to display
-      //  System.out.println("AHHHH");
 
-//        textToSpeech(textToDisplay);
+//        textToSpeech(textToDisplay); TODO: wait should we uncomment this what is it for??
         roomDescLabel.setPrefWidth(500);
-      //  System.out.println("AHHHP");
 
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
         roomDescLabel.setWrapText(true);
-       // System.out.println("b");
 
         VBox roomPane = new VBox(roomImageView,roomDescLabel);
         roomPane.setPadding(new Insets(10));
         roomPane.setAlignment(Pos.TOP_CENTER);
         roomPane.setStyle("-fx-background-color: #000000;");
 
-       // System.out.println("e");
 
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
@@ -612,6 +668,8 @@ public class AdventureGameView {
         //System.out.println("d");
         new Thread(() -> {
             if (textToDisplay == null || textToDisplay.isBlank()) {
+                objLabel.setText("Objects in Room");
+                invLabel.setText("Your Inventory");
                 textToSpeech(this.model.getPlayer().getCurrentRoom().getRoomDescription());
             } else {
                 textToSpeech(textToDisplay);
@@ -641,7 +699,7 @@ public class AdventureGameView {
     }
 
     private void formatOppText(String pokemonName) {
-        opponentPokemonLabel.setText("Opponent Pokemon: " + pokemonName);
+        opponentPokemonLabel.setText(pokemonName);
         opponentPokemonLabel.setStyle("-fx-text-fill: white;");
         opponentPokemonLabel.setFont(new Font("Arial", 16));
         opponentPokemonLabel.setAlignment(Pos.CENTER);
