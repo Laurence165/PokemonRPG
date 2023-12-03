@@ -38,6 +38,7 @@ public class AdventureLoader {
         parseSynonyms();
         parseOpponent();
         parsePokemonsInRoom();
+        parseVillager();
         this.game.setHelpText(parseOtherFile("help"));
     }
 
@@ -189,7 +190,7 @@ public class AdventureLoader {
             buff.readLine();
             Villager v = new Villager(name, description,"","",phrases,givesPokemon, pokemon, location, j);
             //TODO Add image address and audio address
-
+            location.villagerInRoom = v;
             this.game.getVillagers().put(j, v);
         }
 
