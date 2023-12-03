@@ -55,5 +55,6 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="javafx-swt1" level="project" />
     <orderEntry type="library" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

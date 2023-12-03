@@ -28,6 +28,9 @@ public class Player implements Serializable, BattleColleagueInterface{
      */
     public ArrayList<Pokemon> playerBattlePokemon;
 
+    //make a copy of the inventory
+    ArrayList<Pokemon> pokemonOptions;
+
     /**
      * Adventure Game Player Constructor
      */
@@ -35,6 +38,7 @@ public class Player implements Serializable, BattleColleagueInterface{
         this.inventory = new ArrayList<AdventureObject>();
         this.currentRoom = currentRoom;
         this.backpack = new ArrayList<>();
+        this.pokemonOptions = new ArrayList<>(this.backpack);
     }
 
 
@@ -93,6 +97,10 @@ public class Player implements Serializable, BattleColleagueInterface{
      */
     public ArrayList<Pokemon> getBackpack(){
         return backpack;
+    }
+
+    public ArrayList<Pokemon> getPokemonOptions(){
+        return this.pokemonOptions;
     }
 
     /**
@@ -166,17 +174,50 @@ public class Player implements Serializable, BattleColleagueInterface{
         return new Moves("PASS", 0, 0);
     }
 
+
+    public void selectPokemon(String s){
+        //logic for no more than 3 pokemons being chosen at a time
+        while(this.playerBattlePokemon.size()<=3) {
+            for (int i = 0; i < this.pokemonOptions.size(); i++) {
+                if (this.pokemonOptions.get(i).getName().equals(s)) {
+                    this.playerBattlePokemon.add(this.pokemonOptions.get(i));
+                    this.pokemonOptions.remove(i);
+                }
+            }
+        }
+
+    }
+
+    public void deselectPokemon(String s){
+
+
+        for(int i = 0; i<this.playerBattlePokemon.size();i++){
+            if(this.playerBattlePokemon.get(i).getName().equals(s)) {
+                this.pokemonOptions.add(this.playerBattlePokemon.get(i));
+                this.playerBattlePokemon.remove(i);
+            }
+        }
+
+    }
+
     public ArrayList<Pokemon> get_battle_pokemon(){
         //TODO: can you implement this?
         // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
         // get the user to choose 3 from backpack and return the three they chose
-        return null;
+       // return null;
 
-        //make a copy of the inventory
-        // show the copy
-        // show empty scroll pane of size 3 on left side
-        // limit choice of 3 in left scroll pane
-        // submit button
+//        playerBattlePokemon.clear();
+//
+//        //make a copy of the inventory
+//        ArrayList<Pokemon> pokemonOptions = new ArrayList<>(this.backpack);
+//
+//        // show the copy
+//        //TODO:In javafx
+//
+//        // show empty scroll pane of size 3 on left side
+//        // limit choice of 3 in left scroll pane
+//        // submit button
+        return playerBattlePokemon;
     }
 
 }

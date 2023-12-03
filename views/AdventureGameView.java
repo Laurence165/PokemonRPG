@@ -818,6 +818,9 @@ public class AdventureGameView {
         });
     }
 
+
+
+
     /**
      * Show scroll panes before entering battle to allow user to select battle pokemon
      */
@@ -837,6 +840,88 @@ public class AdventureGameView {
         scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         gridPane.add(scI,2,1);
     }
+
+
+
+    public void updateSelectionItems() {
+
+        objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
+        objectsInInventory.getChildren().removeAll(objectsInInventory.getChildren());
+
+//        ArrayList<Pokemon>  objRoom = this.model.player.getCurrentRoom().pokemonsInRoom;
+//        ArrayList<Pokemon> objInv = this.model.player.getBackpack();
+
+        ArrayList<Pokemon> pokeWithPlayer = this.model.player.getPokemonOptions();
+        ArrayList<Pokemon> pokeChosen = this.model.player.playerBattlePokemon;
+
+//        objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
+//        objectsInInventory.getChildren().removeAll(objectsInInventory.getChildren());
+
+        //System.out.println(objInv);
+        //right side pane
+        for(Pokemon o: pokeWithPlayer){ // Go through all items in inventory and create button
+            String name = o.getName();
+            //System.out.println("where my pokes at");
+            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
+            //System.out.println("wherreeeee");
+            ImageView iv = new ImageView();
+            iv.setImage(image);
+            iv.setFitWidth(100);
+            iv.setPreserveRatio(true);
+            iv.setSmooth(true);
+            iv.setCache(true);
+            Button obj = new Button();
+            obj.setGraphic(iv);
+            makeButtonAccessible(obj, name, name, name);
+            //addObjEvent(obj, name);
+            objectsInInventory.getChildren().add(obj);
+            obj.setOnAction(event->{
+                if(this.model.getPlayer().getPokemonOptions().contains(o)){
+                    model.getPlayer().selectPokemon(name);
+                    updateSelectionItems();;
+                }
+            });
+        }
+        //System.out.println(objRoom);
+        //left side of the room
+        for(Pokemon o: pokeChosen){// Go through all items in room and create button
+            String name = o.getName();
+            //System.out.println("where my pokes at");
+            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
+            //System.out.println("wheeee2");
+            ImageView iv = new ImageView();
+            iv.setImage(image);
+            iv.setFitWidth(100);
+            iv.setPreserveRatio(true);
+            iv.setSmooth(true);
+            iv.setCache(true);
+            Button obj = new Button();
+            obj.setGraphic(iv);
+            makeButtonAccessible(obj, name, name, name);
+            //addObjEvent(obj, o.getName());
+            objectsInRoom.getChildren().add(obj);
+            obj.setOnAction(event->{
+                if(this.model.getPlayer().playerBattlePokemon.contains(o)){
+                    model.getPlayer().deselectPokemon(name);
+                    updateSelectionItems();;
+                }
+            });
+
+
+        }
+
+        ScrollPane scO = new ScrollPane(objectsInRoom);
+        scO.setPadding(new Insets(10));
+        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        scO.setFitToWidth(true);
+        gridPane.add(scO,0,1);
+
+        ScrollPane scI = new ScrollPane(objectsInInventory);
+        scI.setFitToWidth(true);
+        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        gridPane.add(scI,2,1);
+    }
+
 
 
 
