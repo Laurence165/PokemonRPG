@@ -10,6 +10,8 @@ import static java.lang.Math.floor;
 public class Battle implements BattleMediatorInterface{
 
     // TODO: revisit naming conventions! IDK how to name these... camel case?
+
+    // test 2 khun pls
     private final Player player1;
     private Opponent player2;
 
