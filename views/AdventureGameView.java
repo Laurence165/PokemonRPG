@@ -44,6 +44,8 @@ import java.util.List;
  * PASSWORD: <PASSWORD HERE>
  */
 public class AdventureGameView {
+
+    // THIS IS A TEST
     private Voice voice;
 
     AdventureGame model; //model of the game
