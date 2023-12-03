@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class AdventureGameView {
 
-    // THIS IS A TEST
+    // THIS IS A TEST ANOTHER TEST
     private Voice voice;
 
     AdventureGame model; //model of the game
