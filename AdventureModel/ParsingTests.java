@@ -14,4 +14,12 @@ public class ParsingTests {
         loader.parseVillager();
         assertEquals(game.getVillagers().size(),1);
     }
+
+    @Test
+    void parseRooms() throws IOException {
+        AdventureGame game = new AdventureGame("TinyGame");
+        AdventureLoader loader = new AdventureLoader(game,game.getDirectoryName());
+        loader.parseRooms();
+    }
+
 }

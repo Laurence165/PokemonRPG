@@ -317,9 +317,13 @@ public class AdventureGameView {
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
+            System.out.println("PRINT THIS");
+            System.out.println("HERE: " +this.model.getPlayer().getCurrentRoom().getRoomName());
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
             if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
-            articulateRoomDescription(roomDesc); //all we want, if we are looking, is to repeat description.
+//            articulateRoomDescription(roomDesc); //all we want, if we are looking, is to repeat description.
+            System.out.println("room Desc HERE:" + roomDesc);
+            textToSpeech(roomDesc);
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
             showInstructions();
@@ -496,7 +500,8 @@ public class AdventureGameView {
     private void showCommands() {
         String commands = this.model.player.getCurrentRoom().getCommands();
         formatText(commands);
-//        textToSpeech(commands);
+        System.out.println("Commands HERE:" + commands);
+        textToSpeech(commands);
     }
 
     public void setBattleScene(Pokemon p, Pokemon o){
@@ -601,8 +606,16 @@ public class AdventureGameView {
         //finally, articulate the description
        // System.out.println("c");
 
-        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription(textToDisplay);
+//        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription(textToDisplay);
+//        if (textToDisplay == null || textToDisplay.isBlank()) textToSpeech(this.model.getPlayer().getCurrentRoom().getRoomDescription());
         //System.out.println("d");
+        new Thread(() -> {
+            if (textToDisplay == null || textToDisplay.isBlank()) {
+                textToSpeech(this.model.getPlayer().getCurrentRoom().getRoomDescription());
+            } else {
+                textToSpeech(textToDisplay);
+            }
+        }).start();
 
     }
 
@@ -866,8 +879,7 @@ public class AdventureGameView {
      * This method articulates Room Descriptions
      */
     public void articulateRoomDescription(String input) {
-        //TODO: REPLACE THIS WITH TEXT-TO-SPEECH
-        // the speech should read out the text in INPUT
+
         String musicFile;
         String adventureName = this.model.getDirectoryName();
         String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();

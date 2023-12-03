@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="javafx-swt1">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/javafx-swt" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Downloads/javafx-swt" recursive="false" />
+  </library>
+</component>
