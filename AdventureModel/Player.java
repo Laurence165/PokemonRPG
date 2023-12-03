@@ -161,7 +161,6 @@ public class Player implements Serializable, BattleColleagueInterface{
         // otherwise, display the moves they can choose from THEY MUST HAVE ENOUGH ENERGY which depends on the argument p
         // use p.get_energy() to get energy and compare to each move which is in p.moves()
         // and return the one they choose
-        return null;
 //        String n = AdventureGameView.getMoveEvent();
 //
         return new Moves("PASS", 0, 0);

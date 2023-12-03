@@ -81,7 +81,7 @@ public class AdventureLoader {
                     String[] blockedPath = dest.split("/");
                     String dest_part = blockedPath[0];
                     String object = blockedPath[1];
-                    Passage entry = new Passage(direction, dest_part, object);
+                    Passage entry = new Passage(direction, dest_part, Integer.parseInt(object));
                     room.getMotionTable().addDirection(entry);
                 } else {
                     Passage entry = new Passage(direction, dest);
