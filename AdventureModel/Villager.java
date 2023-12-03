@@ -11,6 +11,7 @@ public class Villager extends NPC{
         super(name, description, image_address, audio_address, phrases, index);
         this.givesPokemon = givesPokemon;
         this.pokemon = pokemonOptional;
+        this.location = location;
     }
 
     public void give_pokemon(){
