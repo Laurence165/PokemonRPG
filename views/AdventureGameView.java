@@ -333,6 +333,7 @@ public class AdventureGameView {
             return;
         } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) { // TODO: EDIT
             this.model.getPlayer().getCurrentRoom().villagerInRoom.talk(); //this is new!  We did not have this command in A1
+            this.updateItems();
             return;
         }
 

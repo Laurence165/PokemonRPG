@@ -15,7 +15,10 @@ public class Villager extends NPC{
     }
 
     public void give_pokemon(){
-        location.addPokemon(this.pokemon);
+        if (this.givesPokemon) {
+            location.addPokemon(this.pokemon);
+            this.givesPokemon = false;
+        }
     }
 }
 
