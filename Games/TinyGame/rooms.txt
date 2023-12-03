@@ -14,7 +14,7 @@ End of road
 You are at the end of a road at the top of a small hill. You can see a small building in the valley to the east.
 -----
 EAST       1
-WEST       3
+WEST       3/1
 DOWN       3
 
 3
@@ -23,12 +23,12 @@ You are inside a building, a well house for a large spring. The exit door is to 
 -----
 SOUTH      1
 WEST       5
-OUT        6/BIRD
+OUT        6/1
 OUT        1
 NORTH     3
-XYZZY     2/BOOK
+XYZZY     2/1
 XYZZY     1
-PLUGH     2/BOOK
+PLUGH     2/1
 PLUGH     1
 
 4
@@ -55,7 +55,7 @@ WEST       6
 Curtain1
 You are passing through a curtain!
 -----
-FORCED    7/BIRD
+FORCED    7/1
 FORCED    9
 
 7

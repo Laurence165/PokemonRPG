@@ -126,29 +126,27 @@ public class AdventureGame implements Serializable {
         Passage chosen = null;
         for (Passage entry : possibilities) {
             System.out.println(entry.getIsBlocked());
-            System.out.println(entry.getKeyName());
 
             if (chosen == null && entry.getIsBlocked()) {
 
-                if (Objects.equals(entry.getKeyName(), "OPPONENT")){ // TODO: maybe this needs to be in adventure view?
-
-                    Opponent o = entry.getOpponent();
-                    ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
-                    Battle B = new Battle(this.view, this.player, o, o_pokemon);
-                    boolean won = B.battle();
-                    if (won){
-                        chosen = entry;
-                        break;
-                    } else {
-                        this.view.updateScene("");
-                        return true; // don't move if they don't win the battle
-                    }
+                Integer oNum = entry.getOpponent();
+                Opponent o = this.opponents.get(oNum);
+                ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
+                Battle B = new Battle(this.view, this.player, o, o_pokemon);
+                boolean won = B.battle();
+                if (won){
+                    chosen = entry;
+                    break; //TODO: possible bug make sure this break means we exit the for loop
+                } else {
+                    this.view.updateScene("");
+                    return true; // don't move if they don't win the battle
                 }
 
-                if (this.player.getInventory().contains(entry.getKeyName())) {
-                    chosen = entry; //we can make it through, given our stuff
-                    break;
-                }
+
+//                if (this.player.getInventory().contains(entry.getKeyName())) {
+//                    chosen = entry; //we can make it through, given our stuff
+//                    break;
+//                }
             } else { chosen = entry; } //the passage is unlocked
         }
 
