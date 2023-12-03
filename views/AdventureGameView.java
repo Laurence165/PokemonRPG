@@ -40,8 +40,6 @@ import java.util.*;
  * PASSWORD: <PASSWORD HERE>
  */
 public class AdventureGameView {
-
-    // THIS IS A TEST ANOTHER TEST
     private Voice voice;
 
     AdventureGame model; //model of the game
@@ -322,7 +320,7 @@ public class AdventureGameView {
      */
     private void submitEvent(String text) {
         text = text.strip(); //get rid of white space
-        stopArticulation(); //if speaking, stop
+        stopSpeaking(); //if speaking, stop
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
@@ -418,7 +416,7 @@ public class AdventureGameView {
      */
     public void getMoveEvent(Pokemon P, AdventureModel.Battle b){
 
-        stopArticulation();
+        stopSpeaking();
 
         this.resume = false;
 
@@ -906,7 +904,7 @@ public class AdventureGameView {
      */
     public void addInstructionEvent() {
         helpButton.setOnAction(e -> {
-            stopArticulation(); //if speaking, stop
+            stopSpeaking(); //if speaking, stop
             showInstructions();
         });
     }
@@ -958,16 +956,19 @@ public class AdventureGameView {
         System.setProperty("freetts.voices",
                 "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
          String VOICENAME_kevin = "kevin16";
-         Voice voice;
          VoiceManager voiceManager = VoiceManager.getInstance();
          voice = voiceManager.getVoice(VOICENAME_kevin);
-        voice.setRate(135);
+         voice.setRate(135);
          voice.allocate();
 
          voice.speak(input);
     }
 
-
+    public void stopSpeaking(){
+        if (this.voice != null){
+            voice.deallocate();
+        }
+    }
 
 
     /**
