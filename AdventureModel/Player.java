@@ -1,5 +1,5 @@
 package AdventureModel;
-package views;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +23,11 @@ public class Player implements Serializable, BattleColleagueInterface{
      * The list of pokemons the player is carrying at the moment.
      */
     public ArrayList<Pokemon> backpack;
+
+    /**
+     * The list of pokemons the player chooses to battle with
+     */
+    public ArrayList<Pokemon> playerBattlePokemon;
 
     /**
      * Adventure Game Player Constructor
@@ -141,6 +146,11 @@ public class Player implements Serializable, BattleColleagueInterface{
         }
     }
 
+    public void playerBattlePokemon(){
+
+
+    }
+
 
 
     public Moves get_move(Pokemon p){
@@ -155,7 +165,7 @@ public class Player implements Serializable, BattleColleagueInterface{
 
 //        String n = AdventureGameView.getMoveEvent();
 //
-//        return new Moves("PASS", 0, 0);
+        return new Moves("PASS", 0, 0);
     }
 
     public ArrayList<Pokemon> get_battle_pokemon(){
@@ -163,6 +173,12 @@ public class Player implements Serializable, BattleColleagueInterface{
         // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
         // get the user to choose 3 from backpack and return the three they chose
         return null;
+
+        //make a copy of the inventory
+        // show the copy
+        // show empty scroll pane of size 3 on left side
+        // limit choice of 3 in left scroll pane
+        // submit button
     }
 
 }
