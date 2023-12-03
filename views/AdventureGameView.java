@@ -30,9 +30,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 /**
  * Class AdventureGameView.
  *
@@ -65,8 +64,7 @@ public class AdventureGameView {
 
     VBox selectedPokemon = new VBox(); //to hold inventory items
 
-    VBox pokeInRoom = new VBox();//to hold pokemons in the room
-    VBox pokeInBackpack = new VBox();//to hold pokemons in inventory
+
 
     boolean moveListening = false;
 
@@ -82,6 +80,8 @@ public class AdventureGameView {
     private boolean mediaPlaying; //to know if the audio is playing
 
     private AdventureModel.Battle battle;
+
+    private ArrayList<AdventureModel.Moves> validMoves;
 
     /**
      * Adventure Game View Constructor
@@ -110,10 +110,10 @@ public class AdventureGameView {
 
 
         // Backpack + room pokemons
-        pokeInRoom.setSpacing(10);
-        pokeInRoom.setAlignment(Pos.TOP_CENTER);
-        pokeInBackpack.setSpacing(10);
-        pokeInBackpack.setAlignment(Pos.TOP_CENTER);
+//        pokeInRoom.setSpacing(10);
+//        pokeInRoom.setAlignment(Pos.TOP_CENTER);
+//        pokeInBackpack.setSpacing(10);
+//        pokeInBackpack.setAlignment(Pos.TOP_CENTER);
 
 
         // GridPane, anyone?
@@ -267,36 +267,39 @@ public class AdventureGameView {
      * graph by invoking requestFocus method.
      */
     private void addTextHandlingEvent() {
+        //TODO: implement for battle
+//        moveListening = true;
         inputTextField.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 String userInput = inputTextField.getText();
-                submitEvent(userInput.strip());
-                inputTextField.clear();
+                //System.out.println("w1");
+                //submitEvent(userInput.strip());
+                if (moveListening){
+                    //System.out.println("w2");
+                    getMoveEvent2(userInput.strip(), () -> {
+                        // Code to execute after getMoveEvent2 completion
+                        // This can be empty or you can perform additional actions
+                    });
+                    inputTextField.clear();
+                } else if (moveListening2){
+                    //System.out.println("w3");
+                    getMoveEvent3(userInput.strip(), () -> {
+                        // Code to execute after getMoveEvent3 completion
+                        // This can be empty or you can perform additional actions
+                    });
+                    inputTextField.clear();
+                } else {
+                    //System.out.println("w4");
+                    submitEvent(userInput.strip());
+                    inputTextField.clear();
+                }
+                //System.out.println("w5");
+                //inputTextField.clear();
             }
-            else if (e.getCode() == KeyCode.TAB) {
-                gridPane.requestFocus();
-            }
-        });
-
-
-
-        //TODO: implement for battle
-//        inputTextField.setOnKeyPressed(e -> {
-//            if (e.getCode() == KeyCode.ENTER) {
-//                String userInput = inputTextField.getText();
-//                if (moveListening){
-//                    getMoveEvent2(userInput.strip());
-//                } else if (moveListening2){
-//                    getMoveEvent3(userInput.strip());
-//                } else {
-//                    submitEvent(userInput.strip());
-//                }
-//                inputTextField.clear();
-//            }
 ////            else if (e.getCode() == KeyCode.TAB) {
 ////                gridPane.requestFocus();
 ////            }
-//        });
+        });
     }
 
 
@@ -308,7 +311,7 @@ public class AdventureGameView {
      * @param text the command that needs to be processed
      */
     private void submitEvent(String text) {
-
+        //System.out.println("w5");
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
@@ -331,12 +334,18 @@ public class AdventureGameView {
 
         //try to move!
         String output = this.model.interpretAction(text); //process the command!
+        //System.out.println("output: "+output);
+        //System.out.println("w6");
 
         if (output == null || (!output.equals("GAME OVER") && !output.equals("FORCED") && !output.equals("HELP"))) {
+            System.out.println("w20");
             updateScene(output);
+            System.out.println("w30");
             updateItems();
+            //System.out.println("w11");
         } else if (output.equals("GAME OVER")) {
             updateScene("");
+            System.out.println("ini2");
             updateItems();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
@@ -344,96 +353,128 @@ public class AdventureGameView {
             });
             pause.play();
         } else if (output.equals("FORCED")) {
+           // System.out.println("w10");
+
             updateScene("");
-            inputTextField.setDisable(true);
+            System.out.println("ini2");
             updateItems();
+            inputTextField.setDisable(true);
+
             PauseTransition pause = new PauseTransition(Duration.seconds(5)); // Pause for five seconds
             pause.setOnFinished(event -> {
                 inputTextField.setDisable(false);
                 submitEvent("FORCED"); // Call function again to enter forced room
             });
             pause.play();
+            System.out.println("w8");
+
         }
+
+        System.out.println("w7");
+
     }
 
 
-    //TODO: UNCOMMENT THESE METHODS FOR BATTLE
+
     /**
      * Get the event from textfield
      */
-//    public void getMoveEvent(Pokemon P, AdventureModel.Battle b){
-//
-//        stopArticulation();
-//
-//        this.resume = false;
-//
-//
-//        this.battlePokemon = P;
-//
-//        this.battle = b;
-//
-//        // Since we only have one inputTextField event listener, we'll handle conditional inputs in an if/then
-//        this.moveListening = true;
-//
-//        // Format text will display text to prompt the user
-//        formatText("It is your turn to move in the battle. Would you like to move or pass? Type MOVE to move and type PASS to pass.");
-//
-//        //do the getMoveEvent2 stuff
-//        getMoveEvent2("MoveOrPass",()->{
-//            //No additional logic here, leaving it empty
-//            // Continue with the rest of your logic in getMoveEvent
-//            // ...
-//
-//        });
-//
-//
-//
-//    }
-//
-//    interface Callback{
-//        void execute();
-//}
-//
-//    private void getMoveEvent2(String text, Callback callback){
-//
-//        if(text.equalsIgnoreCase("PASS")){
-//            this.battle.returnedMove = new AdventureModel.Moves("PASS", 0, 0);
-//            this.moveListening = false;
-//            callback.execute();
-//
-//            return;
-//        }
-//        else if(text.equalsIgnoreCase("MOVE")){
-//            this.moveListening = false;
-//            Integer energy = this.battlePokemon.get_energy(); // TODO: get_energy()
-//            HashMap<Integer, Moves> moves = this.battlePokemon.get_moves();
-//            String Out = "Which move would you like to use? ";
-//            boolean empty = true;
-//            for (AdventureModel.Moves m: moves){
-//                if (m.get_energy() <= energy){
-//                    empty = false;
-//                    Out.append(m.get_description());
-//                }
-//            }
-//            if (empty){
-//                Out.append("You do not have enough energy to make any moves.");
-//                //TODO: PAUSE FOR 2 SECONDS
-//                this.battle.returnedMove = new AdventureModel.Moves("PASS", 0, 0);
-//
-//                callback.execute();
-//                return;
-//
-//            }
-//
-//            formatText(Out);
-//
-//            this.moveListening2 = true;
-//        } else {
-//            formatText("Invalid command. Please enter a valid command.");
-//            callback.execute();
-//        }
-//
-//    }
+    public void getMoveEvent(Pokemon P, AdventureModel.Battle b){
+
+        stopArticulation();
+
+        this.resume = false;
+
+
+        this.battlePokemon = P;
+
+        this.battle = b;
+
+        // Since we only have one inputTextField event listener, we'll handle conditional inputs in an if/then
+        this.moveListening = true;
+
+        // Format text will display text to prompt the user
+        formatText("It is your turn to move in the battle. Would you like to move or pass? Type MOVE to move and type PASS to pass.");
+
+        //do the getMoveEvent2 stuff
+        getMoveEvent2("MoveOrPass",()->{
+            //No additional logic here, leaving it empty
+            // Continue with the rest of your logic in getMoveEvent
+            // ...
+
+        });
+
+
+
+    }
+
+    interface Callback{
+        void execute();
+}
+
+    private void getMoveEvent2(String text, Callback callback){
+
+        if(text.equalsIgnoreCase("PASS")){
+            this.battle.returnedMove = new AdventureModel.Moves("PASS", 0, 0);
+            this.moveListening = false;
+            callback.execute();
+
+            return;
+        }
+        else if(text.equalsIgnoreCase("MOVE")){
+            this.moveListening = false;
+            this.validMoves.clear();
+            Integer energy = this.battlePokemon.get_energy(); // TODO: get_energy()
+            HashMap<Integer, Moves> moves = this.battlePokemon.get_moves();
+            StringBuilder Out = new StringBuilder();
+            Out.append("Which move would you like to use? ");
+            boolean empty = true;
+            for (Map.Entry<Integer, Moves> m : moves.entrySet()){
+                if (m.getValue().get_energy() <= energy){
+                    empty = false;
+                    Out.append(m.getValue().get_description());
+                    this.validMoves.add(m.getValue());
+                }
+            }
+            if (empty){
+                Out.append("You do not have enough energy to make any moves.");
+                //TODO: PAUSE FOR 2 SECONDS
+                this.battle.returnedMove = new AdventureModel.Moves("PASS", 0, 0);
+
+                callback.execute();
+                return;
+
+            }
+
+            formatText(String.valueOf(Out));
+
+            this.moveListening2 = true;
+        } else {
+            formatText("Invalid command. Please enter a valid command.");
+            callback.execute();
+        }
+
+    }
+
+
+    private void getMoveEvent3(String text, Callback callback){
+        boolean valid = false;
+        Moves chosen = null;
+        for (Moves c : this.validMoves){
+            if (Objects.equals(text, c)){
+                valid = true;
+                chosen = c;
+            }
+        }
+        if (valid){
+            this.battle.returnedMove = chosen;
+            this.moveListening2 = false;
+            this.moveListening = false;
+        }else {
+            return;
+        }
+    }
+
 
     public void pause(){
         PauseTransition pause = new PauseTransition(Duration.seconds(4));
@@ -455,7 +496,7 @@ public class AdventureGameView {
     private void showCommands() {
         String commands = this.model.player.getCurrentRoom().getCommands();
         formatText(commands);
-        textToSpeech(commands);
+//        textToSpeech(commands);
     }
 
     public void setBattleScene(Pokemon p, Pokemon o){
@@ -529,23 +570,40 @@ public class AdventureGameView {
      */
     public void updateScene(String textToDisplay) {
 
+        //System.out.println("a");
+
         getRoomImage(); //get the image of the current room
+
+       // System.out.println("w30");
+
         formatText(textToDisplay); //format the text to display
-        textToSpeech(textToDisplay);
+      //  System.out.println("AHHHH");
+
+//        textToSpeech(textToDisplay);
         roomDescLabel.setPrefWidth(500);
+      //  System.out.println("AHHHP");
+
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
         roomDescLabel.setWrapText(true);
+       // System.out.println("b");
+
         VBox roomPane = new VBox(roomImageView,roomDescLabel);
         roomPane.setPadding(new Insets(10));
         roomPane.setAlignment(Pos.TOP_CENTER);
         roomPane.setStyle("-fx-background-color: #000000;");
 
+       // System.out.println("e");
+
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
 
         //finally, articulate the description
+       // System.out.println("c");
+
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription(textToDisplay);
+        //System.out.println("d");
+
     }
 
     /**
@@ -613,15 +671,19 @@ public class AdventureGameView {
      * folders of the given adventure game.
      */
     public void updateItems() {
+        System.out.println("in updateItems");
         ArrayList<Pokemon>  objRoom = this.model.player.getCurrentRoom().pokemonsInRoom;
         ArrayList<Pokemon> objInv = this.model.player.getBackpack();
 
         objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
         objectsInInventory.getChildren().removeAll(objectsInInventory.getChildren());
 
+        System.out.println(objInv);
         for(Pokemon o: objInv){ // Go through all items in inventory and create button
             String name = o.getName();
+            System.out.println("where my pokes at");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
+            System.out.println("wherreeeee");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -634,10 +696,12 @@ public class AdventureGameView {
             addObjEvent(obj, name);
             objectsInInventory.getChildren().add(obj);
         }
-
+        System.out.println(objRoom);
         for(Pokemon o: objRoom){// Go through all items in room and create button
             String name = o.getName();
+            System.out.println("where my pokes at");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
+            System.out.println("wheeee2");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);

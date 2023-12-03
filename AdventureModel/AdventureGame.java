@@ -171,6 +171,7 @@ public class AdventureGame implements Serializable {
         PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
 
         if (motionTable.optionExists(inputArray[0])) {
+            System.out.println("q1");
             if (!movePlayer(inputArray[0])) {
                 if (this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDestinationRoom() == 0)
                     return "GAME OVER";

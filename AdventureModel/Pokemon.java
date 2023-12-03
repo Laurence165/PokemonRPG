@@ -56,6 +56,8 @@ public class Pokemon extends Labelled implements Cloneable{
         return this.moves;
     }
 
+    public Integer get_energy(){return this.energy;}
+
     @Override
     public Pokemon clone() throws CloneNotSupportedException{
         return (Pokemon) super.clone();

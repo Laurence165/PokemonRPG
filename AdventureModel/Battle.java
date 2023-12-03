@@ -116,9 +116,7 @@ public class Battle implements BattleMediatorInterface{
 
         while(true){
             if (turn == 1){
-                //TODO: uncomment
-
-                //this.view.getMoveEvent(this.currentPokemon1, this);
+                this.view.getMoveEvent(this.currentPokemon1, this);
                 Moves m = this.returnedMove;
                 this.view.formatText(m.use_move(currentPokemon1));
                 if (m.get_points() > 0){
