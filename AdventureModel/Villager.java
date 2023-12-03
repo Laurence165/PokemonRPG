@@ -1,7 +1,7 @@
 package AdventureModel;
 
 public class Villager extends NPC{
-
+    //hello
     private boolean givesPokemon;
     private AdventureGame adventureGame;
 
