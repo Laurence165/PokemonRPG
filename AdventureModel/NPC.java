@@ -16,6 +16,11 @@ public class NPC extends Labelled{
     //prints out the next phrase
     public String talk()
     {
+
+
+        String out = phrases[phrase_count];
+        phrase_count++;
+        System.out.println(out);
         //If there is a next phrase, print it otherwise start from the first phrase again
         if (phrase_count == phrases.length){
             phrase_count = 0;
@@ -23,9 +28,6 @@ public class NPC extends Labelled{
                 ((Villager) this).give_pokemon();
             }
         }
-
-        String out = phrases[phrase_count];
-        phrase_count++;
         return out;
 
     }
