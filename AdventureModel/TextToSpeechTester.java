@@ -19,6 +19,6 @@ public class TextToSpeechTester {
     public static void main(String []args) {
         System.setProperty("freetts.voices",
                 "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-        new TextToSpeechTester("hello world 100");
+        new TextToSpeechTester("You are standing at the end of a road before a small brick building.  A small stream flows out of the building and down a gully to the south.  A road runs up a small hill to the west. You are standing at the end of a road before a small brick building. \n  A small stream flows out of the building and down a gully to the south.  A road runs up a small hill to the west.");
     }
 }

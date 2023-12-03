@@ -44,10 +44,10 @@ public class AdventureLoader {
      /**
      * Parse Rooms File
      */
-    private void parseRooms() throws IOException {
+    public void parseRooms() throws IOException {
         int roomNumber;
 
-        String roomFileName = this.adventureName + "/rooms.txt";
+        String roomFileName = this.adventureName + "/pokeroom.txt";
         //fuck this
         BufferedReader buff = new BufferedReader(new FileReader(roomFileName));
 
