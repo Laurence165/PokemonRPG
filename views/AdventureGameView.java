@@ -657,7 +657,7 @@ public class AdventureGameView {
     private void getRoomImage() {
 
         int roomNumber = this.model.getPlayer().getCurrentRoom().getRoomNumber();
-        String roomImage = "Games/TinyGame/Images/Room-images/" + roomNumber + ".png";
+        String roomImage = "Games/TinyGame/Images/PokeroomPic/" + roomNumber + ".jpeg";
 
         Image roomImageFile = new Image(roomImage);
         roomImageView = new ImageView(roomImageFile);
@@ -903,6 +903,7 @@ public class AdventureGameView {
          Voice voice;
          VoiceManager voiceManager = VoiceManager.getInstance();
          voice = voiceManager.getVoice(VOICENAME_kevin);
+        voice.setRate(135);
          voice.allocate();
 
          voice.speak(input);
