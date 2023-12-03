@@ -44,11 +44,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="javafx-swt" level="project" />
-<<<<<<< HEAD
-    <orderEntry type="module-library">
-=======
     <orderEntry type="module-library" exported="">
->>>>>>> 64b889c ([DEV-4] Battle Bug Fixes)
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
@@ -58,9 +54,5 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-<<<<<<< HEAD
->>>>>>> assignment2.iml
-=======
->>>>>>> 64b889c ([DEV-4] Battle Bug Fixes)
   </component>
 </module>

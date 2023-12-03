@@ -37,6 +37,7 @@ public class AdventureLoader {
         parsePokedex();
         parseSynonyms();
         parseOpponent();
+        parsePokemonsInRoom();
         this.game.setHelpText(parseOtherFile("help"));
     }
 
@@ -205,7 +206,7 @@ public class AdventureLoader {
         while(buff.ready()){
             String line = buff.readLine();
             String[] s = line.split(",");
-            this.game.getRooms().get(s[1]).addPokemon(clonePokemon(Integer.parseInt(s[0])));
+            this.game.getRooms().get(Integer.parseInt(s[1])).addPokemon(clonePokemon(Integer.parseInt(s[0])));
         }
     }
     public Pokemon clonePokemon(int i) {
