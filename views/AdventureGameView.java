@@ -197,7 +197,6 @@ public class AdventureGameView {
 
         updateScene(""); //method displays an image and whatever text is supplied
         updateItems(); //update items shows inventory and objects in rooms
-        updatePokemons();;//updates the pokemons being shown
 
 
         // adding the text area and submit button to a VBox
@@ -336,11 +335,9 @@ public class AdventureGameView {
         if (output == null || (!output.equals("GAME OVER") && !output.equals("FORCED") && !output.equals("HELP"))) {
             updateScene(output);
             updateItems();
-            updatePokemons();
         } else if (output.equals("GAME OVER")) {
             updateScene("");
             updateItems();
-            updatePokemons();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
                 Platform.exit();
@@ -350,7 +347,6 @@ public class AdventureGameView {
             updateScene("");
             inputTextField.setDisable(true);
             updateItems();
-            updatePokemons();
             PauseTransition pause = new PauseTransition(Duration.seconds(5)); // Pause for five seconds
             pause.setOnFinished(event -> {
                 inputTextField.setDisable(false);
@@ -618,13 +614,14 @@ public class AdventureGameView {
      */
     public void updateItems() {
         ArrayList<Pokemon>  objRoom = this.model.player.getCurrentRoom().pokemonsInRoom;
-        ArrayList<String> objInv = this.model.player.getInventory();
+        ArrayList<Pokemon> objInv = this.model.player.getBackpack();
 
         objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
         objectsInInventory.getChildren().removeAll(objectsInInventory.getChildren());
 
-        for(String o: objInv){ // Go through all items in inventory and create button
-            Image image = new Image(this.model.getDirectoryName() + "/objectImages/" + o + ".jpg");
+        for(Pokemon o: objInv){ // Go through all items in inventory and create button
+            String name = o.getName();
+            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -633,14 +630,14 @@ public class AdventureGameView {
             iv.setCache(true);
             Button obj = new Button();
             obj.setGraphic(iv);
-            makeButtonAccessible(obj, o, o, o);
-            addObjEvent(obj, o);
+            makeButtonAccessible(obj, name, name, name);
+            addObjEvent(obj, name);
             objectsInInventory.getChildren().add(obj);
         }
 
         for(Pokemon o: objRoom){// Go through all items in room and create button
             String name = o.getName();
-            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()));
+            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -707,72 +704,7 @@ public class AdventureGameView {
         gridPane.add(scI,2,1);
     }
 
-    /**
-     * Update the pokemons in the game
-     */
-    public void updatePokemons(){
-        ArrayList<Pokemon> PokeList = this.model.player.getCurrentRoom().pokemonsInRoom;
-        ArrayList<Pokemon> PokeBackpack = this.model.player.getBackpack();
 
-        pokeInRoom.getChildren().removeAll(pokeInRoom.getChildren());
-        pokeInBackpack.getChildren().removeAll(pokeInBackpack.getChildren());
-
-        for(Pokemon p:PokeBackpack){
-            int n = p.getIndex();
-            Image image = new Image(p.getImage());
-
-            String name = p.getName();
-            ImageView iv = new ImageView();
-            iv.setImage(image);
-            iv.setFitWidth(100);
-            iv.setPreserveRatio(true);
-            iv.setSmooth(true);
-            iv.setCache(true);
-            Button obj = new Button();
-            obj.setGraphic(iv);
-            makeButtonAccessible(obj,name,name,name);
-            addObjEvent(obj, name);
-            pokeInBackpack.getChildren().add(obj);
-
-        }
-
-        for(Pokemon p: this.model.player.getCurrentRoom().pokemonsInRoom){
-            int n = p.getIndex();
-
-            Image image = new Image(p.getImage());
-            String name = p.getName();
-            ImageView iv = new ImageView();
-            iv.setImage(image);
-            iv.setFitWidth(100);
-            iv.setPreserveRatio(true);
-            iv.setSmooth(true);
-            iv.setCache(true);
-            Button obj = new Button();
-            obj.setGraphic(iv);
-            makeButtonAccessible(obj, name, name, name);
-            addObjEvent(obj, name);
-            objectsInRoom.getChildren().add(obj);
-
-        }
-        ScrollPane scO = new ScrollPane(pokeInRoom);
-        scO.setPadding(new Insets(10));
-        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        scO.setFitToWidth(true);
-        gridPane.add(scO,0,1);
-
-        ScrollPane scI = new ScrollPane(pokeInBackpack);
-        scI.setFitToWidth(true);
-        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        gridPane.add(scI,2,1);
-
-
-
-    }
-
-
-    /**
-     * Helper function: to get pokemon index given the pokemon object
-     */
 
 
 
