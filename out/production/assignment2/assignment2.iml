@@ -43,7 +43,6 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="javafx-swt" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -54,6 +53,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="javafx-swt1" level="project" />
+    <orderEntry type="library" exported="" name="javafx-swt1" level="project" />
+    <orderEntry type="library" name="javafx-swt" level="project" />
   </component>
 </module>

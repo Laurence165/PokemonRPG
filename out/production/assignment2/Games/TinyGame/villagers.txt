@@ -4,7 +4,7 @@ Professor Oak
 Professor Samuel Oak is a Pokémon researcher who was once a competitive Trainer, and is generally considered to be the best in his field of research.
 1
 true
-1
+9
 6
 Hello there! Welcome to the world of Pokémon! My name is Oak! People call me the Pokémon Prof!
 This world is inhabited by creatures called Pokémon!

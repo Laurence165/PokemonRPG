@@ -10,8 +10,8 @@ public class Opponent extends NPC implements BattleColleagueInterface{
 
     private ArrayList<Pokemon> pokemons = new ArrayList<>();
     //
-    public Opponent(String name, String description, String image_address, String audio_address, String[] phrases, ArrayList<Pokemon> pokemons, int index) {
-        super(name, description, image_address, audio_address, phrases, index);
+    public Opponent(String name, String description, String image_address, String[] phrases, ArrayList<Pokemon> pokemons, int index) {
+        super(name, description, image_address, phrases, index);
         this.pokemons = pokemons;
     }
 
