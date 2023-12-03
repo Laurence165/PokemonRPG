@@ -44,7 +44,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="javafx-swt" level="project" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
@@ -54,6 +54,5 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
->>>>>>> assignment2.iml
   </component>
 </module>

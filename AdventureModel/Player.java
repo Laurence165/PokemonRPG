@@ -116,7 +116,7 @@ public class Player implements Serializable, BattleColleagueInterface{
      * the room and returns true. If the Pokemon is not present in the room, the method
      * returns false.
      *
-     * @param pokemon name of the pokemon to pick up
+     * @param Pokemon name of the pokemon to pick up
      * @return true if picked up, false otherwise
      */
     public boolean capturePokemon(String Pokemon){
@@ -161,7 +161,7 @@ public class Player implements Serializable, BattleColleagueInterface{
         // otherwise, display the moves they can choose from THEY MUST HAVE ENOUGH ENERGY which depends on the argument p
         // use p.get_energy() to get energy and compare to each move which is in p.moves()
         // and return the one they choose
-
+        return null;
 //        String n = AdventureGameView.getMoveEvent();
 //
         return new Moves("PASS", 0, 0);

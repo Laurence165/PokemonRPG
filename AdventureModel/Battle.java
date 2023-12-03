@@ -1,7 +1,5 @@
 package AdventureModel;
 
-//>>>>>>> 93b3514e749c3f635fd06ddfef9a7245d974ae1c
-
 import views.AdventureGameView;
 
 import java.util.ArrayList;
