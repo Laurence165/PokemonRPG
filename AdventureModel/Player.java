@@ -119,7 +119,7 @@ public class Player implements Serializable, BattleColleagueInterface{
      */
     public boolean checkIfPokemonInBackpack(String s) {
         for(int i = 0; i<this.backpack.size();i++){
-            if(this.backpack.get(i).getName().equals(s)) return true;
+            if(this.backpack.get(i).getName().equalsIgnoreCase(s)) return true;
         }
         return false;
     }
@@ -152,7 +152,7 @@ public class Player implements Serializable, BattleColleagueInterface{
      */
     public void releasePokemon(String s) {
         for(int i = 0; i<this.backpack.size();i++){
-            if(this.backpack.get(i).getName().equals(s)) {
+            if(this.backpack.get(i).getName().equalsIgnoreCase(s)) {
                 this.currentRoom.addPokemon(this.backpack.get(i));
                 this.backpack.remove(i);
             }
@@ -184,7 +184,7 @@ public class Player implements Serializable, BattleColleagueInterface{
     public void selectPokemon(String s){
         //logic for no more than 3 pokemons being chosen at a time
         for (int i = 0; i < this.pokemonOptions.size(); i++) {
-            if (this.pokemonOptions.get(i).getName().equals(s)) {
+            if (this.pokemonOptions.get(i).getName().equalsIgnoreCase(s)) {
                 this.playerBattlePokemon.add(this.pokemonOptions.get(i));
                 this.pokemonOptions.remove(i);
             }
@@ -196,7 +196,7 @@ public class Player implements Serializable, BattleColleagueInterface{
 
 
         for(int i = 0; i<this.playerBattlePokemon.size();i++){
-            if(this.playerBattlePokemon.get(i).getName().equals(s)) {
+            if(this.playerBattlePokemon.get(i).getName().equalsIgnoreCase(s)) {
                 this.pokemonOptions.add(this.playerBattlePokemon.get(i));
                 this.playerBattlePokemon.remove(i);
             }

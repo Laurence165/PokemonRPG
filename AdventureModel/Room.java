@@ -81,15 +81,16 @@ public class Room implements Serializable {
     public String getObjectString() {
         String s = "";
         if (this.pokemonsInRoom.size() == 0 && this.villagerInRoom == null){ return s; }
-
+        s += "\nWild Pokemons:\n";
         for (Pokemon o: this.pokemonsInRoom){
             s += (o.getName()+", ");
-            //replace this!
         }
+        s = s.substring(0,s.length()-2);
         if (this.villagerInRoom!=null){
-            s+= this.villagerInRoom.getName();
+
+            s += "\nVillagers:\n" + this.villagerInRoom.getName();
         }
-        return s.substring(0,s.length()-2);
+        return s;
     }
 
     public String getCommands() {
@@ -169,7 +170,7 @@ public class Room implements Serializable {
      */
     public Pokemon getPokemon(String objectName){
         for(int i = 0; i<pokemonsInRoom.size();i++){
-            if(this.pokemonsInRoom.get(i).getName().equals(objectName)) return this.pokemonsInRoom.get(i);
+            if(this.pokemonsInRoom.get(i).getName().equalsIgnoreCase(objectName)) return this.pokemonsInRoom.get(i);
         }
         return null;
     }
@@ -248,7 +249,7 @@ public class Room implements Serializable {
      */
     public boolean checkIfPokemonInRoom(String pokemonName){
         for(int i = 0; i<pokemonsInRoom.size();i++){
-            if(this.pokemonsInRoom.get(i).getName().equals(pokemonName)) return true;
+            if(this.pokemonsInRoom.get(i).getName().equalsIgnoreCase(pokemonName)) return true;
         }
         return false;
     }
