@@ -276,7 +276,9 @@ public class AdventureGame implements Serializable {
     }
 
     public void setView (AdventureGameView v){
+
         this.view = v;
+        this.player.set_view(v);
     }
 
 

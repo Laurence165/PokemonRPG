@@ -580,7 +580,7 @@ public class AdventureGameView {
         Image bImageFile = new Image(battleImage);
         battleView = new ImageView(bImageFile);
         battleView.setPreserveRatio(true);
-        battleView.setFitWidth(150); //TODO: this probably needs to change
+        battleView.setFitWidth(250); //TODO: this probably needs to change
 
         //set accessible text
         battleView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
@@ -751,9 +751,7 @@ public class AdventureGameView {
         System.out.println(objInv);
         for(Pokemon o: objInv){ // Go through all items in inventory and create button
             String name = o.getName();
-            System.out.println("where my pokes at");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
-            System.out.println("wherreeeee");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -766,7 +764,6 @@ public class AdventureGameView {
             addObjEvent(obj, name);
             objectsInInventory.getChildren().add(obj);
         }
-        System.out.println(objRoom);
         for(Pokemon o: objRoom){// Go through all items in room and create button
             String name = o.getName();
             System.out.println("where my pokes at");
@@ -852,6 +849,8 @@ public class AdventureGameView {
 //        ArrayList<Pokemon> objInv = this.model.player.getBackpack();
 
         ArrayList<Pokemon> pokeWithPlayer = this.model.player.getPokemonOptions();
+        System.out.println("pokewithplayer" + pokeWithPlayer);
+
         ArrayList<Pokemon> pokeChosen = this.model.player.playerBattlePokemon;
 
 //        objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
@@ -861,9 +860,7 @@ public class AdventureGameView {
         //right side pane
         for(Pokemon o: pokeWithPlayer){ // Go through all items in inventory and create button
             String name = o.getName();
-            //System.out.println("where my pokes at");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
-            //System.out.println("wherreeeee");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -882,7 +879,6 @@ public class AdventureGameView {
                 }
             });
         }
-        //System.out.println(objRoom);
         //left side of the room
         for(Pokemon o: pokeChosen){// Go through all items in room and create button
             String name = o.getName();
@@ -906,8 +902,6 @@ public class AdventureGameView {
                     updateSelectionItems();;
                 }
             });
-
-
         }
 
         ScrollPane scO = new ScrollPane(objectsInRoom);

@@ -107,8 +107,8 @@ public class Battle implements BattleMediatorInterface{
 
     public boolean battle(){
 
-//        this.player1Pokemon = this.player1.get_battle_pokemon(); TODO: uncomment when we have implemented method
-        this.player1Pokemon = this.player2Pokemon;
+        this.player1Pokemon = this.player1.get_battle_pokemon();
+//        this.player1Pokemon = this.player2Pokemon;
         this.currentPokemon1 = this.player1Pokemon.get(0);
 
         this.view.setBattleScene(currentPokemon1, currentPokemon2);
