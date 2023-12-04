@@ -1,5 +1,7 @@
 package AdventureModel;
 
+import views.AdventureGameView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ public class Player implements Serializable, BattleColleagueInterface{
      */
     private Room currentRoom;
 
+    private AdventureGameView view;
     /**
      * The list of items that the player is carrying at the moment.
      */
@@ -26,7 +29,7 @@ public class Player implements Serializable, BattleColleagueInterface{
     /**
      * The list of pokemons the player chooses to battle with
      */
-    public ArrayList<Pokemon> playerBattlePokemon;
+    public ArrayList<Pokemon> playerBattlePokemon = new ArrayList<>();
 
     //make a copy of the inventory
     ArrayList<Pokemon> pokemonOptions;
@@ -41,6 +44,9 @@ public class Player implements Serializable, BattleColleagueInterface{
         this.pokemonOptions = new ArrayList<>(this.backpack);
     }
 
+    public void set_view(AdventureGameView v){
+        this.view = v;
+    }
 
     /**
      * Setter method for the current room attribute.
@@ -177,12 +183,10 @@ public class Player implements Serializable, BattleColleagueInterface{
 
     public void selectPokemon(String s){
         //logic for no more than 3 pokemons being chosen at a time
-        while(this.playerBattlePokemon.size()<=3) {
-            for (int i = 0; i < this.pokemonOptions.size(); i++) {
-                if (this.pokemonOptions.get(i).getName().equals(s)) {
-                    this.playerBattlePokemon.add(this.pokemonOptions.get(i));
-                    this.pokemonOptions.remove(i);
-                }
+        for (int i = 0; i < this.pokemonOptions.size(); i++) {
+            if (this.pokemonOptions.get(i).getName().equals(s)) {
+                this.playerBattlePokemon.add(this.pokemonOptions.get(i));
+                this.pokemonOptions.remove(i);
             }
         }
 
@@ -217,7 +221,7 @@ public class Player implements Serializable, BattleColleagueInterface{
 //        // show empty scroll pane of size 3 on left side
 //        // limit choice of 3 in left scroll pane
 //        // submit button
+        this.view.updateSelectionItems();
         return playerBattlePokemon;
     }
-
 }
