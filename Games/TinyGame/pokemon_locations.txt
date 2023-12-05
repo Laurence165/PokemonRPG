@@ -2,5 +2,6 @@ Pokemon Index, Room Number
 
 1,2
 1,1
+29,1
 2,3
 6,8

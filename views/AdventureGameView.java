@@ -88,6 +88,9 @@ public class AdventureGameView {
     private ArrayList<AdventureModel.Moves> validMoves = new ArrayList<>();
 
     private boolean isHighContrast = false;
+    private int numSelectedPokemon = 0;
+
+    public ArrayList<Pokemon> arraySelectedPokemon = new ArrayList<>();
 
     /**
      * Adventure Game View Constructor
@@ -632,7 +635,7 @@ public class AdventureGameView {
         Image bImageFile = new Image(battleImage);
         battleView = new ImageView(bImageFile);
         battleView.setPreserveRatio(true);
-        battleView.setFitWidth(250); //TODO: this probably needs to change
+        battleView.setFitWidth(200); //TODO: this probably needs to change
 
         //set accessible text
         battleView.setAccessibleRole(AccessibleRole.IMAGE_VIEW);
@@ -715,8 +718,8 @@ public class AdventureGameView {
 
         new Thread(() -> {
             if (textToDisplay == null || textToDisplay.isBlank()) {
-//                objLabel.setText("Objects in Room");
-//                invLabel.setText("Your Inventory");
+                objLabel.setText("Objects in Room");
+                invLabel.setText("Your Inventory");
                 textToSpeech(this.model.getPlayer().getCurrentRoom().getRoomDescription());
             } else {
                 textToSpeech(textToDisplay);
@@ -864,42 +867,57 @@ public class AdventureGameView {
         });
     }
 
+    public void addObjEvent2(Button o, String objectName, Pokemon p) { // Add event to object button
+        o.setOnAction(e -> {
+            ObservableList<Node> oir = selectedPokemon.getChildren();
+            boolean inRoom = false;
+            for(Node c:oir){
+                if (c==o){
+                    oir.remove(o); // Move from Selected to Inventory
+                    System.out.println("move from selected to inv");
+
+                    objectsInInventoryCopy.getChildren().add(o);
+                    this.arraySelectedPokemon.remove(p);
+                    inRoom = true;
+                    this.numSelectedPokemon -= 1;
+                    break; //Take object
+                }
+            }
+            if (!inRoom){
+                    System.out.println("move from inv to selected");
+                    oir.add(o); //Move from Inventory to Selected
+                    this.arraySelectedPokemon.add(p);
+                    objectsInInventoryCopy.getChildren().remove(o);
+                    this.numSelectedPokemon += 1;
+                    if(this.numSelectedPokemon >= 3){
+                        this.battle.battleInit2();
+                    }
+                }
+        });
+    }
+
 
     /**
      * Show scroll panes before entering battle to allow user to select battle pokemon
      */
 
-    public void selectPokemon(){
-        objectsInInventoryCopy = objectsInInventory;
-        selectedPokemon.getChildren().clear();
-
-        ScrollPane scO = new ScrollPane(selectedPokemon);
-        scO.setPadding(new Insets(10));
-        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        scO.setFitToWidth(true);
-        gridPane.add(scO,0,1);
-
-        ScrollPane scI = new ScrollPane(objectsInInventoryCopy);
-        scI.setFitToWidth(true);
-        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        gridPane.add(scI,2,1);
-    }
 
 
-    public void updateSelectionItems() {
+    public void updateSelectionItems(Battle b) {
+        // this is actually the initial method for setting up
 
-//        selectedPokemon.getChildren().removeAll(selectedPokemon.getChildren());
-//        objectsInInventoryCopy = objectsInInventory; // TODO: Is this a shallow copy or an alias?
+        this.numSelectedPokemon = 0;
+        System.out.println("update selection items");
 
-        ArrayList<Pokemon> pokeWithPlayer = this.model.player.getPokemonOptions();
+        this.battle = b;
+
+        ArrayList<Pokemon> pokeWithPlayer = this.model.player.getBackpack();
         System.out.println("pokewithplayer" + pokeWithPlayer);
 
-        ArrayList<Pokemon> pokeChosen = this.model.player.playerBattlePokemon;
+        this.objectsInInventoryCopy.getChildren().clear();
+        this.selectedPokemon.getChildren().clear();
+        this.arraySelectedPokemon.clear();
 
-//        objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
-//        objectsInInventory.getChildren().removeAll(objectsInInventory.getChildren());
-
-        //System.out.println(objInv);
         //right side pane
         for(Pokemon o: pokeWithPlayer){ // Go through all items in inventory and create button
             String name = o.getName();
@@ -913,41 +931,9 @@ public class AdventureGameView {
             Button obj = new Button();
             obj.setGraphic(iv);
             makeButtonAccessible(obj, name, name, name);
-            //addObjEvent(obj, name);
-            objectsInInventoryCopy.getChildren().add(obj);
-            obj.setOnAction(event->{
-                if(this.model.getPlayer().getPokemonOptions().contains(o)){
-                    model.getPlayer().selectPokemon(name);
-                    updateSelectionItems();;
-                }
-            });
+            addObjEvent2(obj, name, o);
+            this.objectsInInventoryCopy.getChildren().add(obj);
         }
-
-        System.out.println("obj in inv copy"+objectsInInventoryCopy);
-        //left side of the room
-        for(Pokemon o: pokeChosen){// Go through all items in room and create button
-            String name = o.getName();
-            Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
-            ImageView iv = new ImageView();
-            iv.setImage(image);
-            iv.setFitWidth(100);
-            iv.setPreserveRatio(true);
-            iv.setSmooth(true);
-            iv.setCache(true);
-            Button obj = new Button();
-            obj.setGraphic(iv);
-            makeButtonAccessible(obj, name, name, name);
-            //addObjEvent(obj, o.getName());
-            selectedPokemon.getChildren().add(obj);
-            obj.setOnAction(event->{
-                if(this.model.getPlayer().playerBattlePokemon.contains(o)){
-                    model.getPlayer().deselectPokemon(name);
-                    updateSelectionItems();;
-                }
-            });
-        }
-
-        System.out.println("selected pokemon"+selectedPokemon);
 
         ScrollPane scO = new ScrollPane(selectedPokemon);
         scO.setPadding(new Insets(10));
