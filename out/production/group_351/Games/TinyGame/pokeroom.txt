@@ -2,7 +2,7 @@
 Welcome to Pallet Town!
 Pallet Town is the hometown of many Kanto's well known characters; Red, Blue and Professor Oak. You can enter the lab to get your first Pokemon.
 -----
-IN             13/1
+IN             13
 NORTH          2
 SOUTH          12
 
@@ -80,7 +80,7 @@ WEST     12
 
 12
 Cinnabar Island
-Cinnabar Island is a town on an island with a volcano. It has several buildings including the abandoned Pokémon Mansion, and a research institute.
+Cinnabar Island is a town on an island with a volcano. It has several Fire-type pokemon for you to collect.
 -----
 EAST       11
 NORTH       1
