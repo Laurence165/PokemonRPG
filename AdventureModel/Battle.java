@@ -5,6 +5,7 @@ import views.AdventureGameView;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Math.floor;
 //import javax.swing.Timer;
@@ -148,11 +149,34 @@ public class Battle implements BattleMediatorInterface {
         Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n");
         Out.append(currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
 
-        //TODO: TEXT TO SPEECH
+//        Platform.runLater(() -> {
+//            this.view.formatText(String.valueOf(Out));
+//            new Thread(() -> {
+//                this.view.textToSpeech(Out.toString());
+//            }).start();
+//        });
+//        new Thread(() -> {
+//            continueOpponentTurn(Out);
+//        }).start();
+        CountDownLatch latch = new CountDownLatch(1);
+
         Platform.runLater(() -> {
             this.view.formatText(String.valueOf(Out));
+            new Thread(() -> {
+                this.view.textToSpeech(Out.toString());
+                latch.countDown(); // Signals that textToSpeech is completed
+            }).start();
         });
-        continueOpponentTurn(Out);
+
+        new Thread(() -> {
+            try {
+                latch.await(); // Wait for textToSpeech to complete
+                continueOpponentTurn(Out);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
     }
 
     public void continueBattle(StringBuilder Out){
@@ -191,6 +215,9 @@ public class Battle implements BattleMediatorInterface {
 
             Platform.runLater(() -> {
                 this.view.formatText(String.valueOf(Out));
+                new Thread(() -> {
+                    this.view.textToSpeech(Out.toString());
+                }).start();
             });
 
             // Get player's next move
