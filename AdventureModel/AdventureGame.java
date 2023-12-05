@@ -131,6 +131,12 @@ public class AdventureGame implements Serializable {
 
             if (chosen == null && entry.getIsBlocked()) {
 
+                if(this.player.getBackpack().size() < 3){
+                    this.view.formatText("You do not have enough Pokemon to battle. You must have at least 3 Pokemon to battle.");
+                    // PAUSE HERE
+                    return "BATTLE";
+                }
+
                 Integer oNum = entry.getOpponent();
                 Opponent o = this.opponents.get(oNum-1);
                 ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();

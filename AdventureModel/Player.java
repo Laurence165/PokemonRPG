@@ -159,11 +159,11 @@ public class Player implements Serializable, BattleColleagueInterface{
         }
     }
 
-    public void playerBattlePokemon(){
-
-
-    }
-
+//    public void playerBattlePokemon(){
+//
+//
+//    }
+//
 
 
     public Moves get_move(Pokemon p){
@@ -181,47 +181,47 @@ public class Player implements Serializable, BattleColleagueInterface{
     }
 
 
-    public void selectPokemon(String s){
-        //logic for no more than 3 pokemons being chosen at a time
-        for (int i = 0; i < this.pokemonOptions.size(); i++) {
-            if (this.pokemonOptions.get(i).getName().equalsIgnoreCase(s)) {
-                this.playerBattlePokemon.add(this.pokemonOptions.get(i));
-                this.pokemonOptions.remove(i);
-            }
-        }
-
-    }
-
-    public void deselectPokemon(String s){
-
-
-        for(int i = 0; i<this.playerBattlePokemon.size();i++){
-            if(this.playerBattlePokemon.get(i).getName().equalsIgnoreCase(s)) {
-                this.pokemonOptions.add(this.playerBattlePokemon.get(i));
-                this.playerBattlePokemon.remove(i);
-            }
-        }
-
-    }
-
-    public ArrayList<Pokemon> get_battle_pokemon(){
-        //TODO: can you implement this?
-        // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
-        // get the user to choose 3 from backpack and return the three they chose
-       // return null;
-
-//        playerBattlePokemon.clear();
+//    public void selectPokemon(String s){
+//        //logic for no more than 3 pokemons being chosen at a time
+//        for (int i = 0; i < this.pokemonOptions.size(); i++) {
+//            if (this.pokemonOptions.get(i).getName().equalsIgnoreCase(s)) {
+//                this.playerBattlePokemon.add(this.pokemonOptions.get(i));
+//                this.pokemonOptions.remove(i);
+//            }
+//        }
 //
-//        //make a copy of the inventory
-//        ArrayList<Pokemon> pokemonOptions = new ArrayList<>(this.backpack);
+//    }
 //
-//        // show the copy
-//        //TODO:In javafx
+//    public void deselectPokemon(String s){
 //
-//        // show empty scroll pane of size 3 on left side
-//        // limit choice of 3 in left scroll pane
-//        // submit button
-        this.view.updateSelectionItems();
-        return playerBattlePokemon;
-    }
+//
+//        for(int i = 0; i<this.playerBattlePokemon.size();i++){
+//            if(this.playerBattlePokemon.get(i).getName().equalsIgnoreCase(s)) {
+//                this.pokemonOptions.add(this.playerBattlePokemon.get(i));
+//                this.playerBattlePokemon.remove(i);
+//            }
+//        }
+//
+//    }
+
+//    public ArrayList<Pokemon> get_battle_pokemon(){
+//        //TODO: can you implement this?
+//        // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
+//        // get the user to choose 3 from backpack and return the three they chose
+//       // return null;
+//
+////        playerBattlePokemon.clear();
+////
+////        //make a copy of the inventory
+////        ArrayList<Pokemon> pokemonOptions = new ArrayList<>(this.backpack);
+////
+////        // show the copy
+////        //TODO:In javafx
+////
+////        // show empty scroll pane of size 3 on left side
+////        // limit choice of 3 in left scroll pane
+////        // submit button
+//        this.view.updateSelectionItems();
+//        return playerBattlePokemon;
+//    }
 }

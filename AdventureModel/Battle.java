@@ -11,8 +11,6 @@ import static java.lang.Math.floor;
 
 public class Battle implements BattleMediatorInterface {
 
-    // TODO: revisit naming conventions! IDK how to name these... camel case?
-
     public boolean inBattle = false;
 
     public AdventureGame game = null;
@@ -224,8 +222,15 @@ public class Battle implements BattleMediatorInterface {
     public void battleInit() {
         System.out.println("battle init");
 
-//        this.player1Pokemon = this.player1.get_battle_pokemon();
-        this.player1Pokemon = this.player2Pokemon;
+//        this.player1Pokemon = this.player1.get_battle_pokemon(); // TODO: THIS IS WHAT WE NEED FOR INTERFACE
+
+        this.view.updateSelectionItems(this); // this is what we use to get pokemon selection from user
+    }
+
+    public void battleInit2(){
+        System.out.println("battle init 2");
+
+        this.player1Pokemon = this.view.arraySelectedPokemon;
         this.currentPokemon1 = this.player1Pokemon.get(0);
 
         this.view.setBattleScene(currentPokemon1, currentPokemon2);
