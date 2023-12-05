@@ -12,6 +12,7 @@ import javafx.scene.AccessibleRole;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -20,6 +21,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -44,7 +46,6 @@ public class AdventureGameView {
 
     AdventureGame model; //model of the game
 
-    boolean resume = false;
     Stage stage; //stage on which all is rendered
     Button saveButton, loadButton, helpButton; //buttons
     Boolean helpToggle = false; //is help on display?
@@ -84,7 +85,9 @@ public class AdventureGameView {
 
     private AdventureModel.Battle battle;
 
-    private ArrayList<AdventureModel.Moves> validMoves;
+    private ArrayList<AdventureModel.Moves> validMoves = new ArrayList<>();
+
+    private boolean isHighContrast = false;
 
     /**
      * Adventure Game View Constructor
@@ -103,7 +106,7 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("<Group 35>'s Pokemon Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("Group 35's Pokemon Game");
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);
@@ -216,8 +219,63 @@ public class AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 0, 2, 3, 1 );
 
+        // Apply the contrast effect to the entire view
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setContrast(0.9);
+        Button toggleButton = new Button("Toggle High Contrast");
+        makeButtonAccessible(toggleButton,"Toggle High Contrast","Set Contrast to 0.9","Set Contrast to 0.9");
+        toggleButton.setOnAction(event -> {
+            if (isHighContrast) {
+                gridPane.setEffect(null); // Turn off high contrast
+            } else {
+                gridPane.setEffect(colorAdjust); // Turn on high contrast
+            }
+            isHighContrast = !isHighContrast; // Toggle the flag
+        });
+
+        gridPane.getChildren().add(toggleButton);
+
+        //ZOOMMMMM
+
+        // Zoom in and out using buttons
+        Button zoomInButton = new Button("Zoom In");
+        Button zoomOutButton = new Button("Zoom Out");
+
+        zoomInButton.setOnAction(e -> zoom(gridPane, true));
+        zoomOutButton.setOnAction(e -> zoom(gridPane, false));
+
+
+        // VBox to hold the buttons
+        VBox buttonBox = new VBox(10); // 10 is the spacing between buttons
+        buttonBox.getChildren().addAll(zoomInButton, zoomOutButton);
+
+        gridPane.add(buttonBox,1,0,1,1);
+
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
+        double translateStep = 20;
+        // Set up key event handling
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case W:
+
+                    gridPane.setTranslateY(gridPane.getTranslateY() + translateStep);
+                    break;
+                case S:
+                    //System.out.println(gridPane.getTranslateY());
+                    gridPane.setTranslateY(gridPane.getTranslateY() - translateStep);
+                    break;
+                case A:
+                    gridPane.setTranslateX(gridPane.getTranslateX() + translateStep);
+                    break;
+                case D:
+                    gridPane.setTranslateX(gridPane.getTranslateX() - translateStep);
+                    break;
+                // Add more cases for other keys if needed
+            }
+        });
+
+
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
@@ -225,7 +283,30 @@ public class AdventureGameView {
 
     }
 
+    private void zoom(GridPane pane, boolean zoomIn) {
+        double zoomFactor = 1.5;
+        Scale newScale = new Scale();
+        newScale.setX(pane.getScaleX() * (zoomIn ? zoomFactor : 1/zoomFactor));
+        newScale.setY(pane.getScaleY() * (zoomIn ? zoomFactor : 1/zoomFactor));
+        currentScale = zoomIn? currentScale* zoomFactor: currentScale*(1/zoomFactor);
+        pane.getTransforms().add(newScale);
+        updateBounds();
+    }
 
+    private double initialMinX = -100.0;
+    private double initialMaxX = 100.0;
+    private double initialMinY = -100.0;
+    private double initialMaxY = 100.0;
+    private double currentScale = 1.0;
+    private void updateBounds() {
+        System.out.println(initialMaxX);
+        initialMaxX = initialMaxX * currentScale;
+        initialMaxY = initialMaxY * currentScale;
+        initialMinX = initialMinX * currentScale;
+        initialMinY = initialMinY * currentScale;
+
+        // Use adjustedMinX, adjustedMaxX, adjustedMinY, adjustedMaxY as new bounds
+    }
     /**
      * makeButtonAccessible
      * __________________________
@@ -262,51 +343,35 @@ public class AdventureGameView {
     /**
      * addTextHandlingEvent
      * __________________________
-     * Add an event handler to the myTextField attribute 
+     * Add an event handler to the myTextField attribute
      *
-     * Your event handler should respond when users 
-     * hits the ENTER or TAB KEY. If the user hits 
+     * Your event handler should respond when users
+     * hits the ENTER or TAB KEY. If the user hits
      * the ENTER Key, strip white space from the
-     * input to myTextField and pass the stripped 
+     * input to myTextField and pass the stripped
      * string to submitEvent for processing.
      *
-     * If the user hits the TAB key, move the focus 
-     * of the scene onto any other node in the scene 
+     * If the user hits the TAB key, move the focus
+     * of the scene onto any other node in the scene
      * graph by invoking requestFocus method.
      */
     private void addTextHandlingEvent() {
-        //TODO: implement for battle
-//        moveListening = true;
         inputTextField.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 String userInput = inputTextField.getText();
-                //System.out.println("w1");
-                //submitEvent(userInput.strip());
                 if (moveListening){
-                    //System.out.println("w2");
-                    getMoveEvent2(userInput.strip(), () -> {
-                        // Code to execute after getMoveEvent2 completion
-                        // This can be empty or you can perform additional actions
-                    });
-                    inputTextField.clear();
+                    getMoveEvent2(userInput.strip());
                 } else if (moveListening2){
-                    //System.out.println("w3");
-                    getMoveEvent3(userInput.strip(), () -> {
-                        // Code to execute after getMoveEvent3 completion
-                        // This can be empty or you can perform additional actions
-                    });
-                    inputTextField.clear();
+                    getMoveEvent3(userInput.strip());
                 } else {
-                    //System.out.println("w4");
                     submitEvent(userInput.strip());
-                    inputTextField.clear();
                 }
-                //System.out.println("w5");
-                //inputTextField.clear();
+                inputTextField.clear();
+                return;
             }
-////            else if (e.getCode() == KeyCode.TAB) {
-////                gridPane.requestFocus();
-////            }
+            else if (e.getCode() == KeyCode.TAB) {
+                gridPane.requestFocus();
+            }
         });
     }
 
@@ -334,8 +399,15 @@ public class AdventureGameView {
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
             return;
-        } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) { // TODO: EDIT
+        } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) {
             Villager speaker = this.model.getPlayer().getCurrentRoom().villagerInRoom;
+
+            if (speaker == null){
+                formatText("INVALID COMMAND. There are no villagers in this scene to talk to."); //TODO: THIS ISNT WORKING. we need to deal with this edge case
+                System.out.println("SHOULD BE HERE");
+                return;
+            }
+
             String speech = speaker.talk();
             this.updateItems();
             this.updateScene(speech);
@@ -369,8 +441,11 @@ public class AdventureGameView {
 
         //try to move!
         String output = this.model.interpretAction(text); //process the command!
-        //System.out.println("output: "+output);
-        //System.out.println("w6");
+        System.out.println("Interpret action finished, output: " + output);
+
+        if (Objects.equals(output, "BATTLE")){
+            return;
+        }
 
         if (output == null || (!output.equals("GAME OVER") && !output.equals("FORCED") && !output.equals("HELP"))) {
             System.out.println("w20");
@@ -388,7 +463,7 @@ public class AdventureGameView {
             });
             pause.play();
         } else if (output.equals("FORCED")) {
-           // System.out.println("w10");
+            // System.out.println("w10");
 
             updateScene("");
             System.out.println("ini2");
@@ -401,12 +476,8 @@ public class AdventureGameView {
                 submitEvent("FORCED"); // Call function again to enter forced room
             });
             pause.play();
-            System.out.println("w8");
-
         }
-
-        System.out.println("w7");
-
+        System.out.println("submit event finished");
     }
 
 
@@ -415,54 +486,34 @@ public class AdventureGameView {
      * Get the event from textfield
      */
     public void getMoveEvent(Pokemon P, AdventureModel.Battle b){
+        System.out.println("get move event 1");
 
         stopSpeaking();
-
-        this.resume = false;
-
-
-        this.battlePokemon = P;
-
-        this.battle = b;
-
         // Since we only have one inputTextField event listener, we'll handle conditional inputs in an if/then
         this.moveListening = true;
 
-        // Format text will display text to prompt the user
+        this.battlePokemon = P;
+        this.battle = b;
+
         formatText("It is your turn to move in the battle. Would you like to move or pass? Type MOVE to move and type PASS to pass.");
-
-        //do the getMoveEvent2 stuff
-        getMoveEvent2("MoveOrPass",()->{
-            //No additional logic here, leaving it empty
-            // Continue with the rest of your logic in getMoveEvent
-            // ...
-
-        });
-
-
-
-    }
-
-    interface Callback{
-        void execute();
 }
 
-    private void getMoveEvent2(String text, Callback callback){
+    private void getMoveEvent2(String text){
+        System.out.println("get move event 2");
 
         if(text.equalsIgnoreCase("PASS")){
             this.battle.returnedMove = new AdventureModel.Moves("PASS", 0, 0);
             this.moveListening = false;
-            callback.execute();
-
+            this.battle.resumeBattle();
             return;
         }
         else if(text.equalsIgnoreCase("MOVE")){
             this.moveListening = false;
             this.validMoves.clear();
-            Integer energy = this.battlePokemon.get_energy(); // TODO: get_energy()
+            Integer energy = this.battlePokemon.get_energy();
             HashMap<Integer, Moves> moves = this.battlePokemon.get_moves();
             StringBuilder Out = new StringBuilder();
-            Out.append("Which move would you like to use? ");
+            Out.append("Which move would you like to use? Please enter the name of the move.");
             boolean empty = true;
             for (Map.Entry<Integer, Moves> m : moves.entrySet()){
                 if (m.getValue().get_energy() <= energy){
@@ -473,46 +524,47 @@ public class AdventureGameView {
             }
             if (empty){
                 Out.append("You do not have enough energy to make any moves.");
-                //TODO: PAUSE FOR 2 SECONDS
+                this.pause(4);
                 this.battle.returnedMove = new AdventureModel.Moves("PASS", 0, 0);
-
-                callback.execute();
+                this.battle.resumeBattle();
                 return;
-
             }
 
             formatText(String.valueOf(Out));
-
             this.moveListening2 = true;
+            return;
+
         } else {
             formatText("Invalid command. Please enter a valid command.");
-            callback.execute();
+            return;
         }
 
     }
 
 
-    private void getMoveEvent3(String text, Callback callback){
+    private void getMoveEvent3(String text){
+        System.out.println("get move event 3");
+
         boolean valid = false;
         Moves chosen = null;
         for (Moves c : this.validMoves){
-            if (Objects.equals(text, c)){
+            if (c.get_name().equalsIgnoreCase(text)){
                 valid = true;
                 chosen = c;
             }
         }
-        if (valid){
+        if (valid) {
             this.battle.returnedMove = chosen;
             this.moveListening2 = false;
             this.moveListening = false;
-        }else {
-            return;
+            this.battle.resumeBattle();
+        }else{
+            System.out.println("invalid move");
         }
     }
 
-
-    public void pause(){
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+    public void pause(Integer d){
+        PauseTransition pause = new PauseTransition(Duration.seconds(d));
         pause.setOnFinished(event -> {
             return;
         });
@@ -525,7 +577,7 @@ public class AdventureGameView {
      * __________________________
      *
      * update the text in the GUI (within roomDescLabel)
-     * to show all the moves that are possible from the 
+     * to show all the moves that are possible from the
      * current room.
      */
     private void showCommands() {
@@ -536,7 +588,7 @@ public class AdventureGameView {
     }
 
     public void setBattleScene(Pokemon p, Pokemon o){
-
+        System.out.println("set battle scene");
         // Set image views of both Pokémon and set accessibility text:
         String pImage = p.getImage();
 
@@ -633,11 +685,12 @@ public class AdventureGameView {
      * below the image.
      * Otherwise, the current room description will be dispplayed
      * below the image.
-     * 
+     *
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
 
+        System.out.println("update Scene");
         getRoomImage(); //get the image of the current room
 
         formatText(textToDisplay); //format the text to display
@@ -659,15 +712,11 @@ public class AdventureGameView {
         stage.sizeToScene();
 
         //finally, articulate the description
-       // System.out.println("c");
 
-//        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription(textToDisplay);
-//        if (textToDisplay == null || textToDisplay.isBlank()) textToSpeech(this.model.getPlayer().getCurrentRoom().getRoomDescription());
-        //System.out.println("d");
         new Thread(() -> {
             if (textToDisplay == null || textToDisplay.isBlank()) {
-                objLabel.setText("Objects in Room");
-                invLabel.setText("Your Inventory");
+//                objLabel.setText("Objects in Room");
+//                invLabel.setText("Your Inventory");
                 textToSpeech(this.model.getPlayer().getCurrentRoom().getRoomDescription());
             } else {
                 textToSpeech(textToDisplay);
@@ -681,7 +730,7 @@ public class AdventureGameView {
      * __________________________
      *
      * Format text for display.
-     * 
+     *
      * @param textToDisplay the text to be formatted for display.
      */
     public void formatText(String textToDisplay) {
@@ -707,8 +756,8 @@ public class AdventureGameView {
      * getRoomImage
      * __________________________
      *
-     * Get the image for the current room and place 
-     * it in the roomImageView 
+     * Get the image for the current room and place
+     * it in the roomImageView
      */
     private void getRoomImage() {
 
@@ -766,7 +815,7 @@ public class AdventureGameView {
         }
         for(Pokemon o: objRoom){// Go through all items in room and create button
             String name = o.getName();
-            System.out.println("where my pokes at");
+            System.out.println("where my pokes at NEW");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
             System.out.println("wheeee2");
             ImageView iv = new ImageView();
@@ -816,8 +865,6 @@ public class AdventureGameView {
     }
 
 
-
-
     /**
      * Show scroll panes before entering battle to allow user to select battle pokemon
      */
@@ -839,14 +886,10 @@ public class AdventureGameView {
     }
 
 
-
     public void updateSelectionItems() {
 
-        objectsInRoom.getChildren().removeAll(objectsInRoom.getChildren());
-        objectsInInventory.getChildren().removeAll(objectsInInventory.getChildren());
-
-//        ArrayList<Pokemon>  objRoom = this.model.player.getCurrentRoom().pokemonsInRoom;
-//        ArrayList<Pokemon> objInv = this.model.player.getBackpack();
+//        selectedPokemon.getChildren().removeAll(selectedPokemon.getChildren());
+//        objectsInInventoryCopy = objectsInInventory; // TODO: Is this a shallow copy or an alias?
 
         ArrayList<Pokemon> pokeWithPlayer = this.model.player.getPokemonOptions();
         System.out.println("pokewithplayer" + pokeWithPlayer);
@@ -871,7 +914,7 @@ public class AdventureGameView {
             obj.setGraphic(iv);
             makeButtonAccessible(obj, name, name, name);
             //addObjEvent(obj, name);
-            objectsInInventory.getChildren().add(obj);
+            objectsInInventoryCopy.getChildren().add(obj);
             obj.setOnAction(event->{
                 if(this.model.getPlayer().getPokemonOptions().contains(o)){
                     model.getPlayer().selectPokemon(name);
@@ -879,12 +922,12 @@ public class AdventureGameView {
                 }
             });
         }
+
+        System.out.println("obj in inv copy"+objectsInInventoryCopy);
         //left side of the room
         for(Pokemon o: pokeChosen){// Go through all items in room and create button
             String name = o.getName();
-            //System.out.println("where my pokes at");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
-            //System.out.println("wheeee2");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
@@ -895,7 +938,7 @@ public class AdventureGameView {
             obj.setGraphic(iv);
             makeButtonAccessible(obj, name, name, name);
             //addObjEvent(obj, o.getName());
-            objectsInRoom.getChildren().add(obj);
+            selectedPokemon.getChildren().add(obj);
             obj.setOnAction(event->{
                 if(this.model.getPlayer().playerBattlePokemon.contains(o)){
                     model.getPlayer().deselectPokemon(name);
@@ -904,21 +947,19 @@ public class AdventureGameView {
             });
         }
 
-        ScrollPane scO = new ScrollPane(objectsInRoom);
+        System.out.println("selected pokemon"+selectedPokemon);
+
+        ScrollPane scO = new ScrollPane(selectedPokemon);
         scO.setPadding(new Insets(10));
         scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         scO.setFitToWidth(true);
         gridPane.add(scO,0,1);
 
-        ScrollPane scI = new ScrollPane(objectsInInventory);
+        ScrollPane scI = new ScrollPane(objectsInInventoryCopy);
         scI.setFitToWidth(true);
         scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         gridPane.add(scI,2,1);
     }
-
-
-
-
 
 
     /*
@@ -1034,13 +1075,13 @@ public class AdventureGameView {
     public void textToSpeech(String input) {
         System.setProperty("freetts.voices",
                 "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-         String VOICENAME_kevin = "kevin16";
-         VoiceManager voiceManager = VoiceManager.getInstance();
-         voice = voiceManager.getVoice(VOICENAME_kevin);
-         voice.setRate(135);
-         voice.allocate();
+        String VOICENAME_kevin = "kevin16";
+        VoiceManager voiceManager = VoiceManager.getInstance();
+        voice = voiceManager.getVoice(VOICENAME_kevin);
+        voice.setRate(135);
+        voice.allocate();
 
-         voice.speak(input);
+        voice.speak(input);
     }
 
     public void stopSpeaking(){
@@ -1051,7 +1092,7 @@ public class AdventureGameView {
 
 
     /**
-     * This method stops articulations 
+     * This method stops articulations
      * (useful when transitioning to a new room or loading a new game)
      */
     public void stopArticulation() {

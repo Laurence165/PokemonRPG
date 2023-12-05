@@ -26,17 +26,12 @@ public class Opponent extends NPC implements BattleColleagueInterface{
     }
     public Moves get_move(Pokemon active){
         // I renamed this method because it's the one I used in Battle class, I think it is what you meant
-        // TODO: return random move that the pokemon has energy for, if no energy for anything then return new Moves("PASS", 0, 0);
-        HashMap moves = (HashMap) active.get_moves().clone();
-        Random rand = new Random();
-        while (moves.size()>0) {
-            int randomV = rand.nextInt(moves.size());
 
-            Moves move = (Moves) moves.get(rand.nextInt(moves.size()));
-            moves.remove(randomV);
-            if (active.energy > move.get_energy()) {
-                return move;
-            }
+        if (active.energy > active.get_moves().get(1).get_energy()) {
+            return active.get_moves().get(1);
+        }
+        else if (active.energy > active.get_moves().get(2).get_energy()){
+            return active.get_moves().get(2);
         }
         return new Moves("PASS", 0, 0);
     }

@@ -1,0 +1,14 @@
+Type: Villager
+Name
+Description
+Phrases
+---
+givesPokemon
+pokemonID
+---
+Type: Opponent
+Name
+Description
+Phrases
+---
+pokemonIDs
