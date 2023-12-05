@@ -249,7 +249,7 @@ public class Battle implements BattleMediatorInterface {
     private void continueOpponentTurn(StringBuilder Out) {
         new Thread(() -> {
             try {
-                Thread.sleep(1000); // Delay for 10 seconds
+                Thread.sleep(5000); // Delay for 5 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
