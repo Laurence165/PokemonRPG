@@ -57,6 +57,7 @@ public class Pokemon extends Labelled implements Cloneable{
     }
 
     public Integer get_energy(){return this.energy;}
+    public Integer get_max_health(){return this.max_health;}
 
     @Override
     public Pokemon clone() throws CloneNotSupportedException{
