@@ -136,44 +136,34 @@ public class Battle implements BattleMediatorInterface {
             Out.append(currentPokemon1.getName() + " did " + damage2 + " damage to " + currentPokemon2.getName() + " and lost " + m.get_energy() + " energy. \n");
 //
         } else if (m.get_points() == 0) { // indicates pass
-            update(0, 0, (this.currentPokemon1.get_max_energy() / 2), 0);
+            update(0, 0, -(this.currentPokemon1.get_max_energy() / 2), 0);
         } else {
             Out.append(currentPokemon1.getName() + " has healed by "+ (m.get_points() * (-1)) + " points.");
             update(m.get_points(), 0, m.get_energy(), 0);
         }
-
-        Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n"+ currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
+        int status = checkBattleEnd();
+        if (status != 0) {
+            handleBattleEnd(status, Out);
+            return;
+        }
+        Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n");
+        Out.append(currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
 
         //TODO: TEXT TO SPEECH
-
-
-//        this.view.formatText(String.valueOf(Out));
         Platform.runLater(() -> {
             this.view.formatText(String.valueOf(Out));
         });
-        new Thread(() -> {
-            try {
-                Thread.sleep(10000); // Delay for 2 seconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            // After delay, continue on the JavaFX thread
-            Platform.runLater(() -> {
-                continueBattle(Out);
-            });
-        }).start();
-        System.out.println("pausing");
+        continueOpponentTurn(Out);
     }
 
     public void continueBattle(StringBuilder Out){
-        int status = checkBattleEnd();
-        if (status == 0){
+            // Opponent's turn logic
             System.out.println("Opponent turn");
             String phrase = player2.talk();
-            Out.setLength(0);
-            Out.append(this.player2.getName() + ":  '" + phrase + "' \n");
+            Out.setLength(0); // Clear previous text
+            Out.append(this.player2.getName() + ": '" + phrase + "' \n");
             this.view.textToSpeech(phrase);
+
             Moves m = this.player2.get_move(this.currentPokemon2);
             Out.append(m.use_move(currentPokemon2));
             if (m.get_points() > 0) {
@@ -183,54 +173,134 @@ public class Battle implements BattleMediatorInterface {
                 update(damage2, 0, 0, m.get_energy());
                 Out.append(currentPokemon2.getName() + " did " + damage2 + " damage to " + currentPokemon1.getName() + " and lost " + m.get_energy() + " energy. \n");
             } else if (m.get_points() == 0) { // indicates pass
-                update(0, 0, 0, (this.currentPokemon2.get_max_energy() / 2));
-            } else {
-                Out.append("Poke 1 did "+ m.get_points() + "damage to Poke 2 and lost " + m.get_energy() + " energy");
+                update(0, 0, 0, -(this.currentPokemon2.get_max_energy() / 2));
+            } else { // indicates healing
+                Out.append(currentPokemon2.getName() + " has healed by " + (-m.get_points()) + " points.");
                 update(0, m.get_points(), 0, m.get_energy());
             }
-            Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n"+ currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
-            Out.append("It is your turn to move again.");
-            // TODO: PAUSE
-        } else{
-            boolean won = this.end_battle();
-            this.game.resumeMovePlayer(won);
-        }
+
+            // Check the battle status here
+            int status = checkBattleEnd();
+            if (status != 0) {
+                handleBattleEnd(status, Out);
+                return;
+            }
+
+            // Update UI with current health and energy
+            Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n");
+            Out.append(currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
+
+            Platform.runLater(() -> {
+                this.view.formatText(String.valueOf(Out));
+            });
+
+            // Get player's next move
+            this.view.getMoveEvent(this.currentPokemon1, this);
+
+
+//        int status = checkBattleEnd();
+//        if (status == 0){
+//            System.out.println("Opponent turn");
+//            String phrase = player2.talk();
+//            Out.setLength(0);
+//            Out.append(this.player2.getName() + ":  '" + phrase + "' \n");
+//            this.view.textToSpeech(phrase);
+//            Moves m = this.player2.get_move(this.currentPokemon2);
+//            Out.append(m.use_move(currentPokemon2));
+//            if (m.get_points() > 0) {
+//                double factor = this.compare_types(this.currentPokemon2, this.currentPokemon1);
+//                double damage = factor * m.get_points();
+//                int damage2 = (int) floor(damage);
+//                update(damage2, 0, 0, m.get_energy());
+//                Out.append(currentPokemon2.getName() + " did " + damage2 + " damage to " + currentPokemon1.getName() + " and lost " + m.get_energy() + " energy. \n");
+//            } else if (m.get_points() == 0) { // indicates pass
+//                update(0, 0, 0, (this.currentPokemon2.get_max_energy() / 2));
+//            } else {
+//                Out.append("Poke 1 did "+ m.get_points() + "damage to Poke 2 and lost " + m.get_energy() + " energy");
+//                update(0, m.get_points(), 0, m.get_energy());
+//            }
+//            Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n"+ currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
+//            Out.append("It is your turn to move again.");
+//            // TODO: PAUSE
+//        } else{
+//            boolean won = this.end_battle();
+//            this.game.resumeMovePlayer(won);
+//        }
+//        Platform.runLater(() -> {
+//            this.view.formatText(String.valueOf(Out));
+//        });
+//        status = checkBattleEnd();
+//        if (status == 0){
+//            System.out.println("continue game after opponent move");
+//            this.view.getMoveEvent(this.currentPokemon1, this);
+//        } else {
+//            boolean won = this.end_battle();
+//            this.game.resumeMovePlayer(won);
+//        }
+    }
+
+    private void handleBattleEnd(int status, StringBuilder Out) {
+        boolean won = status > 0;
+        Out.setLength(0);
+        Out.append(won ? "You won the battle!" : "You lost the battle.");
+        this.game.resumeMovePlayer(won);
+
         Platform.runLater(() -> {
             this.view.formatText(String.valueOf(Out));
         });
-        status = checkBattleEnd();
-        if (status == 0){
-            System.out.println("continue game after opponent move");
-            this.view.getMoveEvent(this.currentPokemon1, this);
-        } else {
-            boolean won = this.end_battle();
-            this.game.resumeMovePlayer(won);
-        }
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000); // Delay for 5 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // After delay, continue on the JavaFX thread
+            Platform.runLater(() -> {
+                this.view.updateScene(""); // Update the scene after 5 seconds
+                this.view.updateItems();
+            });
+        }).start();
     }
+    private void continueOpponentTurn(StringBuilder Out) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000); // Delay for 10 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // After delay, continue on the JavaFX thread
+            Platform.runLater(() -> {
+                continueBattle(Out);
+            });
+        }).start();
+    }
+
+
+
 
     public int checkBattleEnd() {
         System.out.println("check battle end");
         if (currentPokemon2.get_health() < 1) {
-            if (currentPokemon2.get_health() < 1) {
-                currentPokemonIndex2 += 1;
-                if (currentPokemonIndex2 >= player2Pokemon.size()) {
-                    return 1; // All opponent's Pokémon have fainted
-                } else {
-                    currentPokemon2 = player2Pokemon.get(currentPokemonIndex2);
-                    this.view.setBattleScene(currentPokemon1, currentPokemon2);
-                }
-            } else if (currentPokemon1.get_health() < 1) {
-                currentPokemonIndex1 += 1;
-                if (currentPokemonIndex1 >= player1Pokemon.size()) {
-                    return -1; // All player's Pokémon have fainted
-                } else {
-                    currentPokemon1 = player1Pokemon.get(currentPokemonIndex1);
-                    this.view.setBattleScene(currentPokemon1, currentPokemon2);
-                }
+            currentPokemonIndex2 += 1;
+            if (currentPokemonIndex2 >= player2Pokemon.size()) {
+                return 1; // All opponent's Pokémon have fainted
+            } else {
+                currentPokemon2 = player2Pokemon.get(currentPokemonIndex2);
+                this.view.setBattleScene(currentPokemon1, currentPokemon2); // Update the battle scene
+            }
+        } else if (currentPokemon1.get_health() < 1) {
+            currentPokemonIndex1 += 1;
+            if (currentPokemonIndex1 >= player1Pokemon.size()) {
+                return -1; // All player's Pokémon have fainted
+            } else {
+                currentPokemon1 = player1Pokemon.get(currentPokemonIndex1);
+                this.view.setBattleScene(currentPokemon1, currentPokemon2); // Update the battle scene
             }
         }
         return 0;
     }
+
 
     public void battleInit() {
         System.out.println("battle init");

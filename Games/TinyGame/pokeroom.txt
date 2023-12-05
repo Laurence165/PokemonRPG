@@ -2,7 +2,7 @@
 Welcome to Pallet Town!
 Pallet Town is the hometown of many Kanto's well known characters; Red, Blue and Professor Oak. You can enter the lab to get your first Pokemon.
 -----
-IN             13/1
+IN             13
 NORTH          2
 SOUTH          12
 

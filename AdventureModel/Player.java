@@ -159,12 +159,6 @@ public class Player implements Serializable, BattleColleagueInterface{
         }
     }
 
-//    public void playerBattlePokemon(){
-//
-//
-//    }
-//
-
 
     public Moves get_move(Pokemon p){
         //TODO: can you implement this?
