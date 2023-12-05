@@ -1,0 +1,122 @@
+1
+Welcome to Pallet Town!
+Pallet Town is the hometown of many Kanto's well known characters; Red, Blue and Professor Oak. You can enter the lab to get your first Pokemon.
+-----
+IN             13/1
+NORTH          2
+SOUTH          12
+
+2
+Viridian City
+Viridian City has a small lake and various small paths. It is surrounded by trees and has only a small number of buildings within. Enter the gym to battle for reward!
+-----
+IN      14/1
+NORTH     3
+SOUTH      1
+
+3
+Viridian Forest
+Viridian Forest is a large forest. It is filled with Bug-type Pokémon and trainers who specialise in those Pokémon.
+-----
+NORTH     4
+SOUTH      2
+
+4
+Pewter City
+Welcome to Pewter City! Our city is surrounded by cliff-faces and located the Pewter Museum! Enter the gym to find out the what's inside.
+-----
+IN     15/1
+EAST     5
+SOUTH     3
+
+5
+Mt. Moon
+Mt. Moon is a cave reduced in size and is essentially just a straight path. Within it is Team Rocket hunting for Moon Stones. Fight Team Rocket to get out of here !!!!
+-----
+WEST     4/1
+EAST     6/1
+
+6
+Cerulian City
+Cerulean City is a city that borders on the top coast of Kanto, beneath a penninsula. In this city, there are few noteworthy areas, but it does give access to the special Cerulean Cave after obtaining all the badges.
+-----
+EAST     5
+SOUTH    6
+
+7
+Saffron City
+Saffron City is the largest city within Kanto. This place located one of the most skillful trainers... Try beat them at the gym !
+-----
+IN     16/1
+WEST    8
+SOUTH    9
+
+8
+Celadon City
+The Celadon City Gym is one of the gyms of the Kanto region. This gym has you progress through a maze through numerous flower arches, sometimes needing to use Chop Down until you reach the Gym Leader; Erika.
+-----
+IN     17/1
+EAST    7
+
+9
+Vermilion City
+You made it to the Vermilion City ! One last fight and you will be crowned as the Pokemon Champion !
+-----
+NORTH      7
+IN       18/1
+
+10
+Fuchsia City
+Welcome to the Fuchsia City. This is the dead end so go back to Seafoam Island !
+-----
+WEST       10
+
+11
+Seafoam Islands
+The Seafoam Islands are located in the middle of glaciers. Here holds many mysterious legendary Pokemon !
+-----
+EAST      10
+WEST     12
+
+12
+Cinnabar Island
+Cinnabar Island is a town on an island with a volcano. It has several buildings including the abandoned Pokémon Mansion, and a research institute.
+-----
+EAST       11
+NORTH       1
+
+13
+Professor Oak's Lab
+Welcome to Professor Oak's Lab !!! Inside this hub of Pokémon research, you'll find a wealth of knowledge and essential tools for your journey. Among these are the rare opportunity to choose Pikachu, a powerful and loyal Electric-type Pokémon.
+-----
+OUT       1
+
+14
+Viridian City's Gym
+Congratulations on beating the Viridian City's Gym ! Here you can catch these Pokemon as a prize!
+-----
+OUT      2
+
+15
+Pewter City's Gym
+Congratulations on beating the Pewter City's Gym ! Here you can catch these Pokemon as a prize!
+-----
+OUT     4
+
+16
+Saffron City's Gym
+Congratulations on beating the Saffron City's Gym ! Here you can catch these Pokemon as a prize!
+-----
+OUT     7
+
+17
+Celadon City's Gym
+Congratulations on beating the Celadon City's Gym ! Here you can catch these Pokemon as a prize! Plus you have the chance to speak with Erika !
+-----
+OUT      8
+
+18
+Pokemon Champion !
+Congratulation ! You are crowned as the Pokemon Champion !
+-----
+FORCE     0

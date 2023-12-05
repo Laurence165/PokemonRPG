@@ -24,6 +24,8 @@ public class AdventureGame implements Serializable {
 
 
     private AdventureGameView view;
+    private Passage returnPassage;
+
     /**
      * Adventure Game Constructor
      * __________________________
@@ -48,7 +50,7 @@ public class AdventureGame implements Serializable {
 
     /**
      * Save the current state of the game to a file
-     * 
+     *
      * @param file pointer to file to write to
      */
     public void saveModel(File file) {
@@ -109,11 +111,11 @@ public class AdventureGame implements Serializable {
      * @param direction the move command
      * @return false, if move results in death or a win (and game is over).  Else, true.
      */
-    public boolean movePlayer(String direction) {
+    public String movePlayer(String direction) {
 
         direction = direction.toUpperCase();
         PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
-        if (!motionTable.optionExists(direction)) return true; //no move
+        if (!motionTable.optionExists(direction)) return "true"; //no move
 
         ArrayList<Passage> possibilities = new ArrayList<>();
         for (Passage entry : motionTable.getDirection()) {
@@ -132,32 +134,42 @@ public class AdventureGame implements Serializable {
                 Integer oNum = entry.getOpponent();
                 Opponent o = this.opponents.get(oNum-1);
                 ArrayList<Pokemon> o_pokemon = o.get_battle_pokemon();
-                Battle B = new Battle(this.view, this.player, o, o_pokemon);
-                boolean won = B.battle();
-                if (won){
-                    chosen = entry;
-                    break; //TODO: possible bug make sure this break means we exit the for loop
-                } else {
-                    this.view.updateScene("");
-                    return true; // don't move if they don't win the battle
-                }
+                System.out.println("new battle");
+                Battle B = new Battle(this.view, this, this.player, o, o_pokemon);
+                this.returnPassage = entry;
+                B.battleInit();
+                return "BATTLE";
 
-
-//                if (this.player.getInventory().contains(entry.getKeyName())) {
-//                    chosen = entry; //we can make it through, given our stuff
-//                    break;
-//                }
             } else { chosen = entry; } //the passage is unlocked
         }
 
-        if (chosen == null) return true; //doh, we just can't move.
+        if (chosen == null) return "true"; //doh, we just can't move.
 
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
         this.player.setCurrentRoom(room);
 
-        return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
+        boolean force =  !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
+        if (force){
+            return "true";
+        }
+        return "false";
     }
+
+    public void resumeMovePlayer(boolean won){
+        // PRECONDITION: winning the game does not force player into death room or win room. the point is, I can't deal with return boolean. or just have one pause thing.
+        Passage chosen = null;
+        if (won){
+            chosen = this.returnPassage;
+        } else {
+            this.view.updateScene("");
+            return;
+        }
+        int roomNumber = chosen.getDestinationRoom();
+        Room room = this.rooms.get(roomNumber);
+        this.player.setCurrentRoom(room);
+    }
+
     /**
      * interpretAction
      * interpret the user's action.
@@ -171,8 +183,11 @@ public class AdventureGame implements Serializable {
         PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
 
         if (motionTable.optionExists(inputArray[0])) {
-            System.out.println("q1");
-            if (!movePlayer(inputArray[0])) {
+            String mp = movePlayer(inputArray[0]);
+            if (mp == "BATTLE"){
+                return mp;
+            }else if (mp == "false") {
+                //TODO: maybe want to check for battle here... change return of movePlayer to String instead of boolean
                 if (this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDestinationRoom() == 0)
                     return "GAME OVER";
                 else return "FORCED";
@@ -208,7 +223,7 @@ public class AdventureGame implements Serializable {
     /**
      * getDirectoryName
      * __________________________
-     * Getter method for directory 
+     * Getter method for directory
      * @return directoryName
      */
     public String getDirectoryName() {
@@ -218,7 +233,7 @@ public class AdventureGame implements Serializable {
     /**
      * getInstructions
      * __________________________
-     * Getter method for instructions 
+     * Getter method for instructions
      * @return helpText
      */
     public String getInstructions() {
@@ -228,7 +243,7 @@ public class AdventureGame implements Serializable {
     /**
      * getPlayer
      * __________________________
-     * Getter method for Player 
+     * Getter method for Player
      */
     public Player getPlayer() {
         return this.player;
@@ -237,7 +252,7 @@ public class AdventureGame implements Serializable {
     /**
      * getRooms
      * __________________________
-     * Getter method for rooms 
+     * Getter method for rooms
      * @return map of key value pairs (integer to room)
      */
     public HashMap<Integer, Room> getRooms() {
@@ -247,7 +262,7 @@ public class AdventureGame implements Serializable {
     /**
      * getSynonyms
      * __________________________
-     * Getter method for synonyms 
+     * Getter method for synonyms
      * @return map of key value pairs (synonym to command)
      */
     public HashMap<String, String> getSynonyms() {

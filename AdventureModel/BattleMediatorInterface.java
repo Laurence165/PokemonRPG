@@ -11,6 +11,4 @@ public interface BattleMediatorInterface {
 
     public Boolean end_battle();
 
-    public boolean battle();
-
     }

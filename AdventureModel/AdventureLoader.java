@@ -108,7 +108,7 @@ public class AdventureLoader {
             i++;
             String str = buff.readLine();
             List<String> pokeList = Arrays.asList(str.split(", "));
-            Pokemon newPokemon = new Pokemon(pokeList.get(0), "","","",0,100, i);
+            Pokemon newPokemon = new Pokemon(pokeList.get(0), "","", pokeList.get(3),Integer.parseInt(pokeList.get(1)),Integer.parseInt(pokeList.get(2)), i);
             newPokemon.name = pokeList.get(0);
             newPokemon.health = Integer.parseInt(pokeList.get(1));
             newPokemon.energy = Integer.parseInt(pokeList.get(2));
