@@ -692,7 +692,16 @@ public class AdventureGameView {
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
-
+        if(battleView != null){
+            battleView.setImage(null);
+        }
+        if(opponentPokemonView != null){
+            opponentPokemonView.setImage(null);
+        }
+        invLabel.setText("");
+        objLabel.setText("");
+        battleLabel.setText("");
+        opponentPokemonLabel.setText("");
         System.out.println("update Scene");
         getRoomImage(); //get the image of the current room
 
@@ -739,9 +748,30 @@ public class AdventureGameView {
     public void formatText(String textToDisplay) {
         if (textToDisplay == null || textToDisplay.isBlank()) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
-            String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString); // TODO: change this
-            else roomDescLabel.setText(roomDesc);
+//            String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
+//            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString); // TODO: change this
+//            else roomDescLabel.setText(roomDesc);
+            String pokemonString = "";
+            String villagerString = "";
+            String s = "";
+            if(this.model.getPlayer().getCurrentRoom().pokemonsInRoom.size() > 0){
+                for(Pokemon p: this.model.getPlayer().getCurrentRoom().pokemonsInRoom){
+                    pokemonString += p.getName() + '\n';
+                }
+            }
+            if(this.model.getPlayer().getCurrentRoom().villagerInRoom != null){
+                villagerString += this.model.getPlayer().getCurrentRoom().villagerInRoom.getName();
+            }
+            s = pokemonString + villagerString;
+            if(s.equals("")){
+                roomDescLabel.setText(roomDesc);
+            }else{
+                if(pokemonString.equals("")){
+                    roomDescLabel.setText(roomDesc + "\n\nVillagers in this room:\n" + s);
+                }else if(villagerString.equals("")){
+                    roomDescLabel.setText(roomDesc + "\n\nPokemons in this room:\n" + s);
+                }else roomDescLabel.setText(roomDesc + "\n\nPokemons and Villagers in this room:\n" + s);
+            }
         } else roomDescLabel.setText(textToDisplay);
         roomDescLabel.setStyle("-fx-text-fill: white;");
         roomDescLabel.setFont(new Font("Arial", 16));
