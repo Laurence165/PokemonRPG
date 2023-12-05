@@ -12,11 +12,11 @@ public class Moves {
     }
 
     public String use_move(Pokemon acting_pokemon){
-        return(acting_pokemon.getName() + " has used " + this.name + "!");
+        return(acting_pokemon.getName() + " has used " + this.name + "! \n");
     }
 
     public String get_description(){
-        return (this.name + " has attack points " + this.points.toString() + " and costs  " + this.energy.toString()+" energy points\n");
+        return (this.name + " has " + this.points.toString() + " attack points and costs " + this.energy.toString()+" energy points.\n");
     }
     public Integer get_points(){return this.points;}
 

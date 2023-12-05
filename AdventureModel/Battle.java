@@ -92,10 +92,14 @@ public class Battle implements BattleMediatorInterface {
 
     public void update(Integer inc1, Integer inc2, Integer energy1, Integer energy2) {
         System.out.println("Updating health and energy");
-        this.currentPokemon2.set_health(inc1);
-        this.currentPokemon1.set_health(inc2);
+        this.currentPokemon1.set_health(inc1);
+        this.currentPokemon2.set_health(inc2);
+        System.out.println(this.currentPokemon1.getName() + "health " +  this.currentPokemon1.get_health() + " ,current, and max is:" + this.currentPokemon1.get_max_health());
+        System.out.println(this.currentPokemon2.getName() + "health " + this.currentPokemon2.get_health() + " ,current, and max is:" + this.currentPokemon2.get_max_health());
         this.currentPokemon1.set_energy(energy1);
         this.currentPokemon2.set_energy(energy2);
+        System.out.println(this.currentPokemon1.getName() + "energy " + this.currentPokemon1.get_energy() + " ,current, and max is:" + this.currentPokemon1.get_max_energy());
+        System.out.println(this.currentPokemon2.getName() + "energy " + this.currentPokemon2.get_energy() + " ,current, and max is:" + this.currentPokemon2.get_max_energy());
     }
 
     public Boolean end_battle() {
@@ -129,15 +133,19 @@ public class Battle implements BattleMediatorInterface {
             double damage = factor * m.get_points();
             int damage2 = (int) floor(damage);
             update(0, damage2, m.get_energy(), 0);
-            Out.append(currentPokemon1.getName() + " did " + damage2 + "damage to " + currentPokemon2.getName() + "and lost " + m.get_energy() + "energy \n");
-            Out.append("Current health of " + currentPokemon1.getName() + " is " + currentPokemon1.get_health() + "and Current health of "+ currentPokemon2.getName() + " is " + currentPokemon2.get_health());
-
+            Out.append(currentPokemon1.getName() + " did " + damage2 + " damage to " + currentPokemon2.getName() + " and lost " + m.get_energy() + " energy. \n");
+//
         } else if (m.get_points() == 0) { // indicates pass
             update(0, 0, (this.currentPokemon1.get_max_energy() / 2), 0);
         } else {
-            Out.append("Poke 1 did "+ m.get_points() + "damage to Poke 2 and lost " + m.get_energy() + "energy");
+            Out.append(currentPokemon1.getName() + " has healed by "+ (m.get_points() * (-1)) + " points.");
             update(m.get_points(), 0, m.get_energy(), 0);
         }
+
+        Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n"+ currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
+
+        //TODO: TEXT TO SPEECH
+
 
 //        this.view.formatText(String.valueOf(Out));
         Platform.runLater(() -> {
@@ -145,7 +153,7 @@ public class Battle implements BattleMediatorInterface {
         });
         new Thread(() -> {
             try {
-                Thread.sleep(2000); // Delay for 2 seconds
+                Thread.sleep(10000); // Delay for 2 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -155,7 +163,6 @@ public class Battle implements BattleMediatorInterface {
                 continueBattle(Out);
             });
         }).start();
-        // TODO: should I display the updated health and energy after each round? If I want that to be accessible then I'm going to need text to speech
         System.out.println("pausing");
     }
 
@@ -164,21 +171,26 @@ public class Battle implements BattleMediatorInterface {
         if (status == 0){
             System.out.println("Opponent turn");
             String phrase = player2.talk();
-            Out.append(phrase);
+            Out.setLength(0);
+            Out.append(this.player2.getName() + ":  '" + phrase + "' \n");
             this.view.textToSpeech(phrase);
             Moves m = this.player2.get_move(this.currentPokemon2);
-            Out.append(m.use_move(currentPokemon1));
+            Out.append(m.use_move(currentPokemon2));
             if (m.get_points() > 0) {
                 double factor = this.compare_types(this.currentPokemon2, this.currentPokemon1);
                 double damage = factor * m.get_points();
                 int damage2 = (int) floor(damage);
                 update(damage2, 0, 0, m.get_energy());
+                Out.append(currentPokemon2.getName() + " did " + damage2 + " damage to " + currentPokemon1.getName() + " and lost " + m.get_energy() + " energy. \n");
             } else if (m.get_points() == 0) { // indicates pass
                 update(0, 0, 0, (this.currentPokemon2.get_max_energy() / 2));
             } else {
+                Out.append("Poke 1 did "+ m.get_points() + "damage to Poke 2 and lost " + m.get_energy() + " energy");
                 update(0, m.get_points(), 0, m.get_energy());
             }
-            this.view.pause(8); //TODO: does this line work?
+            Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n"+ currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
+            Out.append("It is your turn to move again.");
+            // TODO: PAUSE
         } else{
             boolean won = this.end_battle();
             this.game.resumeMovePlayer(won);
@@ -196,26 +208,27 @@ public class Battle implements BattleMediatorInterface {
         }
     }
 
-    public int checkBattleEnd(){
+    public int checkBattleEnd() {
         System.out.println("check battle end");
         if (currentPokemon2.get_health() < 1) {
-            if (currentPokemonIndex2 == 2) {
-                return 1;
-            } else {
+            if (currentPokemon2.get_health() < 1) {
                 currentPokemonIndex2 += 1;
-                currentPokemon2 = player2Pokemon.get(currentPokemonIndex2);
-                this.view.setBattleScene(currentPokemon1, currentPokemon2);
-            }
-        } else if (currentPokemon1.get_health() < 1) {
-            if (currentPokemonIndex1 == 2) {
-                return -1;
-            } else {
+                if (currentPokemonIndex2 >= player2Pokemon.size()) {
+                    return 1; // All opponent's Pokémon have fainted
+                } else {
+                    currentPokemon2 = player2Pokemon.get(currentPokemonIndex2);
+                    this.view.setBattleScene(currentPokemon1, currentPokemon2);
+                }
+            } else if (currentPokemon1.get_health() < 1) {
                 currentPokemonIndex1 += 1;
-                currentPokemon1 = player1Pokemon.get(currentPokemonIndex1);
-                this.view.setBattleScene(currentPokemon1, currentPokemon2);
+                if (currentPokemonIndex1 >= player1Pokemon.size()) {
+                    return -1; // All player's Pokémon have fainted
+                } else {
+                    currentPokemon1 = player1Pokemon.get(currentPokemonIndex1);
+                    this.view.setBattleScene(currentPokemon1, currentPokemon2);
+                }
             }
         }
-
         return 0;
     }
 

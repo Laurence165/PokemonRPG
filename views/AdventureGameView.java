@@ -918,6 +918,8 @@ public class AdventureGameView {
         this.selectedPokemon.getChildren().clear();
         this.arraySelectedPokemon.clear();
 
+        this.formatText("Select 3 Pokemon for battle.");
+
         //right side pane
         for(Pokemon o: pokeWithPlayer){ // Go through all items in inventory and create button
             String name = o.getName();
