@@ -21,6 +21,7 @@ public class Opponent extends NPC implements BattleColleagueInterface{
         for (int i = 0; i <=3; i++) {
             int randomV = rand.nextInt(this.pokemons.size());
             battlePokemons.add(this.pokemons.get(randomV));
+//            battlePokemons.remove(this.pokemons.get(randomV));
         }
         return battlePokemons;
     }

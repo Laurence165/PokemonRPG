@@ -80,7 +80,7 @@ WEST     12
 
 12
 Cinnabar Island
-Cinnabar Island is a town on an island with a volcano. It has several buildings including the abandoned Pokémon Mansion, and a research institute.
+Cinnabar Island is a town on an island with a volcano. It has several Fire-type pokemon for you to collect.
 -----
 EAST       11
 NORTH       1
