@@ -106,6 +106,7 @@ public class AdventureGameView {
     /**
      * Initialize the UI
      */
+
     public void intiUI() {
 
         // setting up the stage
@@ -221,7 +222,6 @@ public class AdventureGameView {
         textEntry.setSpacing(10);
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 0, 2, 3, 1 );
-
         // Apply the contrast effect to the entire view
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setContrast(0.9);
@@ -235,11 +235,6 @@ public class AdventureGameView {
             }
             isHighContrast = !isHighContrast; // Toggle the flag
         });
-
-        gridPane.getChildren().add(toggleButton);
-
-        //ZOOMMMMM
-
         // Zoom in and out using buttons
         Button zoomInButton = new Button("Zoom In");
         Button zoomOutButton = new Button("Zoom Out");
@@ -247,38 +242,11 @@ public class AdventureGameView {
         zoomInButton.setOnAction(e -> zoom(gridPane, true));
         zoomOutButton.setOnAction(e -> zoom(gridPane, false));
 
-
-        // VBox to hold the buttons
-        VBox buttonBox = new VBox(10); // 10 is the spacing between buttons
+        HBox buttonBox = new HBox(10); // 10 is the spacing between buttons
         buttonBox.getChildren().addAll(zoomInButton, zoomOutButton);
-
-        gridPane.add(buttonBox,1,0,1,1);
-
-        // Render everything
-        var scene = new Scene( gridPane ,  1000, 800);
-        double translateStep = 20;
-        // Set up key event handling
-        scene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case W:
-
-                    gridPane.setTranslateY(gridPane.getTranslateY() + translateStep);
-                    break;
-                case S:
-                    //System.out.println(gridPane.getTranslateY());
-                    gridPane.setTranslateY(gridPane.getTranslateY() - translateStep);
-                    break;
-                case A:
-                    gridPane.setTranslateX(gridPane.getTranslateX() + translateStep);
-                    break;
-                case D:
-                    gridPane.setTranslateX(gridPane.getTranslateX() - translateStep);
-                    break;
-                // Add more cases for other keys if needed
-            }
-        });
-
-
+        gridPane.add(buttonBox, 0, 0); // Adjust column and row indices as needed
+        gridPane.add(toggleButton, 0, 0); // Adjust column and row indices as needed
+        var scene = new Scene(gridPane, 1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
@@ -692,6 +660,7 @@ public class AdventureGameView {
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
+        stopSpeaking();
         if(battleView != null){
             battleView.setImage(null);
         }
@@ -840,28 +809,42 @@ public class AdventureGameView {
             iv.setPreserveRatio(true);
             iv.setSmooth(true);
             iv.setCache(true);
-            Button obj = new Button();
-            obj.setGraphic(iv);
-            makeButtonAccessible(obj, name, name, name);
-            addObjEvent(obj, name);
-            objectsInInventory.getChildren().add(obj);
+
+            Label label = new Label(name);
+            label.setStyle("-fx-text-fill: black; -fx-background-color: transparent;");
+
+            VBox objBox= new VBox(iv, label);
+            objBox.setAlignment(Pos.CENTER);
+
+            Button buttonWithLabel = new Button();
+            buttonWithLabel.setGraphic(objBox);
+            makeButtonAccessible(buttonWithLabel, name, name, name);
+            addObjEvent(buttonWithLabel, o.getName());
+
+            objectsInInventory.getChildren().add(buttonWithLabel);
         }
         for(Pokemon o: objRoom){// Go through all items in room and create button
             String name = o.getName();
-            System.out.println("where my pokes at NEW");
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
-            System.out.println("wheeee2");
             ImageView iv = new ImageView();
             iv.setImage(image);
             iv.setFitWidth(100);
             iv.setPreserveRatio(true);
             iv.setSmooth(true);
             iv.setCache(true);
-            Button obj = new Button();
-            obj.setGraphic(iv);
-            makeButtonAccessible(obj, name, name, name);
-            addObjEvent(obj, o.getName());
-            objectsInRoom.getChildren().add(obj);
+
+            Label label = new Label(name);
+            label.setStyle("-fx-text-fill: black; -fx-background-color: transparent;");
+
+            VBox objBox= new VBox(iv, label);
+            objBox.setAlignment(Pos.CENTER);
+
+            Button buttonWithLabel = new Button();
+            buttonWithLabel.setGraphic(objBox);
+            makeButtonAccessible(buttonWithLabel, name, name, name);
+            addObjEvent(buttonWithLabel, o.getName());
+
+            objectsInRoom.getChildren().add(buttonWithLabel);
         }
 
         ScrollPane scO = new ScrollPane(objectsInRoom);
@@ -954,14 +937,17 @@ public class AdventureGameView {
         for(Pokemon o: pokeWithPlayer){ // Go through all items in inventory and create button
             String name = o.getName();
             Image image = new Image("AdventureModel/pokemon_images/"+Integer.toString(o.getIndex()) + ".png");
-            ImageView iv = new ImageView();
+            ImageView iv = new ImageView(image);
             iv.setImage(image);
             iv.setFitWidth(100);
             iv.setPreserveRatio(true);
             iv.setSmooth(true);
             iv.setCache(true);
+            Label label = new Label(name);
+            label.setStyle("-fx-text-fill: black; -fx-background-color: transparent;");
+            VBox objBox = new VBox(iv,label);
             Button obj = new Button();
-            obj.setGraphic(iv);
+            obj.setGraphic(objBox);
             makeButtonAccessible(obj, name, name, name);
             addObjEvent2(obj, name, o);
             this.objectsInInventoryCopy.getChildren().add(obj);
@@ -1001,7 +987,17 @@ public class AdventureGameView {
             updateScene(""); // Show image again
         }else{
             helpToggle = true;
-            gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1);
+//            gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1);
+            gridPane.getChildren().removeIf(node -> {
+                // Assume default values for row and column if they are null
+                Integer rowIndex = GridPane.getRowIndex(node);
+                if (rowIndex == null) rowIndex = 0; // default row index
+
+                Integer columnIndex = GridPane.getColumnIndex(node);
+                if (columnIndex == null) columnIndex = 0; // default column index
+
+                return rowIndex == 1 && columnIndex == 1;
+            });
             File h = new File(this.model.getDirectoryName()+"/help.txt");
             List<String> content = new ArrayList<>();
             try {
@@ -1032,8 +1028,15 @@ public class AdventureGameView {
 
             gridPane.add(instructionsPane, 1, 1);
             stage.sizeToScene();
-        }
+            StringBuilder instructionString = new StringBuilder();
 
+            for (String str : content) {
+                instructionString.append(str);
+            }
+            new Thread(() -> {
+                    textToSpeech(instructionString.toString());
+            }).start();
+        }
     }
 
     /**

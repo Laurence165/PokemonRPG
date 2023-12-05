@@ -12,8 +12,11 @@ COMMANDS: this will print the moves that are legal in a given room.
 HELP: this will display instructions
 INVENTORY: this will print your current inventory.
 LOOK: this will print the description for the current room.
-TAKE <object>: this will take an object from a room and place it in your inventory. Replace <object> with the name of the object to take.  The object must be present in the room in order to take it.
-DROP <object>: this will drop an object in your inventory. Replace <object> with the name of the object to drop. The object must be in your inventory to drop it.
+TAKE <Pokemon>: this will take a Pokemon from a room and place it in your inventory. Replace <Pokemon> with the name of the Pokemon to take.  The Pokemon must be present in the room in order to take it.
+DROP <Pokemon>: this will drop a Pokemon in your inventory. Replace <Pokemon> with the name of the Pokemon to drop. The Pokemon must be in your inventory to drop it.
+MOVE: this will show all the available moves of the current pokemon and after this you can type <Move's name> to activate the move.
+PASS: this will pass the turn in the battle and restore the energy.
+TALK: this will create interactions with the villagers.You might receive pokemon from the villager !
 
 Some paths may be blocked.  To unblock a path you may need a specific object to be in your inventory.
 

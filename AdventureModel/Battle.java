@@ -103,7 +103,6 @@ public class Battle implements BattleMediatorInterface {
     }
 
     public Boolean end_battle() {
-        System.out.println("end battle");
         boolean won = false;
         for (Pokemon p : this.player1Pokemon) {
             if (p.get_health() > 0) {
@@ -196,47 +195,6 @@ public class Battle implements BattleMediatorInterface {
 
             // Get player's next move
             this.view.getMoveEvent(this.currentPokemon1, this);
-
-
-//        int status = checkBattleEnd();
-//        if (status == 0){
-//            System.out.println("Opponent turn");
-//            String phrase = player2.talk();
-//            Out.setLength(0);
-//            Out.append(this.player2.getName() + ":  '" + phrase + "' \n");
-//            this.view.textToSpeech(phrase);
-//            Moves m = this.player2.get_move(this.currentPokemon2);
-//            Out.append(m.use_move(currentPokemon2));
-//            if (m.get_points() > 0) {
-//                double factor = this.compare_types(this.currentPokemon2, this.currentPokemon1);
-//                double damage = factor * m.get_points();
-//                int damage2 = (int) floor(damage);
-//                update(damage2, 0, 0, m.get_energy());
-//                Out.append(currentPokemon2.getName() + " did " + damage2 + " damage to " + currentPokemon1.getName() + " and lost " + m.get_energy() + " energy. \n");
-//            } else if (m.get_points() == 0) { // indicates pass
-//                update(0, 0, 0, (this.currentPokemon2.get_max_energy() / 2));
-//            } else {
-//                Out.append("Poke 1 did "+ m.get_points() + "damage to Poke 2 and lost " + m.get_energy() + " energy");
-//                update(0, m.get_points(), 0, m.get_energy());
-//            }
-//            Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n"+ currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
-//            Out.append("It is your turn to move again.");
-//            // TODO: PAUSE
-//        } else{
-//            boolean won = this.end_battle();
-//            this.game.resumeMovePlayer(won);
-//        }
-//        Platform.runLater(() -> {
-//            this.view.formatText(String.valueOf(Out));
-//        });
-//        status = checkBattleEnd();
-//        if (status == 0){
-//            System.out.println("continue game after opponent move");
-//            this.view.getMoveEvent(this.currentPokemon1, this);
-//        } else {
-//            boolean won = this.end_battle();
-//            this.game.resumeMovePlayer(won);
-//        }
     }
 
     private void handleBattleEnd(int status, StringBuilder Out) {
