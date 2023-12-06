@@ -177,7 +177,7 @@ public class Battle implements BattleMediatorInterface {
             Out.append(this.player2.getName() + ": '" + phrase + "' \n");
             this.view.textToSpeech(phrase);
 
-            Moves m = this.player2.get_move(this.currentPokemon2);
+            Moves m = this.player2.get_move(this.currentPokemon2, this);
             Out.append(m.use_move(currentPokemon2));
             if (m.get_points() > 0) {
                 double factor = this.compare_types(this.currentPokemon2, this.currentPokemon1);
@@ -211,7 +211,7 @@ public class Battle implements BattleMediatorInterface {
             });
 
             // Get player's next move
-            this.view.getMoveEvent(this.currentPokemon1, this);
+            this.player1.get_move(this.currentPokemon1, this);
     }
 
     private void handleBattleEnd(int status, StringBuilder Out) {

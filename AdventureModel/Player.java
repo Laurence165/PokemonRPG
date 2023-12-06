@@ -155,8 +155,9 @@ public class Player implements Serializable, BattleColleagueInterface{
      *
      * @param p Pokémon which we will get the moves from
      */
-    public Moves get_move(Pokemon p){
-        return new Moves("PASS", 0, 0);
+    public Moves get_move(Pokemon p, Battle b){
+        this.view.getMoveEvent(p, b);
+        return new Moves("PASS",0, 0);
     }
     public Player getInstance(){return this.instance;}
 }
