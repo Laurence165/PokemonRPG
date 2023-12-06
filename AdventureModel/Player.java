@@ -13,6 +13,7 @@ public class Player implements Serializable, BattleColleagueInterface{
     /**
      * The current room that the player is located in.
      */
+    private Player instance;
     private Room currentRoom;
 
     private AdventureGameView view;
@@ -35,6 +36,7 @@ public class Player implements Serializable, BattleColleagueInterface{
         this.currentRoom = currentRoom;
         this.backpack = new ArrayList<>();
         this.pokemonOptions = new ArrayList<>(this.backpack);
+        this.instance = this;
     }
 
     /**
@@ -156,4 +158,5 @@ public class Player implements Serializable, BattleColleagueInterface{
     public Moves get_move(Pokemon p){
         return new Moves("PASS", 0, 0);
     }
+    public Player getInstance(){return this.instance;}
 }

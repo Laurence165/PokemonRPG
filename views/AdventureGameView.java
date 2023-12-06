@@ -401,6 +401,10 @@ public class AdventureGameView {
             // Handle 'COMMANDS' command: display available commands
             showCommands(); //this is new!  We did not have this command in A1
             return;
+        } else if (text.equalsIgnoreCase("MAP") || text.equalsIgnoreCase("M")) {
+            // Handle 'MAP' command: display rooms we have traversed
+            formatText(this.model.getAdventureMap().show()); //this is new!  We did not have this command in A1
+            return;
         } else if (text.equalsIgnoreCase("TALK") || text.equalsIgnoreCase("T")) {
             // Handle 'TALK' command: interact with a villager in the room, if present
             Villager speaker = this.model.getPlayer().getCurrentRoom().villagerInRoom;
