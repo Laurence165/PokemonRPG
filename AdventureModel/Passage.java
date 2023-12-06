@@ -22,10 +22,8 @@ public class Passage implements Serializable {
     private int destinationRoom;
 
     /**
-     * The name of the object required to move along this passage.
+     * The index of the opponent that must be battled to move along this passage.
      */
-    private String keyName;
-
     private Integer opponentNumber;
 
     /**
@@ -42,7 +40,7 @@ public class Passage implements Serializable {
     public Passage(String direction, String roomNumber) {
         this.direction = direction;
         this.destinationRoom = Integer.parseInt(roomNumber);
-        this.keyName = null;
+        this.opponentNumber = null;
     }
 
     /**
@@ -50,12 +48,12 @@ public class Passage implements Serializable {
      *
      * @param direction A string representation of a direction.
      * @param roomNumber A string representation of a room number.
-     * @param key A string representation of a key if the passage is blocked.
+     * @param o Integer index of the opponent that should be battled to pass through.
      */
-    public Passage(String direction, String roomNumber, String key) {
+    public Passage(String direction, String roomNumber, Integer o) {
         this.direction = direction;
         this.destinationRoom = Integer.parseInt(roomNumber);
-        this.keyName = key;
+        this.opponentNumber = o;
         this.isBlocked = true;
     }
 
@@ -77,15 +75,6 @@ public class Passage implements Serializable {
         return this.destinationRoom;
     }
 
-    /**
-     * Returns the name of the object required to move along this passage,
-     * or null if no object is required.
-     *
-     * @return The name of the required object, or null if no object is required.
-     */
-    public String getKeyName() {
-        return this.keyName;
-    }
 
     /**
      * Returns if the passage is blocked.
@@ -100,6 +89,15 @@ public class Passage implements Serializable {
      * Pretty print the Passage
      */
     public void printPassage() {
-        System.out.println(this.direction + " " + this.destinationRoom + " " + this.keyName + " " + this.isBlocked);
+        System.out.println(this.direction + " " + this.destinationRoom + " " + this.opponentNumber + " " + this.isBlocked);
     }
+
+    /**
+     * Returns the index of the opponent that must be battled to move along this passage,
+     * or null if no object is required.
+     *
+     * @return The name of the required object, or null if no object is required.
+     */
+    public Integer getOpponent(){return opponentNumber;}
+
 }

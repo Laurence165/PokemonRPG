@@ -33,13 +33,12 @@ public class Room implements Serializable {
     /**
      * The list of objects in the room.
      */
-    public ArrayList<AdventureObject> objectsInRoom = new ArrayList<AdventureObject>();
+    public Villager villagerInRoom;
 
     /**
      * The list of Pokemons in the room.
      */
     public ArrayList<Pokemon> pokemonsInRoom = new ArrayList<>();
-
 
     /**
      * A boolean to store if the room has been visited or not
@@ -59,6 +58,7 @@ public class Room implements Serializable {
         this.roomDescription = roomDescription;
         this.adventureName = adventureName;
         this.isVisited = false;
+        this.villagerInRoom = null;
     }
 
 
@@ -69,17 +69,6 @@ public class Room implements Serializable {
      *
      * @return delimited string of object descriptions
      */
-    public String getObjectString() {
-
-        //initiating a new stringBuilder to add objects
-        StringBuilder s = new StringBuilder();
-
-        // looping through objects in the room to output to the user
-        for(AdventureObject o : this.objectsInRoom){
-            s.append(o.getDescription());
-        }
-        return s.toString();
-    }
 
     /**
      * Returns a comma delimited list of every
@@ -88,6 +77,22 @@ public class Room implements Serializable {
      *
      * @return delimited string of possible moves
      */
+
+    public String getObjectString() {
+        String s = "";
+        if (this.pokemonsInRoom.size() == 0 && this.villagerInRoom == null){ return s; }
+        s += "\nWild Pokemons:\n";
+        for (Pokemon o: this.pokemonsInRoom){
+            s += (o.getName()+", ");
+        }
+        s = s.substring(0,s.length()-2);
+        if (this.villagerInRoom!=null){
+
+            s += "\nVillagers:\n" + this.villagerInRoom.getName();
+        }
+        return s;
+    }
+
     public String getCommands() {
 
         // initiating a stringBuilder to add the directions
@@ -110,8 +115,13 @@ public class Room implements Serializable {
      *
      * @param object to be added to the room.
      */
-    public void addGameObject(AdventureObject object){
-        this.objectsInRoom.add(object);
+    public void addGameObject(Labelled object){
+        if (object instanceof Villager){
+            this.villagerInRoom = (Villager)(object);
+        }
+        else if (object instanceof Pokemon){
+            this.pokemonsInRoom.add((Pokemon) object);
+        }
     }
 
     /**
@@ -119,8 +129,13 @@ public class Room implements Serializable {
      *
      * @param object to be removed from the room.
      */
-    public void removeGameObject(AdventureObject object){
-        this.objectsInRoom.remove(object);
+    public void removeGameObject(Labelled object){
+        if (object instanceof Villager){
+            this.villagerInRoom = null;
+        }
+        else if (object instanceof Pokemon){
+            this.pokemonsInRoom.remove(object);
+        }
     }
 
     /**
@@ -129,11 +144,15 @@ public class Room implements Serializable {
      * @param objectName Name of the object to be checked.
      * @return true if the object is present in the room, false otherwise.
      */
-    public boolean checkIfObjectInRoom(String objectName){
-        for(int i = 0; i<objectsInRoom.size();i++){
-            if(this.objectsInRoom.get(i).getName().equals(objectName)) return true;
+    public boolean checkIfVillagerInRoom(){
+        if (villagerInRoom!=null){
+            return true;
         }
         return false;
+    }
+
+    public Villager getVillagerInRoom() {
+        return villagerInRoom;
     }
 
     /**
@@ -149,9 +168,9 @@ public class Room implements Serializable {
      * @param objectName: Object name to find in the room
      * @return: AdventureObject
      */
-    public AdventureObject getObject(String objectName){
-        for(int i = 0; i<objectsInRoom.size();i++){
-            if(this.objectsInRoom.get(i).getName().equals(objectName)) return this.objectsInRoom.get(i);
+    public Pokemon getPokemon(String objectName){
+        for(int i = 0; i<pokemonsInRoom.size();i++){
+            if(this.pokemonsInRoom.get(i).getName().equalsIgnoreCase(objectName)) return this.pokemonsInRoom.get(i);
         }
         return null;
     }
@@ -219,7 +238,7 @@ public class Room implements Serializable {
      * @param p to be removed from the room.
      */
     public void removePokemon(Pokemon p){
-        this.objectsInRoom.remove(p);
+        this.pokemonsInRoom.remove(p);
     }
 
     /**
@@ -230,7 +249,7 @@ public class Room implements Serializable {
      */
     public boolean checkIfPokemonInRoom(String pokemonName){
         for(int i = 0; i<pokemonsInRoom.size();i++){
-            if(this.pokemonsInRoom.get(i).get_name().equals(pokemonName)) return true;
+            if(this.pokemonsInRoom.get(i).getName().equalsIgnoreCase(pokemonName)) return true;
         }
         return false;
     }
