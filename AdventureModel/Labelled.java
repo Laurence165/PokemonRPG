@@ -5,7 +5,7 @@ package AdventureModel;
  * This class serves as a base for objects that have a name, description, image, and index.
  * It can be used for various game elements such as items, characters, or locations.
  */
-public class Labelled {
+public class Labelled implements LabelledInterface {
 
     // Name of the entity
     String name;
