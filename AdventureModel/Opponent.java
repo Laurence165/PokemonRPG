@@ -53,7 +53,7 @@ public class Opponent extends NPC implements BattleColleagueInterface {
      * @param active The active Pokemon for which the move is to be chosen.
      * @return The selected move for the active Pokemon.
      */
-    public Moves get_move(Pokemon active) {
+    public Moves get_move(Pokemon active, Battle b) {
         // Selects a move based on the Pokemon's energy level
         if (active.energy > active.get_moves().get(1).get_energy()) {
             return active.get_moves().get(1);
