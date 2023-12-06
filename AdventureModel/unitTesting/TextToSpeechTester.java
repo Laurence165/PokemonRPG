@@ -1,7 +1,8 @@
-package AdventureModel;
+package AdventureModel.unitTesting;
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
+import org.junit.jupiter.api.Test;
 
 public class TextToSpeechTester {
 
@@ -15,6 +16,8 @@ public class TextToSpeechTester {
 
         voice.speak(sayText);
     }
+
+
 
     public static void main(String []args) {
         System.setProperty("freetts.voices",

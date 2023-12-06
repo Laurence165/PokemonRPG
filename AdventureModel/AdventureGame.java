@@ -48,6 +48,8 @@ public class AdventureGame implements Serializable {
     // Passage used for returning from a battle or similar event
     private Passage returnPassage;
 
+    private AdventureMap adventureMap;
+
     /**
      * Constructs an AdventureGame instance with the specified game name.
      * Initializes game components and loads game data.
@@ -101,6 +103,7 @@ public class AdventureGame implements Serializable {
 
         // Initialize the player's starting location
         this.player = new Player(this.rooms.get(1));
+        this.adventureMap = new AdventureMap(this.rooms.get(1));
     }
 
     /**
@@ -194,6 +197,7 @@ public class AdventureGame implements Serializable {
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
         this.player.setCurrentRoom(room);
+        this.adventureMap.visit(room);
 
         // Check for forced movement
         boolean force = !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
@@ -330,6 +334,8 @@ public class AdventureGame implements Serializable {
     public HashMap<Integer, Room> getRooms() {
         return this.rooms;
     }
+
+    public AdventureMap getAdventureMap(){return this.adventureMap;}
 
     /**
      * getSynonyms

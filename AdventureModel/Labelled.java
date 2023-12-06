@@ -5,7 +5,7 @@ package AdventureModel;
  * This class serves as a base for objects that have a name, description, image, and index.
  * It can be used for various game elements such as items, characters, or locations.
  */
-public class Labelled implements LabelledInterface {
+public class Labelled {
 
     // Name of the entity
     String name;
@@ -33,7 +33,12 @@ public class Labelled implements LabelledInterface {
         this.description = description;
         this.index = index;
     }
-
+    /**
+     * template method for Labelled to get detail.
+     */
+    public final void templateMethodGetDetail(){
+        System.out.println(this.getName() + " "+ this.getDescription() + " " + this.getImage() + " " + this.getIndex());
+    }
     /**
      * Gets the name of the entity.
      *

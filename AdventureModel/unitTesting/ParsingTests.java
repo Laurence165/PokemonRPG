@@ -1,5 +1,7 @@
-package AdventureModel;
+package AdventureModel.unitTesting;
 
+import AdventureModel.AdventureGame;
+import AdventureModel.AdventureLoader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
