@@ -148,16 +148,6 @@ public class Battle implements BattleMediatorInterface {
         }
         Out.append(currentPokemon1.getName() + ": " + currentPokemon1.get_health() + "HP, " + currentPokemon1.get_energy() + " Energy  \n");
         Out.append(currentPokemon2.getName() + ": " + currentPokemon2.get_health() + "HP, " + currentPokemon2.get_energy() + " Energy  \n");
-
-//        Platform.runLater(() -> {
-//            this.view.formatText(String.valueOf(Out));
-//            new Thread(() -> {
-//                this.view.textToSpeech(Out.toString());
-//            }).start();
-//        });
-//        new Thread(() -> {
-//            continueOpponentTurn(Out);
-//        }).start();
         CountDownLatch latch = new CountDownLatch(1);
 
         Platform.runLater(() -> {

@@ -22,12 +22,4 @@ public class BasicAdventureTest {
         String objects = game.player.getCurrentRoom().getObjectString();
         assertEquals("a water bird", objects);
     }
-
-//    @Test
-//    void getObjectString() throws IOException {
-//        AdventureGame game = new AdventureGame("TinyGame");
-//        String objects = game.player.getCurrentRoom().getObjectString();
-//        assertEquals("a water bird", objects);
-//    }
-
 }

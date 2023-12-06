@@ -38,16 +38,26 @@ public class SaveView {
     private AdventureGameView adventureGameView;
 
     /**
-     * Constructor
+     * Initializes and displays a dialog for saving the game's current state.
+     * This constructor creates a dialog window with options for saving the game's state.
+     * It allows the player to specify a file name, save the game, and close the window.
+     * The dialog includes UI elements such as labels, text fields, buttons, and styling.
+     *
+     * @param adventureGameView The parent view associated with the game.
      */
     public SaveView(AdventureGameView adventureGameView) {
+        // Initialize the dialog window
         this.adventureGameView = adventureGameView;
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(adventureGameView.stage);
+
+        // Create the main layout for the dialog
         VBox dialogVbox = new VBox(20);
         dialogVbox.setPadding(new Insets(20, 20, 20, 20));
         dialogVbox.setStyle("-fx-background-color: #121212;");
+
+        // Create and style UI elements
         saveGameLabel.setId("SaveGame"); // DO NOT MODIFY ID
         saveFileErrorLabel.setId("SaveFileErrorLabel");
         saveFileNameTextField.setId("SaveFileNameTextField");
@@ -58,9 +68,11 @@ public class SaveView {
         saveFileNameTextField.setStyle("-fx-text-fill: #000000;");
         saveFileNameTextField.setFont(new Font(16));
 
+        // Generate a default game name based on the current date and time
         String gameName = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ".ser";
         saveFileNameTextField.setText(gameName);
 
+        // Create the "Save board" button
         saveGameButton = new Button("Save board");
         saveGameButton.setId("SaveBoardButton"); // DO NOT MODIFY ID
         saveGameButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
@@ -69,6 +81,7 @@ public class SaveView {
         AdventureGameView.makeButtonAccessible(saveGameButton, "save game", "This is a button to save the game", "Use this button to save the current game.");
         saveGameButton.setOnAction(e -> saveGame());
 
+        // Create the "Close Window" button
         closeWindowButton = new Button("Close Window");
         closeWindowButton.setId("closeWindowButton"); // DO NOT MODIFY ID
         closeWindowButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
@@ -77,10 +90,14 @@ public class SaveView {
         closeWindowButton.setOnAction(e -> dialog.close());
         AdventureGameView.makeButtonAccessible(closeWindowButton, "close window", "This is a button to close the save game window", "Use this button to close the save game window.");
 
+        // Create the layout for save game options
         VBox saveGameBox = new VBox(10, saveGameLabel, saveFileNameTextField, saveGameButton, saveFileErrorLabel, closeWindowButton);
         saveGameBox.setAlignment(Pos.CENTER);
 
+        // Add the save game options to the dialog layout
         dialogVbox.getChildren().add(saveGameBox);
+
+        // Create the dialog scene and display the dialog window
         Scene dialogScene = new Scene(dialogVbox, 400, 400);
         dialog.setScene(dialogScene);
         dialog.show();
@@ -96,29 +113,39 @@ public class SaveView {
      * Otherwise, load the file and set the saveFileErrorLabel to the text in saveFileSuccess
      */
     private void saveGame() {
+        // Get the source directory and list of source files
         File source = new File("Games/Saved");
         File[] sourceFiles = source.listFiles();
-        String name = saveFileNameTextField.getText();
-        boolean error = false;
-        File place = new File("Games/Saved/"+name);
 
-        if (! name.endsWith("ser")){ // Handle not ser
+        // Get the user-specified file name
+        String name = saveFileNameTextField.getText();
+
+        // Initialize an error flag
+        boolean error = false;
+
+        // Create a File object for the target save location
+        File place = new File("Games/Saved/" + name);
+
+        // Check if the specified file name ends with "ser" (serialization file extension)
+        if (!name.endsWith("ser")) {
             error = true;
             saveFileErrorLabel.setText(saveFileNotSerError);
-        } else{
+        } else {
+            // Check for duplicate file names in the directory
             for (int i = 0; i < Objects.requireNonNull(sourceFiles).length; i++) {
-                if(sourceFiles[i].getName().equals(name)){
-                    saveFileErrorLabel.setText(saveFileExistsError); // Handle duplicate
+                if (sourceFiles[i].getName().equals(name)) {
+                    saveFileErrorLabel.setText(saveFileExistsError);
                     error = true;
                     break;
                 }
             }
         }
 
-        if(!error){
+        // If no errors were encountered, save the game model
+        if (!error) {
             AdventureGame m = adventureGameView.model;
             m.saveModel(place);
-            saveFileErrorLabel.setText(saveFileSuccess); // Handle success
+            saveFileErrorLabel.setText(saveFileSuccess);
         }
     }
 }

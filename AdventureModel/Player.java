@@ -16,13 +16,9 @@ public class Player implements Serializable, BattleColleagueInterface{
     private Room currentRoom;
 
     private AdventureGameView view;
-    /**
-     * The list of items that the player is carrying at the moment.
-     */
-    public ArrayList<AdventureObject> inventory;
 
     /**
-     * The list of pokemons the player is carrying at the moment.
+     * The list of Pokémon the player is carrying at the moment.
      */
     public ArrayList<Pokemon> backpack;
 
@@ -30,20 +26,22 @@ public class Player implements Serializable, BattleColleagueInterface{
      * The list of pokemons the player chooses to battle with
      */
     public ArrayList<Pokemon> playerBattlePokemon = new ArrayList<>();
-
-    //make a copy of the inventory
     ArrayList<Pokemon> pokemonOptions;
 
     /**
      * Adventure Game Player Constructor
      */
     public Player(Room currentRoom) {
-        this.inventory = new ArrayList<AdventureObject>();
         this.currentRoom = currentRoom;
         this.backpack = new ArrayList<>();
         this.pokemonOptions = new ArrayList<>(this.backpack);
     }
 
+    /**
+     * Setter method for the current room view.
+     *
+     * @param v:  the view which will be set.
+     */
     public void set_view(AdventureGameView v){
         this.view = v;
     }
@@ -57,19 +55,9 @@ public class Player implements Serializable, BattleColleagueInterface{
         this.currentRoom = currentRoom;
     }
 
-    /**
-     * This method adds an object to the inventory of the player.
-     *
-     * @param object Prop or object to be added to the inventory.
-     */
-    public void addToInventory(AdventureObject object) {
-        this.inventory.add(object);
-    }
-
 
     /**
-     * This method adds the pokemon in the backpack
-     * .
+     * This method adds the Pokémon in the backpack
      */
     public void addToBackpack(Pokemon p){
         this.backpack.add(p);
@@ -86,25 +74,15 @@ public class Player implements Serializable, BattleColleagueInterface{
     }
 
     /**
-     * Getter method for string representation of inventory.
-     *
-     * @return ArrayList of names of items that the player has.
-     */
-    public ArrayList<String> getInventory() {
-        ArrayList<String> objects = new ArrayList<>();
-        for(int i=0;i<this.inventory.size();i++){
-            objects.add(this.inventory.get(i).getName());
-        }
-        return objects;
-    }
-
-    /**
-     * Getter function for backpack list
+     * Getter method for backpack list
      */
     public ArrayList<Pokemon> getBackpack(){
         return backpack;
     }
 
+    /**
+     * Getter method for Pokemon options list
+     */
     public ArrayList<Pokemon> getPokemonOptions(){
         return this.pokemonOptions;
     }
@@ -112,9 +90,10 @@ public class Player implements Serializable, BattleColleagueInterface{
     /**
      * checkIfPokemonInBackpack
      * __________________________
-     * This method checks to see if a Pokemon is in a player's backpack.
      *
-     * @param s the name of the Pokemon
+     * This method checks to see if a Pokémon is in a player's backpack.
+     *
+     * @param s the name of the Pokémon
      * @return true if object is in backpack, false otherwise
      */
     public boolean checkIfPokemonInBackpack(String s) {
@@ -126,17 +105,19 @@ public class Player implements Serializable, BattleColleagueInterface{
 
 
     /**
-     * This method adds a Pokemon into players backpack if the Pokemon is present in
-     * the room and returns true. If the Pokemon is not present in the room, the method
+     *  capturePokemon
+     *  __________________________
+     *
+     * This method adds a Pokémon into players backpack if the Pokémon is present in
+     * the room and returns true. If the Pokémon is not present in the room, the method
      * returns false.
      *
-     * @param Pokemon name of the pokemon to pick up
+     * @param Pokemon name of the Pokémon to pick up
      * @return true if picked up, false otherwise
      */
     public boolean capturePokemon(String Pokemon){
         if(this.currentRoom.checkIfPokemonInRoom(Pokemon)){
             Pokemon object1 = this.currentRoom.getPokemon(Pokemon); // TODO: change return type of room.getObject
-            // TODO: maybe rename room.getObject into room.getPokemon
             this.currentRoom.removePokemon(object1);
             this.addToBackpack(object1);
             return true;
@@ -145,6 +126,9 @@ public class Player implements Serializable, BattleColleagueInterface{
         }
     }
     /**
+     * releasePokemon
+     * --------------------------
+     *
      * This method drops an object in the players inventory and adds it to the room.
      * If the object is not in the inventory, the method does nothing.
      *
@@ -152,70 +136,24 @@ public class Player implements Serializable, BattleColleagueInterface{
      */
     public void releasePokemon(String s) {
         for(int i = 0; i<this.backpack.size();i++){
+            //check if the Pokémon existed in player's backpack
             if(this.backpack.get(i).getName().equalsIgnoreCase(s)) {
+                //release Pokémon from the backpack to the current room
                 this.currentRoom.addPokemon(this.backpack.get(i));
                 this.backpack.remove(i);
             }
         }
     }
 
-
+    /**
+     * get_move
+     * __________________________
+     *
+     * This method return the moves of the Pokémon
+     *
+     * @param p Pokémon which we will get the moves from
+     */
     public Moves get_move(Pokemon p){
-        //TODO: can you implement this?
-        // this method is called during the battle to get the move the user wants to make
-        // should prompt the player in the text field
-        // first ask if they want to pass or attack
-        // if they want to pass then return new Moves("PASS", 0, 0)
-        // otherwise, display the moves they can choose from THEY MUST HAVE ENOUGH ENERGY which depends on the argument p
-        // use p.get_energy() to get energy and compare to each move which is in p.moves()
-        // and return the one they choose
-//        String n = AdventureGameView.getMoveEvent();
-//
         return new Moves("PASS", 0, 0);
     }
-
-
-//    public void selectPokemon(String s){
-//        //logic for no more than 3 pokemons being chosen at a time
-//        for (int i = 0; i < this.pokemonOptions.size(); i++) {
-//            if (this.pokemonOptions.get(i).getName().equalsIgnoreCase(s)) {
-//                this.playerBattlePokemon.add(this.pokemonOptions.get(i));
-//                this.pokemonOptions.remove(i);
-//            }
-//        }
-//
-//    }
-//
-//    public void deselectPokemon(String s){
-//
-//
-//        for(int i = 0; i<this.playerBattlePokemon.size();i++){
-//            if(this.playerBattlePokemon.get(i).getName().equalsIgnoreCase(s)) {
-//                this.pokemonOptions.add(this.playerBattlePokemon.get(i));
-//                this.playerBattlePokemon.remove(i);
-//            }
-//        }
-//
-//    }
-
-//    public ArrayList<Pokemon> get_battle_pokemon(){
-//        //TODO: can you implement this?
-//        // this method is called at the beginning of the battle to get the player to choose the three pokemon they want to use in the battle
-//        // get the user to choose 3 from backpack and return the three they chose
-//       // return null;
-//
-////        playerBattlePokemon.clear();
-////
-////        //make a copy of the inventory
-////        ArrayList<Pokemon> pokemonOptions = new ArrayList<>(this.backpack);
-////
-////        // show the copy
-////        //TODO:In javafx
-////
-////        // show empty scroll pane of size 3 on left side
-////        // limit choice of 3 in left scroll pane
-////        // submit button
-//        this.view.updateSelectionItems();
-//        return playerBattlePokemon;
-//    }
 }

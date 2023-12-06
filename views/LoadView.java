@@ -37,15 +37,18 @@ public class LoadView {
     private ListView<String> GameList;
     private String filename = null;
 
-    public LoadView(AdventureGameView adventureGameView){
-
-        //note that the buttons in this view are not accessible!!
+    /**
+     * Creates a new instance of the LoadView class, which is responsible for displaying a dialog for loading saved games.
+     *
+     * @param adventureGameView The instance of the AdventureGameView associated with this LoadView.
+     */
+    public LoadView(AdventureGameView adventureGameView) {
+        // Note that the buttons in this view are not accessible!!
         this.adventureGameView = adventureGameView;
         selectGameLabel = new Label(String.format(""));
+        GameList = new ListView<>(); // To hold all the file names
 
-        GameList = new ListView<>(); //to hold all the file names
-
-        final Stage dialog = new Stage(); //dialogue box
+        final Stage dialog = new Stage(); // Dialogue box
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(adventureGameView.stage);
 
@@ -53,9 +56,10 @@ public class LoadView {
         dialogVbox.setPadding(new Insets(20, 20, 20, 20));
         dialogVbox.setStyle("-fx-background-color: #121212;");
         selectGameLabel.setId("CurrentGame"); // DO NOT MODIFY ID
-        GameList.setId("GameList");  // DO NOT MODIFY ID
+        GameList.setId("GameList"); // DO NOT MODIFY ID
         GameList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        getFiles(GameList); //get files for file selector
+        getFiles(GameList); // Get files for file selector
+
         selectGameButton = new Button("Change Game");
         selectGameButton.setId("ChangeGame"); // DO NOT MODIFY ID
         AdventureGameView.makeButtonAccessible(selectGameButton, "select game", "This is the button to select a game", "Use this button to indicate a game file you would like to load.");
@@ -68,7 +72,7 @@ public class LoadView {
         closeWindowButton.setOnAction(e -> dialog.close());
         AdventureGameView.makeButtonAccessible(closeWindowButton, "close window", "This is a button to close the load game window", "Use this button to close the load game window.");
 
-        //on selection, do something
+        // On selection, do something
         selectGameButton.setOnAction(e -> {
             try {
                 selectGame(selectGameLabel, GameList);
@@ -88,10 +92,12 @@ public class LoadView {
         selectGameButton.setFont(new Font(16));
         selectGameBox.setAlignment(Pos.CENTER);
         dialogVbox.getChildren().add(selectGameBox);
+
         Scene dialogScene = new Scene(dialogVbox, 400, 400);
         dialog.setScene(dialogScene);
         dialog.show();
     }
+
 
     /**
      * Get Files to display in the on screen ListView
@@ -125,7 +131,7 @@ public class LoadView {
      * @param GameList the ListView to populate
      */
     private void selectGame(Label selectGameLabel, ListView<String> GameList) throws IOException {
-        //saved games will be in the Games/Saved folder!
+        // Saved games are expected to be in the "Games/Saved" folder
 
         try {
             String game = GameList.getSelectionModel().getSelectedItem();
@@ -134,10 +140,11 @@ public class LoadView {
             this.adventureGameView.model = loaded;
             this.adventureGameView.updateScene("");
             this.adventureGameView.updateItems();
-
         } catch (ClassNotFoundException e) {
+            // Handle the case where the selected game cannot be loaded due to class not found
             selectGameLabel.setText("A new game has been loaded.");
             try {
+                // Load a default game (e.g., "Games/TinyGame") in case of an error
                 loadGame("Games/TinyGame");
             } catch (ClassNotFoundException ex) {
                 System.out.println("TinyGame not found");
