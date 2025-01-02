@@ -1,5 +1,9 @@
 Pokemon RPG
-This is a Java-based adventure game application built with support for JavaFX and FreeTTS libraries. 
+This is a Java-based Pokemon adventure game application. The GUI is built with JavaFX and uses the FreeTTS Library for text-to-speech accessibility features. 
+
+[Design Document](DesignDocument.pdf)
+
+[Project Report](ProjectReport.pdf)
 
 Follow the instructions below to compile and run the application.
 
