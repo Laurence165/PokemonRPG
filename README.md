@@ -17,3 +17,5 @@ Download the JavaFX SDK and extract it to a directory of your choice.
 Run the program 
 ```bash
 java --module-path ""C:\Path\To\JavaFX\lib"" --add-modules javafx.controls,javafx.fxml,javafx.media -cp "out/production/group_351;lib/*" AdventureGameApp
+```
+Change `C:\Path\To\JavaFX\lib` with the directory JavaFX was saved to.
