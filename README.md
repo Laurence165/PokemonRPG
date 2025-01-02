@@ -1,5 +1,4 @@
-Pokemon RPG
-This is a Java-based Pokemon adventure game application. The GUI is built with JavaFX and uses the FreeTTS Library for text-to-speech accessibility features. 
+Pokemon RPG is a Java-based Pokemon adventure game application. The GUI is built with JavaFX and uses the FreeTTS Library for text-to-speech accessibility features. 
 
 [Design Document](DesignDocument.pdf)
 
