@@ -1,7 +1,0 @@
-1 Prof_Oak "string 1" "string 2" "string 3"
-2 LauraLiu "Just think about it!""
-
-index villagername phrase1 phrase 2 phrase 3
-pokemon indices
-
-// professor,

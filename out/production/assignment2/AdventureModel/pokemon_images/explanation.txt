@@ -1,4 +1,0 @@
-we will have a master list of all pokemon that can be supported by our software and each pokemon will have a unique index
-individual games will pull from the master list by referencing pokemon with their indices
-
-therefore, games don't bring their own pokemon images, we are storing all images here in this directory
